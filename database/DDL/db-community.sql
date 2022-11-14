@@ -378,7 +378,7 @@ ADD
 ALTER TABLE
     tb_user_polling_response
 ADD
-    CONSTRAINT product_post_polling_fk FOREIGN KEY(user_id) REFERENCES tb_post_polling(id);
+    CONSTRAINT product_post_polling_fk FOREIGN KEY(polling_option_id) REFERENCES tb_post_polling(id);
 
 CREATE TABLE tb_comment(
     id VARCHAR(36) NOT NULL,
@@ -483,6 +483,11 @@ ADD
 ALTER TABLE
     tb_product
 ADD
+    CONSTRAINT owner_product_fk FOREIGN KEY(owner_id) REFERENCES tb_user(id);
+
+ALTER TABLE
+    tb_product
+ADD
     CONSTRAINT product_type_product_fk FOREIGN KEY(type_product_id) REFERENCES tb_product_type(id);
 
 CREATE TABLE tb_schedule(
@@ -534,6 +539,11 @@ ALTER TABLE
     tb_payment
 ADD
     CONSTRAINT payment_bk UNIQUE(transaction_code);
+
+ALTER TABLE
+    tb_payment
+ADD
+    CONSTRAINT user_payment_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
 
 ALTER TABLE
     tb_payment
