@@ -107,7 +107,7 @@ ALTER TABLE
 ADD
     CONSTRAINT user_type_bk unique (user_type_code);
 
-CREATE TABLE tb_users(
+CREATE TABLE tb_user(
     id varchar(36) not null,
     fullname varchar(35),
     email varchar(30),
@@ -131,42 +131,42 @@ CREATE TABLE tb_users(
 );
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
-    CONSTRAINT users_pk primary key (id);
+    CONSTRAINT user_pk primary key (id);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
-    CONSTRAINT users_bk unique (email);
+    CONSTRAINT user_bk unique (email);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
     CONSTRAINT company_fk FOREIGN KEY(company_id) REFERENCES tb_company(id);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
     CONSTRAINT industry_fk FOREIGN KEY(industry_id) REFERENCES tb_industry(id);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
     CONSTRAINT position_fk FOREIGN KEY(position_id) REFERENCES tb_position(id);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
     CONSTRAINT photo_fk FOREIGN KEY(photo_id) REFERENCES tb_file(id);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
     CONSTRAINT user_type_fk FOREIGN KEY(user_type_id) REFERENCES tb_user_type(id);
 
 ALTER TABLE
-    tb_users
+    tb_user
 ADD
     CONSTRAINT role_fk FOREIGN KEY(role_id) REFERENCES tb_role(id);
 
@@ -190,7 +190,7 @@ ADD
 ALTER TABLE
     tb_verification_code
 ADD
-    CONSTRAINT user_fk FOREIGN KEY(user_id) REFERENCES tb_users(id);
+    CONSTRAINT user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
 
 CREATE TABLE tb_post (
     id varchar(36) NOT NULL,
@@ -232,40 +232,6 @@ ALTER TABLE
     tb_post_type
 ADD
     CONSTRAINT tb_post_type_bk UNIQUE(post_type_code);
-
-CREATE TABLE tb_post_attachment(
-    id varchar(36) NOT NULL,
-    post_id varchar(36) NOT NULL,
-    file_id varchar(36) NOT NULL,
-    created_by varchar(36) NOT NULL,
-    created_at timestamp WITHOUT TIME ZONE NOT NULL,
-    updated_by varchar(36),
-    updated_at timestamp WITHOUT TIME ZONE,
-    versions int NOT NULL DEFAULT 0,
-    is_active boolean NOT NULL DEFAULT TRUE
-);
-
-ALTER TABLE
-    tb_post_attachment
-ADD
-    CONSTRAINT tb_post_attachment_pk PRIMARY KEY(id);
-
-CREATE TABLE tb_post_attachment(
-    id varchar(36) NOT NULL,
-    post_id varchar(36) NOT NULL,
-    file_id varchar(36) NOT NULL,
-    created_by varchar(36) NOT NULL,
-    created_at timestamp WITHOUT TIME ZONE NOT NULL,
-    updated_by varchar(36),
-    updated_at timestamp WITHOUT TIME ZONE,
-    versions int NOT NULL DEFAULT 0,
-    is_active boolean NOT NULL DEFAULT TRUE
-);
-
-ALTER TABLE
-    tb_post_attachment
-ADD
-    CONSTRAINT tb_post_attachment_pk PRIMARY KEY(id);
 
 CREATE TABLE tb_post_attachment(
     id varchar(36) NOT NULL,
@@ -375,18 +341,18 @@ CREATE TABLE tb_post_polling_option(
 ALTER TABLE
     tb_post_polling_option
 ADD
-    CONSTRAINT tb_post_polling_pk PRIMARY KEY(id);
+    CONSTRAINT tb_post_polling_option_pk PRIMARY KEY(id);
 
 ALTER TABLE
     tb_post_polling_option
 ADD
-    CONSTRAINT tb_post_polling_fk FOREIGN KEY(post_id) REFERENCES tb_post(id);
+    CONSTRAINT tb_post_polling_fk FOREIGN KEY(post_polling_id) REFERENCES tb_post_polling(id);
 
 CREATE TABLE tb_user_polling_response(
     id VARCHAR(36) NOT NULL,
     user_id VARCHAR(36) NOT NULL,
     polling_option_id VARCHAR(36) NOT NULL,
-    NO created_by VARCHAR(36) NOT NULL,
+    created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
@@ -404,9 +370,20 @@ ALTER TABLE
 ADD
     CONSTRAINT user_polling_response_ck UNIQUE(user_id, polling_option_id);
 
+ALTER TABLE
+    tb_user_polling_response
+ADD
+    CONSTRAINT product_user_polling_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
+
+ALTER TABLE
+    tb_user_polling_response
+ADD
+    CONSTRAINT product_post_polling_fk FOREIGN KEY(user_id) REFERENCES tb_post_polling(id);
+
 CREATE TABLE tb_comment(
     id VARCHAR(36) NOT NULL,
     content TEXT NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
     post_id VARCHAR(36) NOT NULL,
     created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
@@ -420,6 +397,16 @@ ALTER TABLE
     tb_comment
 ADD
     CONSTRAINT comment_pk PRIMARY KEY(id);
+
+ALTER TABLE
+    tb_comment
+ADD
+    CONSTRAINT tb_user_post_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
+
+ALTER TABLE
+    tb_comment
+ADD
+    CONSTRAINT tb_comment_post_fk FOREIGN KEY(post_id) REFERENCES tb_post(id);
 
 CREATE TABLE tb_article(
     id VARCHAR(36) NOT NULL,
@@ -439,10 +426,15 @@ ALTER TABLE
 ADD
     CONSTRAINT article_pk PRIMARY KEY(id);
 
+ALTER TABLE
+    tb_article
+ADD
+    CONSTRAINT article_photo_fk FOREIGN KEY(photo_id) REFERENCES tb_file(id);
+
 CREATE TABLE tb_product_type(
     id VARCHAR(36) NOT NULL,
-    code TEXT NOT NULL,
-    name TEXT NOT NULL,
+    product_type_code VARCHAR(6) NOT NULL,
+    product_type_name TEXT NOT NULL,
     created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
@@ -459,12 +451,12 @@ ADD
 ALTER TABLE
     tb_product_type
 ADD
-    CONSTRAINT product_type_bk UNIQUE(code);
+    CONSTRAINT product_type_bk UNIQUE(product_type_code);
 
 ALTER TABLE
     tb_product_type
 ADD
-    CONSTRAINT product_type_ck UNIQUE(id, code);
+    CONSTRAINT product_type_ck UNIQUE(id, product_type_code);
 
 CREATE TABLE tb_product(
     id VARCHAR(36) NOT NULL,
@@ -473,6 +465,7 @@ CREATE TABLE tb_product(
     provider TEXT NOT NULL,
     location TEXT NOT NULL,
     price FLOAT NOT NULL,
+    owner_id VARCHAR(36) NOT NULL,
     type_product_id VARCHAR(36) NOT NULL,
     created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
