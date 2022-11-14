@@ -127,7 +127,7 @@ CREATE TABLE tb_user(
     update_by varchar(36) not null,
     update_at timestamp without time zone,
     versions int not null default 0,
-    is_actives boolean not null default true
+    is_actives boolean not null default false
 );
 
 ALTER TABLE
