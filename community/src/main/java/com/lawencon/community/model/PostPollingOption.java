@@ -12,10 +12,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "tb_post_polling")
+@Table(name = "tb_post_polling_option")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PostPolling extends BaseEntity {
+public class PostPollingOption extends BaseEntity {
 	private static final long serialVersionUID = -1020797142333453037L;
 	@OneToOne
 	@JoinColumn(name="post_id", nullable=false)
