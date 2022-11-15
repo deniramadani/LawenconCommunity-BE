@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Post extends BaseEntity{
+	
 	private static final long serialVersionUID = 5314289863412075987L;
 	@Column(length=100, nullable=false)
 	private String title;
