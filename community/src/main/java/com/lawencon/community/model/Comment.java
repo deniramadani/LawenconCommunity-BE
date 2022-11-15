@@ -12,18 +12,22 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "tb_post_polling")
+@Table(name = "tb_comment")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PostPolling extends BaseEntity {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1020797142333453037L;
-	@OneToOne
-	@JoinColumn(name="post_id", nullable=false)
-	private Post post;
-	@Column(name="question", length=150, nullable=false)
-	private String question;
+public class Comment extends BaseEntity{
+	private static final long serialVersionUID = 1910807044953030553L;
 
+	@Column(nullable = false)
+	private String content;
+
+	@OneToOne
+	@JoinColumn(name="post_id", nullable = false)
+	private Post post;
+	
+	
+	@OneToOne
+	@JoinColumn(name="user_id", nullable = false)
+	private User user;
+	
 }
