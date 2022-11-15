@@ -20,21 +20,8 @@ ALTER TABLE
 ADD
     CONSTRAINT role_bk unique (role_code);
 
-CREATE TABLE tb_company(
-    id varchar(36) not null,
-    company_name varchar(30) not null,
-    created_by varchar(36) not null,
-    created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
-    update_at timestamp without time zone,
-    versions int not null default 0,
-    is_actives boolean not null default true
-);
 
-ALTER TABLE
-    tb_company
-ADD
-    CONSTRAINT company_pk primary key (id);
+   
 
 CREATE TABLE tb_industry(
     id varchar(36) not null,
@@ -85,6 +72,27 @@ ALTER TABLE
 ADD
     CONSTRAINT file_pk primary key (id);
 
+   CREATE TABLE tb_social_media(
+    id varchar(36) not null,
+    social_media_name varchar(30) not null,
+    logo_id varchar(36) not null,
+    created_by varchar(36) not null,
+    created_at timestamp without time zone not null,
+    update_by varchar(36) not null,
+    update_at timestamp without time zone,
+    versions int not null default 0,
+    is_actives boolean not null default true
+);
+
+ALTER TABLE
+    tb_social_media
+ADD
+    CONSTRAINT socmed_pk primary key (id);
+   ALTER TABLE
+    tb_social_media
+ADD
+    CONSTRAINT socmed_fk FOREIGN KEY(logo_id) REFERENCES tb_file(id);
+   
 CREATE TABLE tb_user_type(
     id varchar(36) not null,
     user_type_code varchar(6),
@@ -113,7 +121,7 @@ CREATE TABLE tb_user(
     email varchar(30),
     password text,
     role_id varchar(36) not null,
-    company_id varchar(36) not null,
+    company varchar(100) not null,
     industry_id varchar(36) not null,
     position_id varchar(36) not null,
     photo_id varchar(36) not null,
@@ -143,11 +151,6 @@ ADD
 ALTER TABLE
     tb_user
 ADD
-    CONSTRAINT company_fk FOREIGN KEY(company_id) REFERENCES tb_company(id);
-
-ALTER TABLE
-    tb_user
-ADD
     CONSTRAINT industry_fk FOREIGN KEY(industry_id) REFERENCES tb_industry(id);
 
 ALTER TABLE
@@ -169,6 +172,39 @@ ALTER TABLE
     tb_user
 ADD
     CONSTRAINT role_fk FOREIGN KEY(role_id) REFERENCES tb_role(id);
+   
+   
+   
+   CREATE TABLE tb_user_socmed(
+    id varchar(36) NOT NULL,
+    user_id varchar(36) NOT NULL,
+    socmed_id varchar(36) NOT NULL,
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE
+    tb_user_socmed
+ADD
+    CONSTRAINT tb_user_socmed_pk PRIMARY KEY(id);
+   
+   
+ALTER TABLE
+    tb_user_socmed
+ADD
+    CONSTRAINT tb_user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
+
+ALTER TABLE
+    tb_user_socmed
+ADD
+    CONSTRAINT tb_socmed_fk FOREIGN KEY(socmed_id) REFERENCES tb_social_media(id);
+
+   
+   
 
 CREATE TABLE tb_verification_code(
     id varchar(36) not null,
@@ -249,6 +285,17 @@ ALTER TABLE
     tb_post_attachment
 ADD
     CONSTRAINT tb_post_attachment_pk PRIMARY KEY(id);
+   
+   
+ALTER TABLE
+    tb_post_attachment
+ADD
+    CONSTRAINT tb_post_attachment_user_fk FOREIGN KEY(post_id) REFERENCES tb_post(id);
+
+ALTER TABLE
+    tb_post_attachment
+ADD
+    CONSTRAINT tb_post_attachment_file_fk FOREIGN KEY(file_id) REFERENCES tb_file(id);
 
 CREATE TABLE tb_post_like(
     id varchar(36) NOT NULL,
