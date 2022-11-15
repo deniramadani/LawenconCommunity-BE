@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.lawencon.base.BaseEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,7 +18,11 @@ import lombok.EqualsAndHashCode;
 @Table(name = "tb_schedule")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Schedule {
+public class Schedule extends BaseEntity{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7005104266774312403L;
 	@Column(name = "date_start", nullable = false)
 	private LocalDate dateStart;
 	@Column(name = "date_end", nullable = false)

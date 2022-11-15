@@ -4,7 +4,7 @@ CREATE TABLE tb_role(
     role_name varchar(20) not null,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default true
@@ -28,7 +28,7 @@ CREATE TABLE tb_industry(
     industry_name varchar(30),
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default true
@@ -44,7 +44,7 @@ CREATE TABLE tb_position(
     position_name varchar(30),
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default true
@@ -61,7 +61,7 @@ CREATE TABLE tb_file(
     file_extensions varchar(5),
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default true
@@ -78,7 +78,7 @@ ADD
     logo_id varchar(36) not null,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default true
@@ -95,11 +95,11 @@ ADD
    
 CREATE TABLE tb_user_type(
     id varchar(36) not null,
-    user_type_code varchar(6),
-    user_type_name varchar(30),
+    user_type_code varchar(6) not null,
+    user_type_name varchar(30) not null,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default true
@@ -117,9 +117,9 @@ ADD
 
 CREATE TABLE tb_user(
     id varchar(36) not null,
-    fullname varchar(100) not nul,
-    email varchar(100) not nul,
-    password text not nul,
+    fullname varchar(100) not null,
+    email varchar(100) not null,
+    password text not null,
     role_id varchar(36) not null,
     company varchar(100) ,
     industry_id varchar(36) ,
@@ -129,10 +129,10 @@ CREATE TABLE tb_user(
     phone_number varchar(15),
     address text,
     date_of_birth date ,
-    ballance double precision not nul default 0,
+    ballance double precision not null default 0,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    update_by varchar(36) not null,
+    update_by varchar(36),
     update_at timestamp without time zone,
     versions int not null default 0,
     is_actives boolean not null default false
