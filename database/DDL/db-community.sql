@@ -403,7 +403,7 @@ CREATE TABLE tb_user_polling_response(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -436,7 +436,7 @@ CREATE TABLE tb_comment(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -464,7 +464,7 @@ CREATE TABLE tb_article(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -486,7 +486,7 @@ CREATE TABLE tb_product_type(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -518,7 +518,7 @@ CREATE TABLE tb_product(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -548,7 +548,7 @@ CREATE TABLE tb_schedule(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -573,7 +573,7 @@ CREATE TABLE tb_payment(
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
     updated_at TIMESTAMP WITHOUT TIME ZONE,
-    ver INT NOT NULL DEFAULT 0,
+    versions INT NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
