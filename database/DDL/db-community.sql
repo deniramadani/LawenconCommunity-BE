@@ -228,25 +228,6 @@ ALTER TABLE
 ADD
     CONSTRAINT user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
 
-CREATE TABLE tb_post (
-    id varchar(36) NOT NULL,
-    title varchar(100) NOT NULL,
-    body text NOT NULL,
-    user_id varchar(36) NOT NULL,
-    type_post_id varchar(36) NOT NULL,
-    created_by varchar(36) NOT NULL,
-    created_at timestamp WITHOUT TIME ZONE NOT NULL,
-    updated_by varchar(36),
-    updated_at timestamp WITHOUT TIME ZONE,
-    versions int NOT NULL DEFAULT 0,
-    is_active boolean NOT NULL DEFAULT TRUE
-);
-
-ALTER TABLE
-    tb_post
-ADD
-    CONSTRAINT tb_post_pk PRIMARY KEY(id);
-
 CREATE TABLE tb_post_type(
     id varchar(36) NOT NULL,
     post_type_code varchar(5) NOT NULL,
@@ -267,7 +248,33 @@ ADD
 ALTER TABLE
     tb_post_type
 ADD
-    CONSTRAINT tb_post_type_bk UNIQUE(post_type_code);
+    CONSTRAINT tb_post_type_bk UNIQUE(post_type_code);   
+   
+CREATE TABLE tb_post (
+    id varchar(36) NOT NULL,
+    title varchar(100) NOT NULL,
+    body text NOT NULL,
+    user_id varchar(36) NOT NULL,
+    type_post_id varchar(36) NOT NULL,
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE
+    tb_post
+ADD
+    CONSTRAINT tb_post_pk PRIMARY KEY(id);
+   
+ALTER TABLE
+    tb_post
+ADD
+    CONSTRAINT tb_post_type_fk FOREIGN KEY(type_post_id) REFERENCES tb_user(id);
+
+
 
 CREATE TABLE tb_post_attachment(
     id varchar(36) NOT NULL,
