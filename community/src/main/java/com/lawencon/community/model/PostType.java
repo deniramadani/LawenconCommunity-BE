@@ -3,6 +3,7 @@ package com.lawencon.community.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.lawencon.base.BaseEntity;
 
@@ -10,7 +11,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "tb_post_type")
+@Table(name = "tb_post_type",  uniqueConstraints = { 
+		@UniqueConstraint(
+				name = "post_type_bk", 
+				columnNames = { "post_type_code" }
+		) 
+})
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PostType extends BaseEntity {

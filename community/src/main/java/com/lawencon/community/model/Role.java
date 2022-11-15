@@ -20,9 +20,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class Role extends BaseEntity{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1019583607543236514L;
 	@Column(name = "role_code", nullable=false, length=6)
 	private String roleCode;

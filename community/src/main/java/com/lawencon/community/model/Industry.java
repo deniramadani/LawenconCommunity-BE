@@ -14,9 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class Industry extends BaseEntity{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -2234539192122952482L;
 	@Column(name = "industry_name", nullable=false, length=30)
 	private String industryName;

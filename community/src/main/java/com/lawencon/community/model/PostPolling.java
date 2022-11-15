@@ -16,9 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PostPolling extends BaseEntity {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -1020797142333453037L;
 	@OneToOne
 	@JoinColumn(name="post_id", nullable=false)

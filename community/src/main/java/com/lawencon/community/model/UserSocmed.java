@@ -15,9 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserSocmed extends BaseEntity{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 7313126493961043645L;
 	@OneToOne
 	@JoinColumn(name="user_id", nullable=false)
