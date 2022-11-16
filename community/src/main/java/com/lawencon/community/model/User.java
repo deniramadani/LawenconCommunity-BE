@@ -29,7 +29,7 @@ public class User extends BaseEntity{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4477457370952832011L;
+	private static final long serialVersionUID = -168649940255594139L;
 	@Column(name = "fullname", nullable=false, length=35)
 	private String fullname;
 	@Column(name = "email", nullable=false, length=30)
@@ -55,13 +55,13 @@ public class User extends BaseEntity{
 	private Industry industry;
 	@OneToOne
 	@JoinColumn(name = "position_id")
-	private Position positionId;
+	private Position position;
 	@OneToOne
 	@JoinColumn(name = "photo_id")
 	private File photo;
 	@OneToOne
 	@JoinColumn(name = "user_type_id", nullable=false)
-	private UserType userTypeId;
+	private UserType userType;
 	
 	@PrePersist
 	public void preInsert() {

@@ -36,13 +36,13 @@ public abstract class BaseEntity implements Serializable {
 	private LocalDateTime updatedAt;
 
 	@Version
-	private Integer version;
+	private Integer versions;
 
 	@Column(name = "is_active")
 	private Boolean isActive = true;
 
 	public BaseEntity() {
-		version = 0;
+		versions = 0;
 	}
 
 	@PrePersist
@@ -64,11 +64,11 @@ public abstract class BaseEntity implements Serializable {
 	}
 
 	public Integer getVersion() {
-		return version;
+		return versions;
 	}
 
-	public void setVersion(Integer version) {
-		this.version = version;
+	public void setVersion(Integer versions) {
+		this.versions = versions;
 	}
 
 	public String getId() {

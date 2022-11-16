@@ -7,7 +7,7 @@ INSERT INTO tb_user_type (id, user_type_code, user_type_name, created_by, create
 ('da6ba5a8-93a9-40de-be55-b7b5a9787b4b', 'UTCPM', 'Premium', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('affffccd-470d-41da-8f39-4e56788572e1', 'UTCBS', 'Basic', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
 
-INSERT INTO tb_user (id, fullname, email, password, role_id, user_type_id, created_by, created_at, is_actives) VALUES
+INSERT INTO tb_user (id, fullname, email, password, role_id, user_type_id, created_by, created_at, is_active) VALUES
 ('4ba262b9-258b-4ae3-b879-ee286c1db783', 'System',
 'system@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
 '94ae6c35-879a-43a1-8c56-be61a87d8487', 'da6ba5a8-93a9-40de-be55-b7b5a9787b4b',

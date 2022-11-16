@@ -14,10 +14,10 @@ public class UserDao extends AbstractJpaDao {
 
 	public Optional<User> getByEmail(final String email) {
 		final String sql = "SELECT tb_user.id AS id, email, password, fullname, role_code, role_name, "
-				+ "tb_user.is_actives, tb_user.versions "
+				+ "tb_user.is_active, tb_user.versions "
 				+ "FROM tb_user "
 				+ "INNER JOIN tb_role ON tb_user.role_id = tb_role.id "
-				+ "WHERE email = :email AND tb_user.is_actives = true";
+				+ "WHERE email = :email AND tb_user.is_active = true";
 		User row = null;
 		try {
 			final Object userObj = ConnHandler.getManager().createNativeQuery(sql).setParameter("email", email).getSingleResult();
