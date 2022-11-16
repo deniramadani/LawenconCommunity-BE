@@ -2,21 +2,12 @@ CREATE TABLE tb_role(
     id varchar(36) not null,
     role_code varchar(5) not null,
     role_name varchar(20) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
@@ -29,24 +20,18 @@ ALTER TABLE
 ADD
     CONSTRAINT role_bk unique (role_code);
 
+
+   
+
 CREATE TABLE tb_industry(
     id varchar(36) not null,
     industry_name varchar(30),
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
@@ -57,21 +42,12 @@ ADD
 CREATE TABLE tb_position(
     id varchar(36) not null,
     position_name varchar(30),
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
@@ -83,21 +59,12 @@ CREATE TABLE tb_file(
     id varchar(36) not null,
     file_encode text,
     file_extensions varchar(5),
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
@@ -105,56 +72,37 @@ ALTER TABLE
 ADD
     CONSTRAINT file_pk primary key (id);
 
-CREATE TABLE tb_social_media(
+   CREATE TABLE tb_social_media(
     id varchar(36) not null,
     social_media_name varchar(30) not null,
     logo_id varchar(36) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
     tb_social_media
 ADD
     CONSTRAINT socmed_pk primary key (id);
-
-ALTER TABLE
+   ALTER TABLE
     tb_social_media
 ADD
     CONSTRAINT socmed_fk FOREIGN KEY(logo_id) REFERENCES tb_file(id);
-
+   
 CREATE TABLE tb_user_type(
     id varchar(36) not null,
     user_type_code varchar(6) not null,
     user_type_name varchar(30) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
@@ -173,30 +121,21 @@ CREATE TABLE tb_user(
     email varchar(100) not null,
     password text not null,
     role_id varchar(36) not null,
-    company varchar(100),
-    industry_id varchar(36),
-    position_id varchar(36),
-    photo_id varchar(36),
+    company varchar(100) ,
+    industry_id varchar(36) ,
+    position_id varchar(36) ,
+    photo_id varchar(36) ,
     user_type_id varchar(36) not null,
     phone_number varchar(15),
     address text,
-    date_of_birth date,
+    date_of_birth date ,
     ballance double precision not null default 0,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT FALSE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
+    update_by varchar(36),
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default false
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default false
 );
 
 ALTER TABLE
@@ -233,24 +172,27 @@ ALTER TABLE
     tb_user
 ADD
     CONSTRAINT role_fk FOREIGN KEY(role_id) REFERENCES tb_role(id);
-
-CREATE TABLE tb_user_socmed(
+   
+   
+   
+   CREATE TABLE tb_user_socmed(
     id varchar(36) NOT NULL,
     user_id varchar(36) NOT NULL,
     socmed_id varchar(36) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
     tb_user_socmed
 ADD
     CONSTRAINT tb_user_socmed_pk PRIMARY KEY(id);
-
+   
+   
 ALTER TABLE
     tb_user_socmed
 ADD
@@ -261,25 +203,19 @@ ALTER TABLE
 ADD
     CONSTRAINT tb_socmed_fk FOREIGN KEY(socmed_id) REFERENCES tb_social_media(id);
 
+   
+   
+
 CREATE TABLE tb_verification_code(
     id varchar(36) not null,
     verification_code varchar(6),
     user_id varchar(36) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
-    updated_by varchar(36) not null,
-    updated_at timestamp without time zone,
+    update_by varchar(36) not null,
+    update_at timestamp without time zone,
     versions int not null default 0,
-    is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
+    is_actives boolean not null default true
 );
 
 ALTER TABLE
@@ -296,12 +232,12 @@ CREATE TABLE tb_post_type(
     id varchar(36) NOT NULL,
     post_type_code varchar(5) NOT NULL,
     post_type_name varchar(100) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
@@ -312,49 +248,52 @@ ADD
 ALTER TABLE
     tb_post_type
 ADD
-    CONSTRAINT tb_post_type_bk UNIQUE(post_type_code);
-
+    CONSTRAINT tb_post_type_bk UNIQUE(post_type_code);   
+   
 CREATE TABLE tb_post (
     id varchar(36) NOT NULL,
     title varchar(100) NOT NULL,
     body text NOT NULL,
     user_id varchar(36) NOT NULL,
     type_post_id varchar(36) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
     tb_post
 ADD
     CONSTRAINT tb_post_pk PRIMARY KEY(id);
-
+   
 ALTER TABLE
     tb_post
 ADD
     CONSTRAINT tb_post_type_fk FOREIGN KEY(type_post_id) REFERENCES tb_user(id);
 
+
+
 CREATE TABLE tb_post_attachment(
     id varchar(36) NOT NULL,
     post_id varchar(36) NOT NULL,
     file_id varchar(36) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
     tb_post_attachment
 ADD
     CONSTRAINT tb_post_attachment_pk PRIMARY KEY(id);
-
+   
+   
 ALTER TABLE
     tb_post_attachment
 ADD
@@ -369,12 +308,12 @@ CREATE TABLE tb_post_like(
     id varchar(36) NOT NULL,
     post_id varchar(36) NOT NULL,
     user_id varchar(36) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
@@ -396,12 +335,12 @@ CREATE TABLE tb_post_bookmark(
     id varchar(36) NOT NULL,
     post_id varchar(36) NOT NULL,
     user_id varchar(36) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
@@ -423,12 +362,12 @@ CREATE TABLE tb_post_polling(
     id varchar(36) NOT NULL,
     post_id varchar(36) NOT NULL,
     question varchar(150) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
@@ -445,12 +384,12 @@ CREATE TABLE tb_post_polling_option(
     id varchar(36) NOT NULL,
     post_polling_id varchar(36) NOT NULL,
     content varchar(150) NOT NULL,
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
+    created_by varchar(36) NOT NULL,
+    created_at timestamp WITHOUT TIME ZONE NOT NULL,
+    updated_by varchar(36),
+    updated_at timestamp WITHOUT TIME ZONE,
+    versions int NOT NULL DEFAULT 0,
+    is_active boolean NOT NULL DEFAULT TRUE
 );
 
 ALTER TABLE
