@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.lawencon.base.AbstractJpaDao;
-import com.lawencon.base.ConnHandler;
 import com.lawencon.community.model.Role;
 import com.lawencon.community.model.User;
 
@@ -13,14 +12,15 @@ import com.lawencon.community.model.User;
 public class UserDao extends AbstractJpaDao {
 
 	public Optional<User> getByEmail(final String email) {
-		final String sql = "SELECT tb_user.id AS id, email, password, fullname, role_code, role_name, "
-				+ "tb_user.is_active, tb_user.versions "
-				+ "FROM tb_user "
-				+ "INNER JOIN tb_role ON tb_user.role_id = tb_role.id "
-				+ "WHERE email = :email AND tb_user.is_active = true";
+		final StringBuilder query = new StringBuilder()
+			.append("SELECT tb_user.id AS id, email, password, fullname, role_code, role_name, ")
+			.append("tb_user.is_active, tb_user.versions ")
+			.append("FROM tb_user ")
+			.append("INNER JOIN tb_role ON tb_user.role_id = tb_role.id ")
+			.append("WHERE email = :email AND tb_user.is_active = true");
 		User row = null;
 		try {
-			final Object userObj = ConnHandler.getManager().createNativeQuery(sql).setParameter("email", email).getSingleResult();
+			final Object userObj = createNativeQuery(query.toString()).setParameter("email", email).getSingleResult();
 			if (userObj != null) {
 				Object[] objArr = (Object[]) userObj;
 				row = new User();
