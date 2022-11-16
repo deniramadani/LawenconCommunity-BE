@@ -1,6 +1,5 @@
 package com.lawencon.community.controller;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +19,7 @@ import com.lawencon.community.dto.login.LoginResDto;
 import com.lawencon.community.model.User;
 import com.lawencon.community.service.UserService;
 import com.lawencon.util.JwtUtil;
+import com.lawencon.util.JwtUtil.ClaimKey;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
@@ -41,14 +41,15 @@ public class LoginController {
 		final Optional<User> user = userService.getByEmail(data.getEmail());
 		
 		Map<String, Object> claims = new HashMap<>();
-		claims.put("id", user.get().getId());
-		claims.put("roleCode", user.get().getRole().getRoleCode());
+		claims.put(ClaimKey.ID.name(), user.get().getId());
+		claims.put(ClaimKey.ROLE.name(), user.get().getRole().getRoleCode());
+		
 		
 		LoginResDto res = new LoginResDto();
 		res.setId(user.get().getId());
 		res.setFullname(user.get().getFullname());
 		res.setRoleCode(user.get().getRole().getRoleCode());
-		res.setToken(jwtUtil.generateToken(claims, Duration.ofHours(1)));
+		res.setToken(jwtUtil.generateToken(claims));
 		return new ResponseEntity<LoginResDto>(res, HttpStatus.OK);
 	}
 	

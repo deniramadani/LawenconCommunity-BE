@@ -1,5 +1,9 @@
 package com.lawencon.community.dao;
 
-public class RoleDao {
+import org.springframework.stereotype.Repository;
+
+import com.lawencon.base.AbstractJpaDao;
+@Repository
+public class RoleDao extends AbstractJpaDao{
 
 }

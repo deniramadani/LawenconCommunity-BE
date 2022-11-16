@@ -44,7 +44,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private ObjectMapper objectMapper;
 
@@ -64,20 +64,28 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 			String token = authorization.replaceFirst("Bearer ", "");
 
 			try {
-				//getting claims data
+				// getting claims data
 				Claims claims = jwtUtil.getClaims(token);
-				
-				String id = claims.get(ClaimKey.ID.name()).toString();
-				String role = claims.get(ClaimKey.ROLE.name()).toString();
 
-				GrantedAuthority authority = new SimpleGrantedAuthority(role);
+				Object idObj = claims.get(ClaimKey.ID.name());
+				Object roleObj = claims.get(ClaimKey.ROLE.name());
+
+				if (idObj == null) {
+					throw new RuntimeException("Claim Key with Name ID not set, use Enum ClaimKey in JwtUtil");
+				}
+				if (roleObj == null) {
+					throw new RuntimeException("Claim Key with Name ROLE not set, use Enum ClaimKey in JwtUtil");
+				}
+
+				GrantedAuthority authority = new SimpleGrantedAuthority(roleObj.toString());
 				List<GrantedAuthority> authorities = Arrays.asList(authority);
 
-				//register id and authority
-				Authentication auth = new UsernamePasswordAuthenticationToken(id, null, authorities);
+				// register id and authority
+				Authentication auth = new UsernamePasswordAuthenticationToken(idObj.toString(), null, authorities);
 				SecurityContextHolder.getContext().setAuthentication(auth);
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				resError(response);
 				return;
 			}
@@ -97,5 +105,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 			e.printStackTrace();
 		}
 	}
+
 
 }
