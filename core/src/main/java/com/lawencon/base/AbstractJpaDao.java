@@ -146,7 +146,7 @@ public class AbstractJpaDao {
 	public <T extends BaseEntity> SearchQuery<T> getAll(Class<T> entityClass, 
 			String textQuery, 
 			Integer startPosition, Integer limit,
-			String... fields) throws Exception {
+			String... fields) {
 		SearchQuery<T> sq = new SearchQuery<>();
 		List<T> data = null;
 
@@ -168,7 +168,7 @@ public class AbstractJpaDao {
 		return sq;
 	}
 
-	public <T extends BaseEntity> T save(T entity) throws Exception {
+	public <T extends BaseEntity> T save(T entity) {
 		if (entity.getId() != null) {
 			entity.setUpdatedBy(principalService.getAuthPrincipal());
 			entity = em().merge(entity);
@@ -180,7 +180,7 @@ public class AbstractJpaDao {
 		return entity;
 	}
 	
-	public <T extends BaseEntity> T saveAndFlush(T entity) throws Exception {
+	public <T extends BaseEntity> T saveAndFlush(T entity) {
 		if (entity.getId() != null) {
 			entity.setUpdatedBy(principalService.getAuthPrincipal());
 			entity = em().merge(entity);
@@ -194,18 +194,18 @@ public class AbstractJpaDao {
 	}
 	
 	public <T extends BaseEntity> T saveNoLogin(T entity, 
-			Supplier<String> getIdFunc) throws Exception {
+			Supplier<String> getIdFunc) {
 		if (getIdFunc == null)
-			throw new Exception("You must supply the String ID");
+			throw new RuntimeException("You must supply the String ID");
 		
 		if (entity.getId() != null) {
 			if (getIdFunc.get() == null)
-				throw new Exception("Updated By is NULL");
+				throw new RuntimeException("Updated By is NULL");
 			entity.setUpdatedBy(getIdFunc.get());
 			entity = em().merge(entity);
 		} else {
 			if (getIdFunc.get() == null)
-				throw new Exception("Created By is NULL");
+				throw new RuntimeException("Created By is NULL");
 			entity.setCreatedBy(getIdFunc.get());
 			em().persist(entity);
 		}
@@ -214,18 +214,18 @@ public class AbstractJpaDao {
 	}
 	
 	public <T extends BaseEntity> T saveNoLoginAndFlush(T entity, 
-			Supplier<String> getIdFunc) throws Exception {
+			Supplier<String> getIdFunc) {
 		if (getIdFunc == null)
-			throw new Exception("You must supply the String ID");
+			throw new RuntimeException("You must supply the String ID");
 		
 		if (entity.getId() != null) {
 			if (getIdFunc.get() == null)
-				throw new Exception("Updated By is NULL");
+				throw new RuntimeException("Updated By is NULL");
 			entity.setUpdatedBy(getIdFunc.get());
 			entity = em().merge(entity);
 		} else {
 			if (getIdFunc.get() == null)
-				throw new Exception("Created By is NULL");
+				throw new RuntimeException("Created By is NULL");
 			entity.setCreatedBy(getIdFunc.get());
 			em().persist(entity);
 		}
@@ -234,12 +234,12 @@ public class AbstractJpaDao {
 		return entity;
 	}
 
-	public <T> void delete(final T entity) throws Exception {
+	public <T> void delete(final T entity) {
 		em().remove(entity);
 	}
 
 	public <T> boolean deleteById(Class<T> entityClass, 
-			final Object entityId) throws Exception {
+			final Object entityId) {
 		T entity = null;
 		if (entityId != null && entityId instanceof String) {
 			entity = em().find(entityClass, entityId);

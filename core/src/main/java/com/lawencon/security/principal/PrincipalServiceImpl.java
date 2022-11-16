@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class PrincipalServiceImpl implements PrincipalService {
 
 	@Override
-	public String getAuthPrincipal() throws Exception {
+	public String getAuthPrincipal() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (auth == null || auth.getPrincipal() == null)
-			throw new Exception("Invalid Login");
+			throw new RuntimeException("Invalid Login");
 
 		return auth.getPrincipal().toString();
 	}
