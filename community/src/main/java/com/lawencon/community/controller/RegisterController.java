@@ -24,7 +24,6 @@ public class RegisterController {
 
 	@PostMapping
 	public ResponseEntity<ResponseDto> register(@RequestBody User data) {
-		userService.insert(data);
 		ResponseDto res = userService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}

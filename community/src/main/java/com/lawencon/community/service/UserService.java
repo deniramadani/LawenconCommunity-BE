@@ -47,16 +47,16 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	}
 
 	public ResponseDto insert(final User data) {
-		valIdNull(data);
-		valBkNotNull(data);
-		valBkNotDuplicate(data);
-		valFkFound(data);
+		
 		final ResponseDto responseDto = new ResponseDto();
-
+		valInsert(data);
 		try {
 			begin();
+			
 			final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
 			data.setPassword(password);
+			final Role role = roleDao.getByIdAndDetach(Role.class, data.getRole().getId());
+			data.setRole(role);
 			userDao.saveNoLogin(data, ()->"4ba262b9-258b-4ae3-b879-ee286c1db783");
 			commit();
 			responseDto.setMessage("Register Success");
@@ -66,6 +66,14 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 			responseDto.setMessage("Register Failed");
 		}
 		return responseDto;
+	}
+	
+	private void valInsert(User data){
+		valNotNull(data);
+		valIdNull(data);
+		valBkNotNull(data);
+		valBkNotDuplicate(data);
+		valFkFound(data);
 	}
 
 	private void valIdNotNull(final User data) {
@@ -113,7 +121,7 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	}
 
 	private void valIdNull(final User data) {
-		if (data.getId() == null) {
+		if (data.getId() != null) { 
 			throw new RuntimeException("Id Is Set. Expected Not Set");
 		}
 	}
@@ -127,16 +135,16 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 
 	private void valNotNull(final User data) {
 
-		if (data.getEmail() != null) {
+		if (data.getEmail() == null) {
 			throw new RuntimeException("Email Required.");
 		}
-		if (data.getPassword() != null) {
+		if (data.getPassword() == null) {
 			throw new RuntimeException("Password Required.");
 		}
-		if (data.getRole().getId() != null) {
+		if (data.getRole().getId() == null) {
 			throw new RuntimeException("Role Required.");
 		}
-		if (data.getUserType().getId() != null) {
+		if (data.getUserType().getId() == null) {
 			throw new RuntimeException("User Type Required.");
 		}
 	}
