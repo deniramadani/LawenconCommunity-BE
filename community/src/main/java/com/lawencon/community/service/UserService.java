@@ -9,16 +9,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.lawencon.base.BaseCoreService;
 import com.lawencon.base.ConnHandler;
+import com.lawencon.community.dao.IndustryDao;
+import com.lawencon.community.dao.RoleDao;
 import com.lawencon.community.dao.UserDao;
+import com.lawencon.community.dao.UserTypeDao;
+import com.lawencon.community.model.Role;
 import com.lawencon.community.model.User;
+import com.lawencon.community.model.UserType;
 import com.lawencon.config.ApiConfiguration;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService extends BaseCoreService implements UserDetailsService{
 	
 	@Autowired private UserDao userDao;
 	@Autowired private ApiConfiguration apiConfiguration;
+	@Autowired private IndustryDao industryDao;
+	@Autowired private UserTypeDao userTypeDao;
+	@Autowired private RoleDao roleDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,50 +45,93 @@ public class UserService implements UserDetailsService{
 	
 	public User insert(final User data) {
 
-//	    created_by varchar(36) not null,
 		User row = new User();
 		try {
-			ConnHandler.begin();
+			begin();
 			final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
 			data.setPassword(password);
 			row = userDao.save(data);
+			commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			ConnHandler.rollback();
+			rollback();
 		}
 		return row;
 	}
 	
-	private void validNotNull(final User data){
-		
-	}
+	private void valIdNotNull(final User data){
+        if(data.getId()==null) {
+            throw new RuntimeException("Primary Key Id is required!");
+        }
+    }
+
+    private void valIdExist(final User data) {
+        final User user = userDao.getByIdAndDetach(User.class, data.getId());
+        final Optional<User> optional = Optional.ofNullable(user);
+        if(optional.isEmpty()) {
+            throw new RuntimeException("Primay Key Id not found!");
+        }
+    }
+
+    private void valBkNotNull(final User data) {
+        if(data.getEmail()==null) {
+            throw new RuntimeException("BK Email is required!");
+        }
+    }
+
+    private void valBkNotChange(final User data) {
+        final User user = userDao.getByIdAndDetach(User.class, data.getId());
+        final Optional<User> optional = Optional.ofNullable(user);
+        if(optional.isPresent()) {
+            if(optional.get().getEmail().equalsIgnoreCase(data.getEmail())) {
+                throw new RuntimeException("BK Email cannot be changed!");
+            }
+        }
+    }
 	
-	private void validExist(final User data) {
-		
-	}
 	
-	private void valBkNotNull(final User data) {
-		
-	}
 	
-	private void valBkNotChange(final User data) {
+	private void valFkFound(final User data) {
+		final UserType userType = userTypeDao.getByIdAndDetach(UserType.class, data.getUserType().getId());
+		final Optional<UserType> userTypeOptional = Optional.ofNullable(userType);
+		final Role role = roleDao.getByIdAndDetach(Role.class, data.getRole().getId());
+		final Optional<Role> roleOptional = Optional.ofNullable(role);
 		
-	}
-	
-	private void valNotBk(final User data) {
-		
+		if(!userTypeOptional.isPresent()) {
+			throw new RuntimeException("User Type Not Found.");
+		}
+		if(!roleOptional.isPresent()) {
+			throw new RuntimeException("Role Not Found.");
+		}
 	}
 	
 	private void valIdNull(final User data) {
-		
+		if(data.getId() == null) {
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
 	}
 	
 	private void valBkNotDuplicate(final User data) {
-		
+		final Optional<User> userOptional = userDao.getByEmail(data.getEmail());
+		if(userOptional.isPresent()) {
+			throw new RuntimeException("Email Already Exist.");
+		}
 	}
 	
-	private void valFkFound(final User data) {
+	private void valNotNull(final User data) {
 		
+		if(data.getEmail() != null) {
+			throw new RuntimeException("Email Required.");
+		}
+		if(data.getPassword() != null) {
+			throw new RuntimeException("Password Required.");
+		}
+		if(data.getRole().getId() != null) {
+			throw new RuntimeException("Role Required.");
+		}
+		if(data.getUserType().getId() != null) {
+			throw new RuntimeException("User Type Required.");			
+		}
 	}
 	
 }

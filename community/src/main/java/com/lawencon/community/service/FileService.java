@@ -14,9 +14,8 @@ public class FileService {
 	@Autowired private FileDao fileDao;
 	
 	public Optional<File> getById(final String id) {
-		Optional<File> optional = Optional.ofNullable(null);
 		final File file = fileDao.getByIdAndDetach(File.class, id);
-		optional = Optional.ofNullable(file);
+		final Optional<File> optional = Optional.ofNullable(file);
 		if(optional.isPresent()) {
 			return optional;			
 		} else {
