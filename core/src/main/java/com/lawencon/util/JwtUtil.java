@@ -1,6 +1,5 @@
 package com.lawencon.util;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class JwtUtil {
 	private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	private final LocalDateTime expiredDateRefreshToken = LocalDateTime.now().plusWeeks(1);
 
-	public String generateToken(Map<String, Object> claims, Duration duration) {
+	public String generateToken(Map<String, Object> claims) {
 		JwtBuilder jwtBuilder = Jwts.builder()
 				.signWith(secretKey)
 				.setClaims(claims);

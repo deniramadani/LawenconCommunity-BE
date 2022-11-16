@@ -1,6 +1,5 @@
 package com.lawencon.community.controller;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -45,11 +44,12 @@ public class LoginController {
 		claims.put(ClaimKey.ID.name(), user.get().getId());
 		claims.put(ClaimKey.ROLE.name(), user.get().getRole().getRoleCode());
 		
+		
 		LoginResDto res = new LoginResDto();
 		res.setId(user.get().getId());
 		res.setFullname(user.get().getFullname());
 		res.setRoleCode(user.get().getRole().getRoleCode());
-		res.setToken(jwtUtil.generateToken(claims, Duration.ofHours(1)));
+		res.setToken(jwtUtil.generateToken(claims));
 		return new ResponseEntity<LoginResDto>(res, HttpStatus.OK);
 	}
 	
