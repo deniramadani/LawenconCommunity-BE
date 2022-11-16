@@ -52,7 +52,6 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 		valInsert(data);
 		try {
 			begin();
-			
 			final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
 			data.setPassword(password);
 			final Role role = roleDao.getByIdAndDetach(Role.class, data.getRole().getId());
