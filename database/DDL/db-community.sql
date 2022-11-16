@@ -2,21 +2,12 @@ CREATE TABLE tb_role(
     id varchar(36) not null,
     role_code varchar(5) not null,
     role_name varchar(20) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -32,21 +23,12 @@ ADD
 CREATE TABLE tb_industry(
     id varchar(36) not null,
     industry_name varchar(30),
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -57,21 +39,12 @@ ADD
 CREATE TABLE tb_position(
     id varchar(36) not null,
     position_name varchar(30),
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -83,21 +56,12 @@ CREATE TABLE tb_file(
     id varchar(36) not null,
     file_encode text,
     file_extensions varchar(5),
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -109,21 +73,12 @@ CREATE TABLE tb_social_media(
     id varchar(36) not null,
     social_media_name varchar(30) not null,
     logo_id varchar(36) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -140,21 +95,12 @@ CREATE TABLE tb_user_type(
     id varchar(36) not null,
     user_type_code varchar(6) not null,
     user_type_name varchar(30) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -182,21 +128,12 @@ CREATE TABLE tb_user(
     address text,
     date_of_birth date,
     ballance double precision not null default 0,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT FALSE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default false
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
@@ -265,21 +202,12 @@ CREATE TABLE tb_verification_code(
     id varchar(36) not null,
     verification_code varchar(6),
     user_id varchar(36) not null,
-<<<<<<< HEAD
-    created_by VARCHAR(36) NOT NULL,
-    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    updated_by VARCHAR(36),
-    updated_at TIMESTAMP WITHOUT TIME ZONE,
-    versions INT NOT NULL DEFAULT 0,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE
-=======
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36) not null,
     updated_at timestamp without time zone,
     versions int not null default 0,
     is_active boolean not null default true
->>>>>>> 4fc2a0dd31bd79af7832c423ce62a8c77ce72a03
 );
 
 ALTER TABLE
