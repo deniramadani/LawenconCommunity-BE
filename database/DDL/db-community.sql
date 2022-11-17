@@ -22,7 +22,7 @@ ADD
 
 CREATE TABLE tb_industry(
     id varchar(36) not null,
-    industry_name varchar(30),
+    industry_name varchar(30) NOT NULL,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
