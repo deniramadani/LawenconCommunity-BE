@@ -26,7 +26,6 @@ public class VerificationCodeService extends BaseCoreService {
 		final String code = GenerateCodeUtil.generateCode();
 		template.put("email", email);
 		template.put("code", code);
-		System.err.println(email);
 		final String subject = "Verification Code for Activating Account";
 		try {
 			mailUtil.sendMessageFreeMarker(email, subject, template, "verification-code-template.ftl");
