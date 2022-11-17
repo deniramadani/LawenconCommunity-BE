@@ -60,6 +60,17 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 		return userDao.getByEmail(email);
 	}
 	
+	public User getById(final String id) {
+		final User user = fileDao.getByIdAndDetach(User.class, id);
+		final Optional<User> optional = Optional.ofNullable(user);
+		if(optional.isPresent()) {
+			final User result = optional.get();
+			return result;			
+		} else {
+			throw new RuntimeException("File not found!");	
+		}
+	}
+	
 	public ResponseDto insertSuperAdmin(final User data) {
 		return insert(data,RoleConst.SUPERADMIN.getRoleCodeEnum());
 	}
