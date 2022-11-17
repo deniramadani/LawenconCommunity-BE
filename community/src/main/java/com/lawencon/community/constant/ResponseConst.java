@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ResponseConst {
 	
-	CREATED("Created"), UPDATED("Updated"), DELETED("Deleted");
+	CREATED("Created"), UPDATED("Updated"), DELETED("Deleted"), FAILED("Failed");
 	
 	private final String response;
 	
