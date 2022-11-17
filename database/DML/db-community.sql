@@ -1,6 +1,7 @@
 INSERT INTO tb_role (id, role_code, role_name, created_by, created_at) VALUES
 ('94ae6c35-879a-43a1-8c56-be61a87d8487', 'ROLSY','System', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('066cd79f-735f-48d9-9bb1-95ab6b3e8edf', 'ROLSA','Super Admin', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
+('4f5d2d78-5bfd-4e8a-9483-6c5c8f9ed91d', 'ROLAM','Admin', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('7adb1711-698a-46dd-9fe1-924bdb036416', 'ROLMM','Member', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
 
 INSERT INTO tb_user_type (id, user_type_code, user_type_name, created_by, created_at) VALUES

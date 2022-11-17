@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("users")
-@PreAuthorize("hasAuthority('ROLSA', 'ROLMM')")
+@PreAuthorize("hasAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 public class UserController {
 	
 	@Autowired
