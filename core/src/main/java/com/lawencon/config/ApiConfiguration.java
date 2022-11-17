@@ -15,6 +15,9 @@ public class ApiConfiguration implements WebMvcConfigurer {
 
 	@Autowired
 	private ApiRequestInterceptor apiRequestInterceptor;
+	
+	@Autowired
+	private String[] allowedOrigins;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -27,13 +30,22 @@ public class ApiConfiguration implements WebMvcConfigurer {
 	}
 	
 	@Bean
-	public WebMvcConfigurer webMvcConfigurer() {
+	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
+
+			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods(HttpMethod.GET.toString(),HttpMethod.POST.toString(),HttpMethod.PUT.toString(),HttpMethod.DELETE.toString());
-				WebMvcConfigurer.super.addCorsMappings(registry);
+				registry.addMapping("/**")
+					.allowedOrigins(allowedOrigins)
+					.allowedMethods(
+						HttpMethod.GET.name(),
+						HttpMethod.POST.name(), 
+						HttpMethod.PUT.name(), 
+						HttpMethod.DELETE.name(),
+						HttpMethod.PATCH.name());
 			}
 		};
 	}
+
 
 }
