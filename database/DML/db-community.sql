@@ -81,4 +81,3 @@ INSERT INTO tb_post_type (id, post_type_code, post_type_name, created_by, create
 
 
 
-
