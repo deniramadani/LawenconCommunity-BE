@@ -3,6 +3,7 @@ package com.lawencon.community.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,24 @@ public class RegisterController {
 
 	@Autowired
 	private UserService userService;
-
-	@PostMapping
-	public ResponseEntity<ResponseDto> register(@RequestBody User data) {
-		ResponseDto res = userService.insert(data);
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@PostMapping("/super-admin")
+	public ResponseEntity<ResponseDto> registerSuperAdmin(@RequestBody User data) {
+		ResponseDto res = userService.insertSuperAdmin(data);
+		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@PostMapping("/admin")
+	public ResponseEntity<ResponseDto> registerAdmin(@RequestBody User data) {
+		ResponseDto res = userService.insertAdmin(data);
+		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
+	}
+	
+	@PostMapping("/member")
+	public ResponseEntity<ResponseDto> registerMember(@RequestBody User data) {
+		ResponseDto res = userService.insertMember(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.lawencon.base.BaseCoreService;
 import com.lawencon.community.constant.ResponseConst;
+import com.lawencon.community.constant.RoleConst;
+import com.lawencon.community.constant.UserTypeConst;
 import com.lawencon.community.dao.FileDao;
 import com.lawencon.community.dao.IndustryDao;
 import com.lawencon.community.dao.PositionDao;
@@ -57,16 +59,56 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	public Optional<User> getByEmail(final String email) {
 		return userDao.getByEmail(email);
 	}
+	
+	public User getById(final String id) {
+		final User user = fileDao.getByIdAndDetach(User.class, id);
+		final Optional<User> optional = Optional.ofNullable(user);
+		if(optional.isPresent()) {
+			final User result = optional.get();
+			return result;			
+		} else {
+			throw new RuntimeException("File not found!");	
+		}
+	}
+	
+	public ResponseDto insertSuperAdmin(final User data) {
+		return insert(data,RoleConst.SUPERADMIN.getRoleCodeEnum());
+	}
+	
+	public ResponseDto insertAdmin(final User data) {
+		return insert(data,RoleConst.ADMIN.getRoleCodeEnum());
+	}
+	
+	public ResponseDto insertMember(final User data) {
+		return insert(data,RoleConst.MEMBER.getRoleCodeEnum());
+	}
 
-	public ResponseDto insert(final User data) {
+	private ResponseDto insert(final User data, final String code) {
 		final ResponseDto responseDto = new ResponseDto();
+		final Optional<Role> roleCode = roleDao.getByCode(code);
+		if(roleCode.isEmpty()) {
+			throw new RuntimeException("Role Constant not found!");	
+		}
+		Optional<UserType> userTypeCode = null;
+		if (code.equalsIgnoreCase(RoleConst.MEMBER.getRoleCodeEnum())) {
+			userTypeCode = userTypeDao.getByCode(UserTypeConst.BASIC.getUserTypeCodeEnum());			
+		} else {
+			userTypeCode = userTypeDao.getByCode(UserTypeConst.PREMIUM.getUserTypeCodeEnum());	
+		}
+		if(userTypeCode.isEmpty()) {
+			throw new RuntimeException("User Type Constant found!");	
+		}
+		data.setRole(roleCode.get());
+		data.setUserType(userTypeCode.get());
 		valInsert(data);
 		try {
 			begin();
 			final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
 			data.setPassword(password);
-			final Role role = roleDao.getByIdAndDetach(Role.class, data.getRole().getId());
+			final Role role = roleDao.getByIdAndDetach(Role.class, roleCode.get().getId());
 			data.setRole(role);
+			final UserType userType = userTypeDao.getByIdAndDetach(UserType.class, userTypeCode.get().getId());
+			data.setUserType(userType);
 			userDao.saveNoLogin(data, ()->"4ba262b9-258b-4ae3-b879-ee286c1db783");
 			commit();
 			responseDto.setMessage("Register Success");
@@ -95,21 +137,37 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 			if(optional.isEmpty()) {
 				throw new RuntimeException("User not found!");				
 			} 
-			if (data.getPassword() != null) {
-				final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
-				data.setPassword(password);									
-			} else {
-				data.setPassword(result.getPassword());
-			}
 			begin();
-			if (data.getPhoto() != null) {
-				final File file = fileDao.saveAndFlush(data.getPhoto());
-				data.setPhoto(file);
+			if(data.getFullname() != null) {
+				result.setFullname(data.getFullname());
 			}
-			data.setBallance(result.getBallance());
-			data.setCreatedBy(result.getCreatedBy());
-			data.setCreatedAt(result.getCreatedAt());
-			userDao.saveAndFlush(data);
+			if(data.getPassword() != null) {
+				final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
+				result.setPassword(password);									
+			}
+			if(data.getCompany() != null) {
+				result.setCompany(data.getCompany());
+			}
+			if(data.getIndustry() != null) {
+				result.setIndustry(data.getIndustry());
+			}
+			if(data.getPosition() != null) {
+				result.setPosition(data.getPosition());
+			}
+			if(data.getPhoto() != null) {
+				final File file = fileDao.saveAndFlush(data.getPhoto());
+				result.setPhoto(file);
+			}
+			if(data.getPhoneNumber() != null) {
+				result.setPhoneNumber(data.getPhoneNumber());
+			}
+			if(data.getAddress() != null) {
+				result.setAddress(data.getAddress());
+			}
+			if(data.getDateOfBirth() != null) {
+				result.setDateOfBirth(data.getDateOfBirth());
+			}
+			userDao.saveAndFlush(result);
 			commit();
 			responseDto.setMessage(ResponseConst.UPDATED.getResponse());
 		} catch (Exception e) {
