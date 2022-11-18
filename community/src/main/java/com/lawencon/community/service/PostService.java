@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import com.lawencon.base.BaseCoreService;
 import com.lawencon.community.constant.PostTypeConst;
 import com.lawencon.community.constant.ResponseConst;
+import com.lawencon.community.constant.UserTypeConst;
 import com.lawencon.community.dao.FileDao;
 import com.lawencon.community.dao.PostAttachmentDao;
 import com.lawencon.community.dao.PostDao;
 import com.lawencon.community.dao.PostPollingDao;
 import com.lawencon.community.dao.PostPollingOptionDao;
 import com.lawencon.community.dao.PostTypeDao;
+import com.lawencon.community.dao.UserDao;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.File;
 import com.lawencon.community.model.Post;
@@ -21,6 +23,8 @@ import com.lawencon.community.model.PostAttachment;
 import com.lawencon.community.model.PostPolling;
 import com.lawencon.community.model.PostPollingOption;
 import com.lawencon.community.model.PostType;
+import com.lawencon.community.model.User;
+import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class PostService extends BaseCoreService{
@@ -36,14 +40,23 @@ public class PostService extends BaseCoreService{
 	@Autowired
 	private PostPollingDao postPollingDao;
 	@Autowired
-	PostPollingOptionDao postPollingOptionDao;
+	private PostPollingOptionDao postPollingOptionDao;
+	@Autowired
+	private PrincipalService principalService;
+	@Autowired
+	private UserDao userDao;
 	
 	public ResponseDto insertBasic(final Post data) {
 		return insert(data, PostTypeConst.BASIC.getPostTypeCodeEnum());
 	}
 	
 	public ResponseDto insertPremium(final Post data) {
-		return insert(data, PostTypeConst.PREMIUM.getPostTypeCodeEnum());
+		final User user = userDao.getByIdAndDetach(User.class, principalService.getAuthPrincipal());
+		if (user.getUserType().getUserTypeCode().equalsIgnoreCase(UserTypeConst.PREMIUM.getUserTypeCodeEnum())) {
+			return insert(data, PostTypeConst.PREMIUM.getPostTypeCodeEnum());			
+		}
+			throw new RuntimeException("Premium access only!");
+		
 	}
 	
 	public ResponseDto insertPolling(final Post data) {
