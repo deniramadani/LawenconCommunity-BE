@@ -1,6 +1,7 @@
 package com.lawencon.community.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,13 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 
 	public Optional<User> getByEmail(final String email) {
 		return userDao.getByEmail(email);
+	}
+	
+	public List<User> getAll(final int start, final int limit) {
+		return userDao.getAll(User.class, start, limit) ;
+	}
+	public List<User> getAll() {
+		return userDao.getAll(User.class) ;
 	}
 	
 	public User getById(final String id) {
