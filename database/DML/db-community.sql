@@ -63,8 +63,10 @@ INSERT INTO tb_product_type (id, product_type_code, product_type_name, created_b
 ('23ac5402-594f-4983-9abd-da4486a47c7b', 'PRODE', 'Event', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('ce785648-af41-4a94-b24c-27beb9c00c37', 'PRODC', 'Course', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
 
-
-
+INSERT INTO tb_post_type (id, post_type_code, post_type_name, created_by, created_at) VALUES
+('f606cb4c-4ccc-4bdf-849d-f032bfb553dd', 'PSTPM', 'Premium', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
+('45460fcd-a32e-4d27-94b5-fe5ce430f982', 'PSTBS', 'Basic', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
+('62c8edd7-4ae4-4b3b-98db-7676a9f94b75', 'PSTPL', 'Polling', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
 
 
 

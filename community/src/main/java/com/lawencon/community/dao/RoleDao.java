@@ -10,7 +10,7 @@ import com.lawencon.community.model.Role;
 public class RoleDao extends AbstractJpaDao{
 	public Optional<Role> getByCode(final String roleCode) {
 		final StringBuilder query = new StringBuilder()
-				.append("SELECT id, role_code, role_name, is_active ")
+				.append("SELECT id, role_code, role_name, is_active, versions ")
 				.append("FROM tb_role ")
 				.append("WHERE role_code = :roleCode AND is_active = true");
 		Role row = null;
@@ -23,6 +23,7 @@ public class RoleDao extends AbstractJpaDao{
 				row.setRoleCode(objArr[1].toString());
 				row.setRoleName(objArr[2].toString());
 				row.setIsActive(Boolean.valueOf(objArr[3].toString()));
+				row.setVersion(Integer.valueOf(objArr[4].toString()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
