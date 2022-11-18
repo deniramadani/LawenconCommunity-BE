@@ -39,7 +39,7 @@ public class UserController {
 			}
 			 result = userService.getAll(start,limit);						
 		}else {
-			 result = userService.getAll();			
+			 result = userService.getAll();	
 		}
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}

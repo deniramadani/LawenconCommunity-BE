@@ -68,6 +68,7 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 		return userDao.getAll(User.class) ;
 	}
 	
+	
 	public User getById(final String id) {
 		final User user = fileDao.getByIdAndDetach(User.class, id);
 		final Optional<User> optional = Optional.ofNullable(user);
