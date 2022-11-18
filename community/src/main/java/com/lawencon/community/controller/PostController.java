@@ -10,36 +10,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.dto.response.ResponseDto;
-import com.lawencon.community.model.User;
-import com.lawencon.community.service.UserService;
+import com.lawencon.community.model.Post;
+import com.lawencon.community.service.PostService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("register")
-public class RegisterController {
-
+@RequestMapping("posts")
+@PreAuthorize("hasAuthority('ROLMM')")
+public class PostController {
+	
 	@Autowired
-	private UserService userService;
+	private PostService postService;
 	
-	@PreAuthorize("hasAuthority('ROLSA')")
-	@PostMapping("/super-admin")
-	public ResponseEntity<ResponseDto> registerSuperAdmin(@RequestBody User data) {
-		ResponseDto res = userService.insertSuperAdmin(data);
+	@PostMapping("basic")
+	public ResponseEntity<ResponseDto> insertBasic(@RequestBody Post data) {
+		ResponseDto res = postService.insertBasic(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLSA')")
-	@PostMapping("/admin")
-	public ResponseEntity<ResponseDto> registerAdmin(@RequestBody User data) {
-		ResponseDto res = userService.insertAdmin(data);
+	@PostMapping("premium")
+	public ResponseEntity<ResponseDto> insertPremium(@RequestBody Post data) {
+		ResponseDto res = postService.insertPremium(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
-	@PostMapping("/member")
-	public ResponseEntity<ResponseDto> registerMember(@RequestBody User data) {
-		ResponseDto res = userService.insertMember(data);
+	@PostMapping("polling")
+	public ResponseEntity<ResponseDto> insertPolling(@RequestBody Post data) {
+		ResponseDto res = postService.insertPolling(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 }

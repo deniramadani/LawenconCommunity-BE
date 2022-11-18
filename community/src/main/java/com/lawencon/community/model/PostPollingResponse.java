@@ -11,17 +11,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "tb_post_attachment")
+@Table(name = "tb_post_polling_response")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class PostAttachment extends BaseEntity{
-	private static final long serialVersionUID = -8180068832637928067L;
+public class PostPollingResponse extends BaseEntity {
+	private static final long serialVersionUID = -7402706420937452885L;
+	@OneToOne
+	@JoinColumn(name="user_id", nullable=false)
+	private User user;
+	@OneToOne
+	@JoinColumn(name="polling_option_id",nullable=false)
+	private PostPollingOption postPollingOption;
 
-	@OneToOne
-	@JoinColumn(name="post_id", nullable = false)
-	private Post post;
-	
-	@OneToOne
-	@JoinColumn(name="file_id", nullable = false)
-	private File file;
 }

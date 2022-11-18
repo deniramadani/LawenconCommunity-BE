@@ -22,7 +22,7 @@ ADD
 
 CREATE TABLE tb_industry(
     id varchar(36) not null,
-    industry_name varchar(30),
+    industry_name varchar(30) NOT NULL,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
@@ -264,7 +264,12 @@ ADD
 ALTER TABLE
     tb_post
 ADD
-    CONSTRAINT tb_post_type_fk FOREIGN KEY(type_post_id) REFERENCES tb_user(id);
+    CONSTRAINT user_tb_post_type_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
+
+ALTER TABLE
+    tb_post
+ADD
+    CONSTRAINT post_type_tb_post_type_fk FOREIGN KEY(type_post_id) REFERENCES tb_post_type(id);
 
 CREATE TABLE tb_post_attachment(
     id varchar(36) NOT NULL,
@@ -421,7 +426,7 @@ ADD
 ALTER TABLE
     tb_user_polling_response
 ADD
-    CONSTRAINT product_post_polling_fk FOREIGN KEY(polling_option_id) REFERENCES tb_post_polling(id);
+    CONSTRAINT product_post_polling_fk FOREIGN KEY(polling_option_id) REFERENCES tb_post_polling_option(id);
 
 CREATE TABLE tb_comment(
     id VARCHAR(36) NOT NULL,
