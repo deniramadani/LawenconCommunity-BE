@@ -25,7 +25,6 @@
 
 	<modules>
 		<module>core</module>
-		<module>elearning</module>
 		<module>community</module>
 	</modules>
 
