@@ -70,13 +70,13 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	
 	
 	public User getById(final String id) {
-		final User user = fileDao.getByIdAndDetach(User.class, id);
+		final User user = userDao.getByIdAndDetach(User.class, id);
 		final Optional<User> optional = Optional.ofNullable(user);
 		if(optional.isPresent()) {
 			final User result = optional.get();
 			return result;			
 		} else {
-			throw new RuntimeException("File not found!");	
+			throw new RuntimeException("User not found!");	
 		}
 	}
 	
