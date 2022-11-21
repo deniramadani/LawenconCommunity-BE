@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.lawencon.base.AbstractJpaDao;
 import com.lawencon.community.model.Article;
 import com.lawencon.community.model.File;
+import com.lawencon.community.model.User;
 
 @Repository
 public class ArticleDao extends AbstractJpaDao{
@@ -16,9 +17,10 @@ public class ArticleDao extends AbstractJpaDao{
 	public List<Article> getAllArticle(final Integer start, final Integer limit) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ta.id, ta.title, ta.content, ta.photo_id, ta.created_by, ")
-				.append("ta.created_at, ta.versions, ta.is_active ")
+				.append("tu.fullname, ta.created_at, ta.versions, ta.is_active ")
 				.append("FROM tb_article ta ")
 				.append("INNER JOIN tb_file tf ON tf.id = ta.photo_id ")
+				.append("INNER JOIN tb_user tu ON tu.id = ta.created_by ")
 				.append("WHERE ta.is_active = true ")
 				.append("ORDER BY ta.created_at DESC ");
 		final List<?> result = createNativeQuery(query.toString(), start, limit).getResultList();
@@ -34,9 +36,12 @@ public class ArticleDao extends AbstractJpaDao{
 				file.setId(objArr[3].toString());
 				row.setFile(file);
 				row.setCreatedBy(objArr[4].toString());
-				row.setCreatedAt(Timestamp.valueOf(objArr[5].toString()).toLocalDateTime());
-				row.setVersion(Integer.valueOf(objArr[6].toString()));
-				row.setIsActive(Boolean.valueOf(objArr[7].toString()));
+				final User user = new User();
+				user.setFullname(objArr[5].toString());
+				row.setUser(user);
+				row.setCreatedAt(Timestamp.valueOf(objArr[6].toString()).toLocalDateTime());
+				row.setVersion(Integer.valueOf(objArr[7].toString()));
+				row.setIsActive(Boolean.valueOf(objArr[8].toString()));
 				rows.add(row);
 			});
 		}
@@ -46,9 +51,10 @@ public class ArticleDao extends AbstractJpaDao{
 	public List<Article> getAllByUserId(final Integer start, final Integer limit, final String userId) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ta.id, ta.title, ta.content, ta.photo_id, ta.created_by, ")
-				.append("ta.created_at, ta.versions, ta.is_active ")
+				.append("tu.fullname, ta.created_at, ta.versions, ta.is_active ")
 				.append("FROM tb_article ta ")
 				.append("INNER JOIN tb_file tf ON tf.id = ta.photo_id ")
+				.append("INNER JOIN tb_user tu ON tu.id = ta.created_by ")
 				.append("WHERE ta.is_active = true AND ta.created_by = :userId ")
 				.append("ORDER BY ta.created_at DESC ");
 		final List<?> result = createNativeQuery(query.toString(), start, limit).setParameter("userId", userId).getResultList();
@@ -64,9 +70,12 @@ public class ArticleDao extends AbstractJpaDao{
 				file.setId(objArr[3].toString());
 				row.setFile(file);
 				row.setCreatedBy(objArr[4].toString());
-				row.setCreatedAt(Timestamp.valueOf(objArr[5].toString()).toLocalDateTime());
-				row.setVersion(Integer.valueOf(objArr[6].toString()));
-				row.setIsActive(Boolean.valueOf(objArr[7].toString()));
+				final User user = new User();
+				user.setFullname(objArr[5].toString());
+				row.setUser(user);
+				row.setCreatedAt(Timestamp.valueOf(objArr[6].toString()).toLocalDateTime());
+				row.setVersion(Integer.valueOf(objArr[7].toString()));
+				row.setIsActive(Boolean.valueOf(objArr[8].toString()));
 				rows.add(row);
 			});
 		}

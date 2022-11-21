@@ -26,9 +26,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class User extends BaseEntity{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -168649940255594139L;
 	@Column(name = "fullname", nullable=false, length=35)
 	private String fullname;

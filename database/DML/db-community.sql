@@ -13,9 +13,33 @@ INSERT INTO tb_user (id, fullname, email, password, role_id, user_type_id, creat
 'system@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
 '94ae6c35-879a-43a1-8c56-be61a87d8487', 'da6ba5a8-93a9-40de-be55-b7b5a9787b4b',
 '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
-('e9984097-daa4-44f4-bacf-4f32f8a2947c', 'Admin',
-'admin@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
+('e9984097-daa4-44f4-bacf-4f32f8a2947c', 'Super Admin',
+'superadmin@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
 '066cd79f-735f-48d9-9bb1-95ab6b3e8edf', 'da6ba5a8-93a9-40de-be55-b7b5a9787b4b',
+'4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
+('f4e57ba7-12f0-44b5-a728-418d5c006200', 'Admin',
+'admin@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
+'4f5d2d78-5bfd-4e8a-9483-6c5c8f9ed91d', 'da6ba5a8-93a9-40de-be55-b7b5a9787b4b',
+'4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
+('a5d607bd-7887-4c0d-9417-edd0de4aa73f', 'Member 1',
+'member1@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
+'7adb1711-698a-46dd-9fe1-924bdb036416', 'affffccd-470d-41da-8f39-4e56788572e1',
+'4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
+('3f44829a-bbfc-4197-9a9a-fa0b732b7ebf', 'Member 2',
+'member2@email.com', '$2a$10$mQ77inhXemDEE0zlr9kwc.94nqJERo1uHIsaPjesr0upzK1Hm6cWa',
+'7adb1711-698a-46dd-9fe1-924bdb036416', 'affffccd-470d-41da-8f39-4e56788572e1',
+'4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
+('7d5e0932-f7ec-4960-9b3a-544e1cb99ce4', 'Deni Ramadani',
+'deni.ramadani05@gmail.com', '$2a$10$Bj3qsEGeSEwtacWVHyAGw./R3YKQWvQnkqOZQQw4uaULYfucSEm12',
+'7adb1711-698a-46dd-9fe1-924bdb036416', 'affffccd-470d-41da-8f39-4e56788572e1',
+'4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
+('90da7dc5-d822-47a9-a4c8-aa418974afd1', 'Fransisko Sihombing', 
+'fransiskosihombing@gmail.com', '$2a$10$W2SBBw3qqS1wmGrMNmcvmu7RKnN3mIdehk8P/9HHW5kUMCQ7wYn6u', 
+'066cd79f-735f-48d9-9bb1-95ab6b3e8edf', 'affffccd-470d-41da-8f39-4e56788572e1',
+'4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
+('68e1d5de-5bea-48cb-89fa-bb071047b14f', 'MaulanaRezi',
+'rsazrm@gmail.com', '$2a$10$waZHp1Q1AQF3LUNe8RXagenOmrOaQI298qEUX0gNOhIAaEG1Gbjt.',
+'7adb1711-698a-46dd-9fe1-924bdb036416', 'affffccd-470d-41da-8f39-4e56788572e1',
 '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE);
 
 INSERT INTO tb_industry (id, industry_name, created_by, created_at) VALUES
@@ -67,17 +91,3 @@ INSERT INTO tb_post_type (id, post_type_code, post_type_name, created_by, create
 ('f606cb4c-4ccc-4bdf-849d-f032bfb553dd', 'PSTPM', 'Premium', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('45460fcd-a32e-4d27-94b5-fe5ce430f982', 'PSTBS', 'Basic', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('62c8edd7-4ae4-4b3b-98db-7676a9f94b75', 'PSTPL', 'Polling', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
-
-
-
-
-
-
-
-
-
-
-
-
-
-

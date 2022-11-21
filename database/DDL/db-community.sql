@@ -198,28 +198,6 @@ ALTER TABLE
 ADD
     CONSTRAINT tb_socmed_fk FOREIGN KEY(socmed_id) REFERENCES tb_social_media(id);
 
-CREATE TABLE tb_verification_code(
-    id varchar(36) not null,
-    verification_code varchar(6),
-    user_id varchar(36) not null,
-    created_by varchar(36) not null,
-    created_at timestamp without time zone not null,
-    updated_by varchar(36) not null,
-    updated_at timestamp without time zone,
-    versions int not null default 0,
-    is_active boolean not null default true
-);
-
-ALTER TABLE
-    tb_verification_code
-ADD
-    CONSTRAINT verification_code_pk primary key (id);
-
-ALTER TABLE
-    tb_verification_code
-ADD
-    CONSTRAINT user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
-
 CREATE TABLE tb_post_type(
     id varchar(36) NOT NULL,
     post_type_code varchar(5) NOT NULL,
