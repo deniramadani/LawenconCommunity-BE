@@ -1,5 +1,6 @@
 package com.lawencon.community.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.lawencon.community.model.Product;
 import com.lawencon.community.model.ProductType;
 import com.lawencon.community.model.Schedule;
 import com.lawencon.community.model.User;
+import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class ProductService extends BaseCoreService {
@@ -26,6 +28,8 @@ public class ProductService extends BaseCoreService {
 	private ProductDao productDao;
 	@Autowired
 	private FileDao fileDao;
+	@Autowired
+	private PrincipalService principalService;
 	
 	public ResponseDto insert(final Schedule data)  {
 		final ResponseDto response = new ResponseDto();
@@ -108,24 +112,22 @@ public class ProductService extends BaseCoreService {
 	}
 	
 	public Schedule getById(final String id) {
-//		final Schedule result = null;
-//		
-//		final Product product = productDao.getByIdAndDetach(Product.class, id);
-//		final Optional<Product> productId = Optional.ofNullable(product);
-//		if(productId.isPresent()) {
-//			final Schedule schedule = scheduleDao.getByIdAndDetach(Schedule.class, productI);
-//			final Optional<Schedule> optional = Optional.ofNullable(result);
-//		}
-		
-		
-		final Schedule result = scheduleDao.getByIdAndDetach(Schedule.class, id);
-		final Optional<Schedule> optional = Optional.ofNullable(result);
+		final Optional<Schedule> optional = scheduleDao.getByIdProduct(id);
 		if(optional.isPresent()) {
-			final Schedule findOne = optional.get();
-			return findOne;			
+			final Schedule result = optional.get();
+			return result;			
 		} else {
 			throw new RuntimeException("Product not found!");	
 		}
+	}
+	
+	public List<Schedule> getAllSchedule(final Integer start, final Integer limit) {
+		return scheduleDao.getAllSchedule(start, limit);
+	}
+	
+	public List<Schedule> getAllByUserId(final Integer start, final Integer limit) {
+		final String userId = principalService.getAuthPrincipal();
+		return scheduleDao.getAllByUserId(start, limit, userId);
 	}
 	
 }
