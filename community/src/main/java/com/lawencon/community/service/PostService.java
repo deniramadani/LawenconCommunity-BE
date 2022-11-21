@@ -1,5 +1,6 @@
 package com.lawencon.community.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import com.lawencon.community.model.User;
 import com.lawencon.security.principal.PrincipalService;
 
 @Service
-public class PostService extends BaseCoreService{
+public class PostService extends BaseCoreService {
 
 	@Autowired
 	private PostDao postDao;
@@ -45,62 +46,62 @@ public class PostService extends BaseCoreService{
 	private PrincipalService principalService;
 	@Autowired
 	private UserDao userDao;
-	
+
 	public ResponseDto insertBasic(final Post data) {
 		return insert(data, PostTypeConst.BASIC.getPostTypeCodeEnum());
 	}
-	
+
 	public ResponseDto insertPremium(final Post data) {
 		final User user = userDao.getByIdAndDetach(User.class, principalService.getAuthPrincipal());
 		if (user.getUserType().getUserTypeCode().equalsIgnoreCase(UserTypeConst.PREMIUM.getUserTypeCodeEnum())) {
-			return insert(data, PostTypeConst.PREMIUM.getPostTypeCodeEnum());			
+			return insert(data, PostTypeConst.PREMIUM.getPostTypeCodeEnum());
 		}
-			throw new RuntimeException("Premium access only!");
-		
+		throw new RuntimeException("Premium access only!");
+
 	}
-	
+
 	public ResponseDto insertPolling(final Post data) {
 		return insert(data, PostTypeConst.POLLING.getPostTypeCodeEnum());
 	}
-	
-	private ResponseDto insert(final Post data, final String postTypeCode)  {
+
+	private ResponseDto insert(final Post data, final String postTypeCode) {
 		final ResponseDto response = new ResponseDto();
 		Post row = new Post();
 		try {
 			begin();
 			row.setTitle(data.getTitle());
 			row.setBody(data.getBody());
-				//Foreign Key
+			// Foreign Key
 			row.setUser(data.getUser());
 			final Optional<PostType> postType = postTypeDao.getByCode(postTypeCode);
 			row.setPostType(postType.get());
-				//Foreign Key
+			// Foreign Key
 			row = postDao.save(row);
-			if(!postTypeCode.equalsIgnoreCase(PostTypeConst.POLLING.getPostTypeCodeEnum())) {
-				if(data.getFile() != null && data.getFile().size() >=0) {
-					for(int i=0; i<data.getFile().size(); i++) {
+			if (!postTypeCode.equalsIgnoreCase(PostTypeConst.POLLING.getPostTypeCodeEnum())) {
+				if (data.getFile() != null && data.getFile().size() >= 0) {
+					for (int i = 0; i < data.getFile().size(); i++) {
 						File file = new File();
-						file.setFileEncode(data.getFile().get(i).getFileEncode());
-						file.setFileExtensions(data.getFile().get(i).getFileExtensions());
+						file.setFileEncode(data.getFile().get(i).getFile().getFileEncode());
+						file.setFileExtensions(data.getFile().get(i).getFile().getFileExtensions());
 						file = fileDao.save(file);
 						PostAttachment bridgeFile = new PostAttachment();
 						bridgeFile.setFile(file);
 						bridgeFile.setPost(row);
 						bridgeFile = postAttachmentDao.save(bridgeFile);
-					}				
+					}
 				}
 			} else {
-				if(data.getPostPollingOption() != null && data.getPostPollingOption().size() >= 0) {
+				if (data.getPostPollingOption() != null && data.getPostPollingOption().size() >= 0) {
 					PostPolling polling = new PostPolling();
 					polling.setPost(row);
 					polling.setQuestion(data.getQuestion());
 					polling = postPollingDao.save(polling);
-					for(int i=0; i<data.getPostPollingOption().size(); i++) {
+					for (int i = 0; i < data.getPostPollingOption().size(); i++) {
 						PostPollingOption pollingOption = new PostPollingOption();
 						pollingOption.setPostPolling(polling);
 						pollingOption.setContent(data.getPostPollingOption().get(i).getContent());
 						pollingOption = postPollingOptionDao.save(pollingOption);
-					}		
+					}
 				}
 			}
 			commit();
@@ -112,5 +113,17 @@ public class PostService extends BaseCoreService{
 		}
 		return response;
 	}
-	
+
+	public List<Post> getAll(final int start, final int limit) {
+		final List<Post> posts = postDao.getAll(Post.class, start, limit);
+
+		return posts;
+	}
+
+	public List<Post> getAll() {
+		final List<Post> posts = postDao.getAll();
+
+		return posts;
+	}
+
 }

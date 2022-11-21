@@ -27,9 +27,9 @@ public class ArticleService extends BaseCoreService {
 	
 	public ResponseDto insert(final Article data)  {
 		final ResponseDto response = new ResponseDto();
-		Article insertOne = new Article();
 		try {
 			begin();
+			final Article insertOne = new Article();
 			insertOne.setTitle(data.getTitle());
 			insertOne.setContent(data.getContent());
 			if(data.getFile()!=null) {
@@ -39,7 +39,7 @@ public class ArticleService extends BaseCoreService {
 				file = fileDao.save(file);
 				insertOne.setFile(file);
 			}
-			insertOne = articleDao.save(insertOne);			
+			articleDao.save(insertOne);			
 			commit();
 			response.setMessage(ResponseConst.CREATED.getResponse());
 		} catch (Exception e) {
