@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import com.lawencon.base.BaseEntity;
@@ -26,7 +27,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class User extends BaseEntity{
-	private static final long serialVersionUID = -168649940255594139L;
+	private static final long serialVersionUID = 7979360782848330208L;
 	@Column(name = "fullname", nullable=false, length=35)
 	private String fullname;
 	@Column(name = "email", nullable=false, length=30)
@@ -64,4 +65,7 @@ public class User extends BaseEntity{
 	public void preInsert() {
 		this.ballance = BigDecimal.ZERO;
 	}
+	
+	@Transient
+	private String oldPassword;
 }

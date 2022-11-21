@@ -58,7 +58,6 @@ public class ArticleService extends BaseCoreService {
 			Article updateOne = optional.get();
 			try {
 				begin();
-				updateOne.setId(data.getId());
 				updateOne.setTitle(data.getTitle());
 				updateOne.setContent(data.getContent());
 				if (data.getFile() != null) {

@@ -151,8 +151,13 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 				result.setFullname(data.getFullname());
 			}
 			if(data.getPassword() != null) {
-				final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
-				result.setPassword(password);									
+				if(apiConfiguration.passwordEncoder().matches(data.getOldPassword(), result.getPassword())) {
+					final String plainText = data.getPassword();
+					final String hash = apiConfiguration.passwordEncoder().encode(plainText);
+					result.setPassword(hash);									
+				} else {
+					throw new RuntimeException("Old password and new password didnt match!");
+				}								
 			}
 			if(data.getCompany() != null) {
 				result.setCompany(data.getCompany());
@@ -164,7 +169,10 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 				result.setPosition(data.getPosition());
 			}
 			if(data.getPhoto() != null) {
-				final File file = fileDao.saveAndFlush(data.getPhoto());
+				File file = new File();
+				file.setFileEncode(data.getPhoto().getFileEncode());
+				file.setFileExtensions(data.getPhoto().getFileExtensions());
+				file = fileDao.save(data.getPhoto());
 				result.setPhoto(file);
 			}
 			if(data.getPhoneNumber() != null) {
