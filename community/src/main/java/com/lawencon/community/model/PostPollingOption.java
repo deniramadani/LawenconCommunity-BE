@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.lawencon.base.BaseEntity;
 
@@ -22,5 +23,8 @@ public class PostPollingOption extends BaseEntity {
 	private PostPolling postPolling;
 	@Column(name="content", length=150, nullable=false)
 	private String content;
+	
+	@Transient
+	private Integer totalResponse;
 
 }

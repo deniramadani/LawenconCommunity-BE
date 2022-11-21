@@ -26,6 +26,7 @@ public class SecurityConfig {
 		matchers.add(new AntPathRequestMatcher("/login/**", HttpMethod.POST.name()));
 		matchers.add(new AntPathRequestMatcher("/register/member/**", HttpMethod.POST.name()));
 		matchers.add(new AntPathRequestMatcher("/verification-code/**", HttpMethod.POST.name()));
+		
 		return matchers;
 	}
 
