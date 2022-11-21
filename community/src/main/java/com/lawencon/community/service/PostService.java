@@ -55,9 +55,11 @@ public class PostService extends BaseCoreService {
 		final User user = userDao.getByIdAndDetach(User.class, principalService.getAuthPrincipal());
 		if (user.getUserType().getUserTypeCode().equalsIgnoreCase(UserTypeConst.PREMIUM.getUserTypeCodeEnum())) {
 			return insert(data, PostTypeConst.PREMIUM.getPostTypeCodeEnum());
+		} else {
+			System.out.println(principalService.getAuthPrincipal());
+			System.out.println(user.getUserType().getUserTypeCode() + UserTypeConst.PREMIUM.getUserTypeCodeEnum());
+			throw new RuntimeException("Premium access only!");			
 		}
-		throw new RuntimeException("Premium access only!");
-
 	}
 
 	public ResponseDto insertPolling(final Post data) {
@@ -78,11 +80,11 @@ public class PostService extends BaseCoreService {
 			// Foreign Key
 			row = postDao.save(row);
 			if (!postTypeCode.equalsIgnoreCase(PostTypeConst.POLLING.getPostTypeCodeEnum())) {
-				if (data.getFile() != null && data.getFile().size() >= 0) {
-					for (int i = 0; i < data.getFile().size(); i++) {
+				if (data.getPfile() != null && data.getPfile().size() >= 0) {
+					for (int i = 0; i < data.getPfile().size(); i++) {
 						File file = new File();
-						file.setFileEncode(data.getFile().get(i).getFile().getFileEncode());
-						file.setFileExtensions(data.getFile().get(i).getFile().getFileExtensions());
+						file.setFileEncode(data.getPfile().get(i).getFileEncode());
+						file.setFileExtensions(data.getPfile().get(i).getFileExtensions());
 						file = fileDao.save(file);
 						PostAttachment bridgeFile = new PostAttachment();
 						bridgeFile.setFile(file);

@@ -72,7 +72,6 @@ ADD
 CREATE TABLE tb_social_media(
     id varchar(36) not null,
     social_media_name varchar(30) not null,
-    logo_id varchar(36) not null,
     created_by varchar(36) not null,
     created_at timestamp without time zone not null,
     updated_by varchar(36),
@@ -85,11 +84,6 @@ ALTER TABLE
     tb_social_media
 ADD
     CONSTRAINT socmed_pk primary key (id);
-
-ALTER TABLE
-    tb_social_media
-ADD
-    CONSTRAINT socmed_fk FOREIGN KEY(logo_id) REFERENCES tb_file(id);
 
 CREATE TABLE tb_user_type(
     id varchar(36) not null,
@@ -579,3 +573,8 @@ ALTER TABLE
     tb_payment
 ADD
     CONSTRAINT product_payment_fk FOREIGN KEY(product_id) REFERENCES tb_product(id);
+    
+ALTER TABLE
+    tb_payment
+ADD
+    CONSTRAINT file_payment_fk FOREIGN KEY(transfer_photo_id) REFERENCES tb_file(id);

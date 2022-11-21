@@ -23,30 +23,33 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("posts")
-@PreAuthorize("hasAuthority('ROLMM')")
 public class PostController {
 	
 	@Autowired
 	private PostService postService;
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("basic")
 	public ResponseEntity<ResponseDto> insertBasic(@RequestBody Post data) {
 		ResponseDto res = postService.insertBasic(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("premium")
 	public ResponseEntity<ResponseDto> insertPremium(@RequestBody Post data) {
 		ResponseDto res = postService.insertPremium(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("polling")
 	public ResponseEntity<ResponseDto> insertPolling(@RequestBody Post data) {
 		ResponseDto res = postService.insertPolling(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
 	public ResponseEntity<List<Post>> getAll(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
 		List<Post> result = new ArrayList<>();

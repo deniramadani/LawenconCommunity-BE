@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lawencon.base.BaseCoreService;
+import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.constant.ResponseConst;
 import com.lawencon.community.dao.FileDao;
 import com.lawencon.community.dao.ProductDao;
@@ -121,13 +122,45 @@ public class ProductService extends BaseCoreService {
 		}
 	}
 	
-	public List<Schedule> getAllSchedule(final Integer start, final Integer limit) {
-		return scheduleDao.getAllSchedule(start, limit);
+	public List<Schedule> getAllSchedule(final Integer start, final Integer limit, final String code) {
+		String inputCode = null;
+		if(ProductTypeConst.EVENT.getProductTypeCodeEnum().equalsIgnoreCase(code)) {
+			inputCode = ProductTypeConst.EVENT.getProductTypeCodeEnum();
+		} else {
+			inputCode = ProductTypeConst.COURSE.getProductTypeCodeEnum();
+		}
+		return scheduleDao.getAllSchedule(start, limit, inputCode);
 	}
 	
-	public List<Schedule> getAllByUserId(final Integer start, final Integer limit) {
+	public List<Schedule> getAllByUserId(final Integer start, final Integer limit, final String code) {
+		String inputCode = null;
+		if(ProductTypeConst.EVENT.getProductTypeCodeEnum().equalsIgnoreCase(code)) {
+			inputCode = ProductTypeConst.EVENT.getProductTypeCodeEnum();
+		} else {
+			inputCode = ProductTypeConst.COURSE.getProductTypeCodeEnum();
+		}
 		final String userId = principalService.getAuthPrincipal();
-		return scheduleDao.getAllByUserId(start, limit, userId);
+		return scheduleDao.getAllByUserId(start, limit, userId, inputCode);
+	}
+	
+	public ResponseDto delete(final String id)  {
+		final ResponseDto response = new ResponseDto();
+		final Optional<Schedule> optional = scheduleDao.getByIdProduct(id);
+		if(optional.isPresent()) {
+			Schedule updateOne = optional.get();
+			try {
+				begin();
+				updateOne.setIsActive(false);
+				updateOne = scheduleDao.saveAndFlush(updateOne);
+				commit();
+				response.setMessage(ResponseConst.DELETED.getResponse());
+			} catch (Exception e) {
+				e.printStackTrace();
+				rollback();
+				response.setMessage(ResponseConst.FAILED.getResponse());
+			}			
+		}
+		return response;
 	}
 	
 }

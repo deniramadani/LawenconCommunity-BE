@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.Schedule;
 import com.lawencon.community.service.ProductService;
@@ -45,11 +46,20 @@ public class ProductController {
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
-	@GetMapping
-	public ResponseEntity<List<Schedule>> getAllSchedule(@RequestParam(required = true) final Integer start,
+	@GetMapping("events")
+	public ResponseEntity<List<Schedule>> getAllScheduleEvent(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
 		List<Schedule> result = new ArrayList<>(); 
-		result = productService.getAllSchedule(start, limit);						
+		result = productService.getAllSchedule(start, limit, ProductTypeConst.EVENT.getProductTypeCodeEnum());						
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("courses")
+	public ResponseEntity<List<Schedule>> getAllScheduleCourse(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		List<Schedule> result = new ArrayList<>(); 
+		result = productService.getAllSchedule(start, limit, ProductTypeConst.COURSE.getProductTypeCodeEnum());						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -61,11 +71,27 @@ public class ProductController {
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
-	@GetMapping("users")
-	public ResponseEntity<List<Schedule>> getAllByUserId(@RequestParam(required = true) final Integer start,
+	@GetMapping("events/users")
+	public ResponseEntity<List<Schedule>> getAllEventByUserId(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
 		List<Schedule> result = new ArrayList<>(); 
-		result = productService.getAllByUserId(start, limit);						
+		result = productService.getAllByUserId(start, limit, ProductTypeConst.EVENT.getProductTypeCodeEnum());						
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("courses/users")
+	public ResponseEntity<List<Schedule>> getAllCourseByUserId(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		List<Schedule> result = new ArrayList<>(); 
+		result = productService.getAllByUserId(start, limit, ProductTypeConst.COURSE.getProductTypeCodeEnum());						
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@PutMapping("delete/{id}")
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id){
+		final ResponseDto result = productService.delete(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

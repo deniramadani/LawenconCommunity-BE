@@ -39,7 +39,7 @@ INSERT INTO tb_user (id, fullname, email, password, role_id, user_type_id, creat
 '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE),
 ('68e1d5de-5bea-48cb-89fa-bb071047b14f', 'MaulanaRezi',
 'rsazrm@gmail.com', '$2a$10$waZHp1Q1AQF3LUNe8RXagenOmrOaQI298qEUX0gNOhIAaEG1Gbjt.',
-'7adb1711-698a-46dd-9fe1-924bdb036416', 'affffccd-470d-41da-8f39-4e56788572e1',
+'7adb1711-698a-46dd-9fe1-924bdb036416', 'da6ba5a8-93a9-40de-be55-b7b5a9787b4b',
 '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), TRUE);
 
 INSERT INTO tb_industry (id, industry_name, created_by, created_at) VALUES

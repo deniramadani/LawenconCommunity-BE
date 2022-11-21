@@ -75,36 +75,37 @@ public class ScheduleDao extends AbstractJpaDao{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Schedule> getAllSchedule(final Integer start, final Integer limit){
+	public List<Schedule> getAllSchedule(final Integer start, final Integer limit, final String code){
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT * ")
 				.append("FROM tb_schedule ts ")
 				.append("INNER JOIN tb_product tp ON tp.id = ts.product_id ")
 				.append("INNER JOIN tb_user tu ON tp.owner_id = tu.id ")
 				.append("INNER JOIN tb_product_type tpt ON tp.type_product_id = tpt.id ")
-//				.append("INNER JOIN tb_file tf ON tp.photo_id = tf.id ")
-				.append("WHERE ts.is_active = true ")
+				.append("INNER JOIN tb_file tf ON tp.photo_id = tf.id ")
+				.append("WHERE ts.is_active = true AND tpt.product_type_code = :code ")
 				.append("ORDER BY ts.created_at DESC ")
 				.append("OFFSET :start LIMIT :limit ");
 		final List<Schedule> result = ConnHandler.getManager().createNativeQuery(query.toString(), Schedule.class)
-				.setParameter("start", start).setParameter("limit", limit).getResultList();
+				.setParameter("code", code).setParameter("start", start).setParameter("limit", limit).getResultList();
 		return result;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Schedule> getAllByUserId(final Integer start, final Integer limit, final String userId){
+	public List<Schedule> getAllByUserId(final Integer start, final Integer limit, final String userId, final String code){
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT * ")
 				.append("FROM tb_schedule ts ")
 				.append("INNER JOIN tb_product tp ON tp.id = ts.product_id ")
 				.append("INNER JOIN tb_user tu ON tp.owner_id = tu.id ")
 				.append("INNER JOIN tb_product_type tpt ON tp.type_product_id = tpt.id ")
-//				.append("INNER JOIN tb_file tf ON tp.photo_id = tf.id ")
-				.append("WHERE tu.id = :userId AND ts.is_active = true ")
+				.append("INNER JOIN tb_file tf ON tp.photo_id = tf.id ")
+				.append("WHERE tu.id = :userId AND ts.is_active = true AND tpt.product_type_code = :code ")
 				.append("ORDER BY ts.created_at DESC ")
 				.append("OFFSET :start LIMIT :limit ");
 		final List<Schedule> result = ConnHandler.getManager().createNativeQuery(query.toString(), Schedule.class)
-				.setParameter("userId", userId).setParameter("start", start).setParameter("limit", limit).getResultList();
+				.setParameter("userId", userId).setParameter("code", code)
+				.setParameter("start", start).setParameter("limit", limit).getResultList();
 		return result;
 	}
 	

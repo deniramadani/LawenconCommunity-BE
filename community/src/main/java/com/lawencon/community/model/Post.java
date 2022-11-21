@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Post extends BaseEntity {
-	private static final long serialVersionUID = -4604426450351303697L;
+	private static final long serialVersionUID = -3991998266586527586L;
 	@Column(length = 100, nullable = false)
 	private String title;
 	@Column(nullable = false)
@@ -53,5 +53,8 @@ public class Post extends BaseEntity {
 
 	@Transient
 	private List<PostPollingOption> postPollingOption;
+	
+	@Transient
+	private List<File> pfile;
 	
 }
