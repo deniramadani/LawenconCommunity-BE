@@ -493,6 +493,7 @@ CREATE TABLE tb_product(
     price FLOAT NOT NULL,
     owner_id VARCHAR(36) NOT NULL,
     type_product_id VARCHAR(36) NOT NULL,
+    photo_id VARCHAR(36) NOT NULL,
     created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
@@ -516,12 +517,15 @@ ALTER TABLE
 ADD
     CONSTRAINT product_type_product_fk FOREIGN KEY(type_product_id) REFERENCES tb_product_type(id);
 
+ALTER TABLE
+    tb_product
+ADD
+    CONSTRAINT file_product_fk FOREIGN KEY(photo_id) REFERENCES tb_file(id);
+
 CREATE TABLE tb_schedule(
     id VARCHAR(36) NOT NULL,
-    date_start DATE NOT NULL,
-    date_end DATE NOT NULL,
-    time_start TIME WITHOUT TIME ZONE NOT NULL,
-    time_end TIME WITHOUT TIME ZONE NOT NULL,
+    date_time_start TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    date_time_end TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     product_id VARCHAR(36) NOT NULL,
     created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
