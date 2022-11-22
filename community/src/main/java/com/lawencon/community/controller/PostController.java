@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,19 @@ public class PostController {
 	@PostMapping("premium")
 	public ResponseEntity<ResponseDto> insertPremium(@RequestBody Post data) {
 		ResponseDto res = postService.insertPremium(data);
+		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@PutMapping("delete/{id}")
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
+		ResponseDto res = postService.delete(id);
+		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
+	}
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@PutMapping
+	public ResponseEntity<ResponseDto> update(@RequestBody Post data) {
+		ResponseDto res = postService.update(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
