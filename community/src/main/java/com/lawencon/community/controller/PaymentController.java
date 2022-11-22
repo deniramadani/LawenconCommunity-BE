@@ -1,14 +1,18 @@
 package com.lawencon.community.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.constant.ProductTypeConst;
@@ -58,6 +62,21 @@ public class PaymentController {
 	@PutMapping("invalid/{id}")
 	public ResponseEntity<ResponseDto> paymentRejected(@PathVariable("id") final String id) {
 		final ResponseDto result = paymentService.paymentRejected(id);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("{id}")
+	public ResponseEntity<Payment> getById(@PathVariable("id") final String id){
+		final Payment result = paymentService.getById(id);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping
+	public ResponseEntity<List<Payment>> getAll(@RequestParam(required = false) final Integer start,
+			@RequestParam(required = false) final Integer limit){
+		final List<Payment> result = paymentService.getAll(start, limit);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +163,21 @@ public class PaymentService extends BaseCoreService {
 			}			
 		}
 		return response;
+	}
+	
+	public Payment getById(final String id) {
+		final Payment result = paymentDao.getByIdAndDetach(Payment.class, id);
+		final Optional<Payment> optional = Optional.ofNullable(result);
+		if(optional.isPresent()) {
+			final Payment findOne = optional.get();
+			return findOne;			
+		} else {
+			throw new RuntimeException("Payment not found!");	
+		}
+	}
+	
+	public List<Payment> getAll(final Integer start, final Integer limit) {
+		return paymentDao.getAll(Payment.class, start, limit);
 	}
 	
 }
