@@ -56,9 +56,7 @@ public class PostService extends BaseCoreService {
 		if (user.getUserType().getUserTypeCode().equalsIgnoreCase(UserTypeConst.PREMIUM.getUserTypeCodeEnum())) {
 			return insert(data, PostTypeConst.PREMIUM.getPostTypeCodeEnum());
 		} else {
-			System.out.println(principalService.getAuthPrincipal());
-			System.out.println(user.getUserType().getUserTypeCode() + UserTypeConst.PREMIUM.getUserTypeCodeEnum());
-			throw new RuntimeException("Premium access only!");			
+			throw new RuntimeException("Premium access only!");
 		}
 	}
 
@@ -66,9 +64,90 @@ public class PostService extends BaseCoreService {
 		return insert(data, PostTypeConst.POLLING.getPostTypeCodeEnum());
 	}
 
+	private void valInsert(final Post data, final String postTypeCode) {
+		valNotNull(data);
+		valIdNull(data);
+		valFkFound(data, postTypeCode);
+	}
+
+	private void valFkFound(Post data, final String postTypeCode) {
+		final Optional<PostType> postType = postTypeDao.getByCode(postTypeCode);
+		if (postType.isPresent()) {
+			throw new RuntimeException("Post Type Not Found.");
+		}
+
+	}
+
+	private void valIdNull(Post data) {
+		if (data.getId() != null) {
+			throw new RuntimeException("Id is Set. Expected Not Set");
+		}
+
+	}
+
+	private void valIdNotNull(Post data) {
+		if (data.getId() == null) {
+			throw new RuntimeException("Id is Not Set. Expected Not Set");
+		}
+
+	}
+
+	private void valNotNull(Post data) {
+		if (data.getTitle() == null) {
+			throw new RuntimeException("Title is Required");
+		}
+		if (data.getBody() == null) {
+			throw new RuntimeException("Body is Required");
+		}
+
+	}
+
+	private void valUpdate(final Post data) {
+		valIdNotNull(data);
+		
+	}
+
+	
+	public ResponseDto update(final Post data) {
+		final ResponseDto response = new ResponseDto();
+		valUpdate(data);
+		final Post row = postDao.getByIdAndDetach(Post.class, data.getId());
+		try {
+			begin();
+			row.setTitle(data.getTitle());
+			row.setBody(data.getBody());
+			postDao.saveAndFlush(row);
+			commit();
+			response.setMessage(ResponseConst.UPDATED.getResponse());
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			response.setMessage(ResponseConst.FAILED.getResponse());
+		}
+		return response;
+	}
+
+	public ResponseDto delete(final String id) {
+		final ResponseDto response = new ResponseDto();
+		final Post row = postDao.getByIdAndDetach(Post.class, id);
+		try {
+			begin();
+			row.setIsActive(!row.getIsActive());
+			postDao.saveAndFlush(row);
+			commit();
+			response.setMessage(ResponseConst.DELETED.getResponse());
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			response.setMessage(ResponseConst.FAILED.getResponse());
+		}
+		return response;
+	}
+
 	private ResponseDto insert(final Post data, final String postTypeCode) {
 		final ResponseDto response = new ResponseDto();
 		Post row = new Post();
+		valInsert(data, postTypeCode);
 		try {
 			begin();
 			row.setTitle(data.getTitle());
@@ -117,7 +196,7 @@ public class PostService extends BaseCoreService {
 	}
 
 	public List<Post> getAll(final int start, final int limit) {
-		final List<Post> posts = postDao.getAll(Post.class, start, limit);
+		final List<Post> posts = postDao.getAll(start, limit);
 		return posts;
 	}
 
@@ -125,6 +204,7 @@ public class PostService extends BaseCoreService {
 		final List<Post> posts = postDao.getAllByUserLike(start, limit);
 		return posts;
 	}
+
 	public List<Post> getAllByBookmark(final int start, final int limit) {
 		final List<Post> posts = postDao.getAllByUserBookmark(start, limit);
 		return posts;
@@ -134,7 +214,7 @@ public class PostService extends BaseCoreService {
 		final List<Post> posts = postDao.getAll();
 		return posts;
 	}
-	
+
 	public Post getById(String id) {
 		final Post post = postDao.getById(id);
 		return post;
