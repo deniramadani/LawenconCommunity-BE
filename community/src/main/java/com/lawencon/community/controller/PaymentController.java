@@ -72,11 +72,27 @@ public class PaymentController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@GetMapping
-	public ResponseEntity<List<Payment>> getAll(@RequestParam(required = false) final Integer start,
-			@RequestParam(required = false) final Integer limit){
+	public ResponseEntity<List<Payment>> getAll(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
 		final List<Payment> result = paymentService.getAll(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("users")
+	public ResponseEntity<List<Payment>> getAllUserId(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Payment> result = paymentService.getAllUserId(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("owners")
+	public ResponseEntity<List<Payment>> getAllOwnerId(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Payment> result = paymentService.getAllOwnerId(start, limit);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

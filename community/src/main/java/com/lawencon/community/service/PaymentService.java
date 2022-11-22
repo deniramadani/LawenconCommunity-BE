@@ -180,4 +180,14 @@ public class PaymentService extends BaseCoreService {
 		return paymentDao.getAll(Payment.class, start, limit);
 	}
 	
+	public List<Payment> getAllUserId(final Integer start, final Integer limit) {
+		final String userId = principalService.getAuthPrincipal();
+		return paymentDao.getAllUserId(start, limit, userId);
+	}
+	
+	public List<Payment> getAllOwnerId(final Integer start, final Integer limit) {
+		final String ownerId = principalService.getAuthPrincipal();
+		return paymentDao.getAllOwnerId(start, limit, ownerId);
+	}
+	
 }
