@@ -5,7 +5,9 @@ import lombok.Getter;
 @Getter
 public enum ResponseConst {
 	
-	CREATED("Created"), UPDATED("Updated"), DELETED("Deleted"), FAILED("Failed");
+	CREATED("Created"), UPDATED("Updated"), DELETED("Deleted"), FAILED("Failed"),
+	PAYMENT_ACCEPTED("Payment Approved"), PAYMENT_REJECTED("Payment Refused!"),
+	USER_NOT_FOUND("User not Found!");
 	
 	private final String response;
 	

@@ -84,8 +84,16 @@ INSERT INTO tb_position (id, position_name, created_by, created_at) VALUES
 ('f47c140f-d237-4738-8d5c-1044bf7b6624', 'Accounts Payable Accountant', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
 
 INSERT INTO tb_product_type (id, product_type_code, product_type_name, created_by, created_at) VALUES
+('fdd5d17f-4b82-4a27-a75d-26945cdc00f4', 'PRODS', 'Subscribe', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('23ac5402-594f-4983-9abd-da4486a47c7b', 'PRODE', 'Event', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
 ('ce785648-af41-4a94-b24c-27beb9c00c37', 'PRODC', 'Course', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
+
+INSERT INTO tb_file (id, file_encode, file_extensions, created_by, created_at) VALUES
+('9b547f98-fe8f-4386-8248-319ef8d10d41', 'Subscribe', 'pdf', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW());
+
+INSERT INTO tb_product (id, title, content, provider, location, price, owner_id, type_product_id, created_by, created_at, photo_id) VALUES
+('7533ec78-5b46-4457-ba29-10ebc034b646', 'Subscribe', 'Subscribe', 'System', 'System', '200000', '4ba262b9-258b-4ae3-b879-ee286c1db783',
+'fdd5d17f-4b82-4a27-a75d-26945cdc00f4', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW(), '9b547f98-fe8f-4386-8248-319ef8d10d41');
 
 INSERT INTO tb_post_type (id, post_type_code, post_type_name, created_by, created_at) VALUES
 ('f606cb4c-4ccc-4bdf-849d-f032bfb553dd', 'PSTPM', 'Premium', '4ba262b9-258b-4ae3-b879-ee286c1db783', NOW()),
