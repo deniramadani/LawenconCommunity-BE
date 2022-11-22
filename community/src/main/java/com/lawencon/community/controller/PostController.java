@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +49,7 @@ public class PostController {
 		ResponseDto res = postService.insertPolling(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
 	public ResponseEntity<List<Post>> getAll(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
@@ -59,5 +60,25 @@ public class PostController {
 		result = postService.getAll();
 		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
 	}
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("like")
+	public ResponseEntity<List<Post>> getAllByLike(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
+		final List<Post> result = postService.getAllByLike(start, limit);
+		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
+	}
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("bookmark")
+	public ResponseEntity<List<Post>> getAllByBookmark(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
+		final List<Post> result = postService.getAllByBookmark(start, limit);
+		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLMM')")
+	@GetMapping("{id}")
+	public ResponseEntity<Post> getById(@PathVariable("id") String id){
+		final Post result = postService.getById(id);
+		return new ResponseEntity<Post>(result, HttpStatus.OK);
+	}
+	
 	
 }
