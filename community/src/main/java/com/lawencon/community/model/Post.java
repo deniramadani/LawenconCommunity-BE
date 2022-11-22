@@ -50,11 +50,14 @@ public class Post extends BaseEntity {
 
 	@Transient
 	private Integer totalComment;
-
+	
 	@Transient
 	private List<PostPollingOption> postPollingOption;
 	
 	@Transient
 	private List<File> pfile;
+	
+	@Transient
+	private List<Comment> comments;
 	
 }

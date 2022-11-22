@@ -118,14 +118,26 @@ public class PostService extends BaseCoreService {
 
 	public List<Post> getAll(final int start, final int limit) {
 		final List<Post> posts = postDao.getAll(Post.class, start, limit);
+		return posts;
+	}
 
+	public List<Post> getAllByLike(final int start, final int limit) {
+		final List<Post> posts = postDao.getAllByUserLike(start, limit);
+		return posts;
+	}
+	public List<Post> getAllByBookmark(final int start, final int limit) {
+		final List<Post> posts = postDao.getAllByUserBookmark(start, limit);
 		return posts;
 	}
 
 	public List<Post> getAll() {
 		final List<Post> posts = postDao.getAll();
-
 		return posts;
+	}
+	
+	public Post getById(String id) {
+		final Post post = postDao.getById(id);
+		return post;
 	}
 
 }
