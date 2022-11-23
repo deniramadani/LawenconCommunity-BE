@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class User extends BaseEntity{
-	private static final long serialVersionUID = 7955840699259442777L;
+	private static final long serialVersionUID = 1312753424853796535L;
 	@Column(name = "fullname", nullable=false, length=35)
 	private String fullname;
 	@Column(name = "email", nullable=false, length=30)
@@ -60,6 +60,9 @@ public class User extends BaseEntity{
 	@OneToOne
 	@JoinColumn(name = "user_type_id", nullable=false)
 	private UserType userType;
+	@OneToOne
+	@JoinColumn(name="socmed_id")
+	private UserSocmed userSocmed;
 	
 	@PrePersist
 	public void preInsert() {
@@ -68,7 +71,5 @@ public class User extends BaseEntity{
 	
 	@Transient
 	private String oldPassword;
-	
-	@Transient
-	private UserSocmed socmed;
+
 }

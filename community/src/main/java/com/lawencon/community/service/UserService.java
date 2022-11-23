@@ -30,7 +30,6 @@ import com.lawencon.community.model.User;
 import com.lawencon.community.model.UserSocmed;
 import com.lawencon.community.model.UserType;
 import com.lawencon.config.ApiConfiguration;
-import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class UserService extends BaseCoreService implements UserDetailsService {
@@ -51,8 +50,6 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	private FileDao fileDao;
 	@Autowired
 	private UserSocmedDao userSocmedDao;
-	@Autowired
-	private PrincipalService principalService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -193,36 +190,35 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 			}
 			final User user = userDao.saveAndFlush(result);
 			
-			if(data.getSocmed() != null) {
-				final Optional<UserSocmed> socmed = userSocmedDao.getByUserId(principalService.getAuthPrincipal());
-				if (socmed.isPresent()) {
-					final UserSocmed socmedRes = userSocmedDao.getByIdAndDetach(UserSocmed.class, socmed.get().getId());
+			if(data.getUserSocmed() != null) {
+				if (user.getUserSocmed() != null) {
+					final UserSocmed socmedRes = userSocmedDao.getByIdAndDetach(UserSocmed.class, user.getUserSocmed().getId());
 					final Optional<UserSocmed> socmedOpt = Optional.ofNullable(socmedRes);
 					UserSocmed updateSocmed = socmedOpt.get();
-					if(data.getSocmed().getFacebook() != null) {
-						updateSocmed.setFacebook(data.getSocmed().getFacebook());						
+					if(data.getUserSocmed().getFacebook() != null) {
+						updateSocmed.setFacebook(data.getUserSocmed().getFacebook());						
 					}
-					if(data.getSocmed().getInstagram() != null) {
-						updateSocmed.setInstagram(data.getSocmed().getInstagram());						
+					if(data.getUserSocmed().getInstagram() != null) {
+						updateSocmed.setInstagram(data.getUserSocmed().getInstagram());						
 					}
-					if(data.getSocmed().getLinkedin() != null) {
-						updateSocmed.setLinkedin(data.getSocmed().getLinkedin());						
+					if(data.getUserSocmed().getLinkedin() != null) {
+						updateSocmed.setLinkedin(data.getUserSocmed().getLinkedin());						
 					}
-					updateSocmed.setUser(user);
 					userSocmedDao.saveAndFlush(updateSocmed);
 				} else {
-					final UserSocmed insertSocmed = new UserSocmed();
-					if(data.getSocmed().getFacebook() != null) {
-						insertSocmed.setFacebook(data.getSocmed().getFacebook());						
+					UserSocmed insertSocmed = new UserSocmed();
+					if(data.getUserSocmed().getFacebook() != null) {
+						insertSocmed.setFacebook(data.getUserSocmed().getFacebook());						
 					}
-					if(data.getSocmed().getInstagram() != null) {
-						insertSocmed.setInstagram(data.getSocmed().getInstagram());						
+					if(data.getUserSocmed().getInstagram() != null) {
+						insertSocmed.setInstagram(data.getUserSocmed().getInstagram());						
 					}
-					if(data.getSocmed().getLinkedin() != null) {
-						insertSocmed.setLinkedin(data.getSocmed().getLinkedin());						
+					if(data.getUserSocmed().getLinkedin() != null) {
+						insertSocmed.setLinkedin(data.getUserSocmed().getLinkedin());						
 					}
-					insertSocmed.setUser(user);
-					userSocmedDao.save(insertSocmed);
+					insertSocmed = userSocmedDao.save(insertSocmed);
+					user.setUserSocmed(insertSocmed);
+					userDao.saveAndFlush(user);
 				}
 			}
 			

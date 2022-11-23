@@ -2,8 +2,6 @@ package com.lawencon.community.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.lawencon.base.BaseEntity;
@@ -16,7 +14,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserSocmed extends BaseEntity{
-	private static final long serialVersionUID = -7658641151542489617L;
+
+	private static final long serialVersionUID = 8681486594160677008L;
 
 	@Column(name="facebook", nullable=false)
 	private String facebook;
@@ -27,7 +26,4 @@ public class UserSocmed extends BaseEntity{
 	@Column(name="linkedin", nullable=false)
 	private String linkedin;
 	
-	@OneToOne
-	@JoinColumn(name="user_id", nullable=false)
-	private User user;
 }
