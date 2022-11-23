@@ -38,14 +38,14 @@ public class PositionController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLAM')")
+	@PreAuthorize("hasAuthority('ROLSA')")
 	@PostMapping
 	public ResponseEntity<ResponseDto> insert(@RequestBody final Position data){
 		final ResponseDto result = positionService.insert(data);
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLAM')")
+	@PreAuthorize("hasAuthority('ROLSA')")
 	@PutMapping
 	public ResponseEntity<ResponseDto> update(@RequestBody final Position data){
 		final ResponseDto result = positionService.update(data);
@@ -59,7 +59,7 @@ public class PositionController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLAM')")
+	@PreAuthorize("hasAuthority('ROLSA')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
 		final ResponseDto res = positionService.deleteById(id);

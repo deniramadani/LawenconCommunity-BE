@@ -37,14 +37,14 @@ public class IndustryController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLAM')")
+	@PreAuthorize("hasAuthority('ROLSA')")
 	@PostMapping
 	public ResponseEntity<ResponseDto> insert(@RequestBody final Industry data){
 		final ResponseDto result = industryService.insert(data);
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLAM')")
+	@PreAuthorize("hasAuthority('ROLSA')")
 	@PutMapping
 	public ResponseEntity<ResponseDto> update(@RequestBody final Industry data){
 		final ResponseDto result = industryService.update(data);
@@ -58,7 +58,7 @@ public class IndustryController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLAM')")
+	@PreAuthorize("hasAuthority('ROLSA')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
 		final ResponseDto res = industryService.deleteById(id);
