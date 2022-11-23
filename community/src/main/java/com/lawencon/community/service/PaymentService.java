@@ -15,6 +15,7 @@ import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.constant.ResponseConst;
 import com.lawencon.community.dao.FileDao;
 import com.lawencon.community.dao.PaymentDao;
+import com.lawencon.community.dao.ProductDao;
 import com.lawencon.community.dao.UserDao;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.File;
@@ -34,6 +35,8 @@ public class PaymentService extends BaseCoreService {
 	private PrincipalService principalService;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private ProductDao productDao;
 	
 	public String generateTrx(final String code) {
 		final Date date = new Date();
@@ -60,11 +63,21 @@ public class PaymentService extends BaseCoreService {
 		return transactionCode.toString();
 	}
 	
-	public ResponseDto insert(final Payment data, final String code)  {
+	public ResponseDto insert(final Payment data)  {
 		final ResponseDto response = new ResponseDto();
 		try {
 			begin();
 			final Payment insertOne = new Payment();
+
+				String code = null;
+				final Product productId = productDao.getByIdAndDetach(Product.class, data.getProduct().getId());
+				final Optional<Product> productOpt = Optional.ofNullable(productId);
+				if(productOpt.isPresent()) {
+					code = productOpt.get().getProductType().getProductTypeCode();
+				} else {
+					throw new RuntimeException("Failed to generate Trx Code!");
+				}
+			
 			final String trxCode = generateTrx(code);
 			insertOne.setTransactionCode(trxCode);
 			insertOne.setApproval(false);

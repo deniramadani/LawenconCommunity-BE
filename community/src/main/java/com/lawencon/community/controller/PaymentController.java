@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.Payment;
 import com.lawencon.community.service.PaymentService;
@@ -31,23 +30,9 @@ public class PaymentController {
 	private PaymentService paymentService;
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@PostMapping("events")
-	public ResponseEntity<ResponseDto> eventPayment(@RequestBody final Payment data){
-		final ResponseDto result = paymentService.insert(data, ProductTypeConst.EVENT.getProductTypeCodeEnum());
-		return new ResponseEntity<>(result, HttpStatus.CREATED);
-	}
-	
-	@PreAuthorize("hasAuthority('ROLMM')")
-	@PostMapping("courses")
-	public ResponseEntity<ResponseDto> coursePayment(@RequestBody final Payment data){
-		final ResponseDto result = paymentService.insert(data, ProductTypeConst.COURSE.getProductTypeCodeEnum());
-		return new ResponseEntity<>(result, HttpStatus.CREATED);
-	}
-	
-	@PreAuthorize("hasAuthority('ROLMM')")
-	@PostMapping("subscriptions")
-	public ResponseEntity<ResponseDto> subscribePayment(@RequestBody final Payment data){
-		final ResponseDto result = paymentService.insert(data, ProductTypeConst.SUBSCRIBE.getProductTypeCodeEnum());
+	@PostMapping
+	public ResponseEntity<ResponseDto> payment(@RequestBody final Payment data){
+		final ResponseDto result = paymentService.insert(data);
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 	
