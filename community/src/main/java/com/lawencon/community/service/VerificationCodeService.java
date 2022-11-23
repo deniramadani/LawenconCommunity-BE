@@ -24,16 +24,17 @@ public class VerificationCodeService extends BaseCoreService {
 	public ResponseDto generateVerificationCode(String email) {
 		final Map<String, Object> template = new HashMap<>();
 		final String code = GenerateCodeUtil.generateCode();
+		final ResponseDto responseDto = new ResponseDto();
 		template.put("email", email);
 		template.put("code", code);
 		final String subject = "Verification Code for Activating Account";
 		try {
 			mailUtil.sendMessageFreeMarker(email, subject, template, "verification-code-template.ftl");
 		} catch (Exception e) {
+			responseDto.setMessage("Verification Code Failed to Send.");
 			e.printStackTrace();
 		}
 		verificationCodeUtil.addVerificationCode(email, code);
-		ResponseDto responseDto = new ResponseDto();
 		responseDto.setMessage("Verification Code Sent to your email. Please Check your Email.");
 		return responseDto;
 	}

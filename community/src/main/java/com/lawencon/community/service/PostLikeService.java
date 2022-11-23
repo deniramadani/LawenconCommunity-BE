@@ -93,12 +93,12 @@ public class PostLikeService extends BaseCoreService {
 			if (postLike == null) {
 				throw new RuntimeException("You are not liked this Post yet");
 			}
-
 			postLikeDao.deleteById(PostLike.class, id);
 			responseDto.setMessage("You Success Canceling like This Post");
 			commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			responseDto.setMessage(e.getMessage());
 			rollback();
 		}
 		return responseDto;

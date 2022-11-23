@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lawencon.community.dto.dashboard.DashboardDto;
+import com.lawencon.community.dto.dashboard.DashboardAdminDto;
 import com.lawencon.community.service.DashboardService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,8 +23,8 @@ public class DashboardController {
 	private DashboardService dashboardService;
 
 	@GetMapping
-	public ResponseEntity<DashboardDto> getByAll() {
-		final DashboardDto result = dashboardService.getAll();
+	public ResponseEntity<DashboardAdminDto> getByAll() {
+		final DashboardAdminDto result = dashboardService.getAll();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }
