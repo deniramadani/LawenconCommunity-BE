@@ -25,12 +25,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("positions")
-@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 public class PositionController {
 
 	@Autowired
 	private PositionService positionService;
-
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
 	public ResponseEntity<List<Position>> getByAll(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit) {
@@ -38,24 +38,28 @@ public class PositionController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@PostMapping
 	public ResponseEntity<ResponseDto> insert(@RequestBody final Position data){
 		final ResponseDto result = positionService.insert(data);
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@PutMapping
 	public ResponseEntity<ResponseDto> update(@RequestBody final Position data){
 		final ResponseDto result = positionService.update(data);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("{id}")
 	public ResponseEntity<Position> getById(@PathVariable("id") final String id){
 		final Position result = positionService.getById(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
 		final ResponseDto res = positionService.deleteById(id);

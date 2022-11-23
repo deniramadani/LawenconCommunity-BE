@@ -17,9 +17,52 @@ public class PositionService extends BaseCoreService{
 	@Autowired
 	private PositionDao positionDao;
 	
+	private void valInsert(final Position data){
+		valNotNull(data);
+		valIdNull(data);
+	}
+	
+	private void valNotNull(final Position data) {
+		if (data.getPositionName() == null) {
+			throw new RuntimeException("Position Name is Required!");
+		}
+	}
+
+	private void valIdNull(final Position data) {
+		if (data.getId() != null) { 
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
+	}
+	
+	private void valUpdate(final Position data) {
+		valIdNotNull(data);
+		valIdExist(data);
+		valNotBK(data);
+	}
+	
+	private void valIdNotNull(final Position data) {
+		if (data.getId() == null) {
+			throw new RuntimeException("Primary Key Id is required!");
+		}
+	}
+
+	private void valIdExist(final Position data) {
+		final Position result = positionDao.getByIdAndDetach(Position.class, data.getId());
+		final Optional<Position> optional = Optional.ofNullable(result);
+		if (optional.isEmpty()) {
+			throw new RuntimeException("Primay Key Id Is Not Exist!");
+		}
+	}
+	
+	private void valNotBK(final Position data) {
+		if (data.getPositionName() == null) {
+			throw new RuntimeException("Position Name is Required!");
+		}
+	}
+	
 	public ResponseDto insert(final Position data)  {
 		final ResponseDto response = new ResponseDto();
-//		valInsert(data);
+		valInsert(data);
 		try {
 			begin();
 			final Position insertOne = new Position();
@@ -42,7 +85,7 @@ public class PositionService extends BaseCoreService{
 		final Optional<Position> optional = Optional.ofNullable(result);
 		if(optional.isPresent()) {
 			Position updateOne = optional.get();
-//			valUpdate(data);
+			valUpdate(data);
 			try {
 				begin();
 				updateOne.setPositionName(data.getPositionName());

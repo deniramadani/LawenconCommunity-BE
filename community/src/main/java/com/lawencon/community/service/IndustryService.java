@@ -16,9 +16,52 @@ public class IndustryService extends BaseCoreService {
 	@Autowired
 	private IndustryDao industryDao;
 	
+	private void valInsert(final Industry data){
+		valNotNull(data);
+		valIdNull(data);
+	}
+	
+	private void valNotNull(final Industry data) {
+		if (data.getIndustryName() == null) {
+			throw new RuntimeException("Industry Name is Required!");
+		}
+	}
+
+	private void valIdNull(final Industry data) {
+		if (data.getId() != null) { 
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
+	}
+	
+	private void valUpdate(final Industry data) {
+		valIdNotNull(data);
+		valIdExist(data);
+		valNotBK(data);
+	}
+	
+	private void valIdNotNull(final Industry data) {
+		if (data.getId() == null) {
+			throw new RuntimeException("Primary Key Id is required!");
+		}
+	}
+
+	private void valIdExist(final Industry data) {
+		final Industry result = industryDao.getByIdAndDetach(Industry.class, data.getId());
+		final Optional<Industry> optional = Optional.ofNullable(result);
+		if (optional.isEmpty()) {
+			throw new RuntimeException("Primay Key Id Is Not Exist!");
+		}
+	}
+	
+	private void valNotBK(final Industry data) {
+		if (data.getIndustryName() == null) {
+			throw new RuntimeException("Industry Name is Required!");
+		}
+	}
+	
 	public ResponseDto insert(final Industry data)  {
 		final ResponseDto response = new ResponseDto();
-//		valInsert(data);
+		valInsert(data);
 		try {
 			begin();
 			final Industry insertOne = new Industry();
@@ -41,7 +84,7 @@ public class IndustryService extends BaseCoreService {
 		final Optional<Industry> optional = Optional.ofNullable(result);
 		if(optional.isPresent()) {
 			Industry updateOne = optional.get();
-//			valUpdate(data);
+			valUpdate(data);
 			try {
 				begin();
 				updateOne.setIndustryName(data.getIndustryName());

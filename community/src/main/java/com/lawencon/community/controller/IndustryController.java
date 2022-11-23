@@ -25,11 +25,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("industries")
-@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 public class IndustryController {
 	@Autowired
 	private IndustryService industryService;
 
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
 	public ResponseEntity<List<Industry>> getByAll(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit) {
@@ -37,24 +37,28 @@ public class IndustryController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@PostMapping
 	public ResponseEntity<ResponseDto> insert(@RequestBody final Industry data){
 		final ResponseDto result = industryService.insert(data);
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@PutMapping
 	public ResponseEntity<ResponseDto> update(@RequestBody final Industry data){
 		final ResponseDto result = industryService.update(data);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("{id}")
 	public ResponseEntity<Industry> getById(@PathVariable("id") final String id){
 		final Industry result = industryService.getById(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
 		final ResponseDto res = industryService.deleteById(id);
