@@ -47,7 +47,7 @@ public class CommentService extends BaseCoreService {
 			
 			final Post post = postDao.getById(Post.class, data.getPost().getId());
 			comment.setPost(post);
-			if(!(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum()) && UserTypeConst.PREMIUM.getUserTypeCodeEnum().equalsIgnoreCase(user.getUserType().getUserTypeCode()))){
+			if(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum()) && !UserTypeConst.PREMIUM.getUserTypeCodeEnum().equalsIgnoreCase(user.getUserType().getUserTypeCode())){
 				throw new RuntimeException("Premium Access Only!");
 			}
 			commentDao.save(comment);
@@ -55,7 +55,6 @@ public class CommentService extends BaseCoreService {
 			commit();			
 		} catch (Exception e) {
 			e.printStackTrace();
-			responseDto.setMessage("Your Comment Failed to Publish");
 			rollback();
 		}
 		return responseDto;
