@@ -19,6 +19,7 @@ import com.lawencon.community.dao.IndustryDao;
 import com.lawencon.community.dao.PositionDao;
 import com.lawencon.community.dao.RoleDao;
 import com.lawencon.community.dao.UserDao;
+import com.lawencon.community.dao.UserSocmedDao;
 import com.lawencon.community.dao.UserTypeDao;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.File;
@@ -26,8 +27,10 @@ import com.lawencon.community.model.Industry;
 import com.lawencon.community.model.Position;
 import com.lawencon.community.model.Role;
 import com.lawencon.community.model.User;
+import com.lawencon.community.model.UserSocmed;
 import com.lawencon.community.model.UserType;
 import com.lawencon.config.ApiConfiguration;
+import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class UserService extends BaseCoreService implements UserDetailsService {
@@ -46,6 +49,10 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	private PositionDao positionDao;
 	@Autowired
 	private FileDao fileDao;
+	@Autowired
+	private UserSocmedDao userSocmedDao;
+	@Autowired
+	private PrincipalService principalService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -184,7 +191,41 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 			if(data.getDateOfBirth() != null) {
 				result.setDateOfBirth(data.getDateOfBirth());
 			}
-			userDao.saveAndFlush(result);
+			final User user = userDao.saveAndFlush(result);
+			
+			if(data.getSocmed() != null) {
+				final Optional<UserSocmed> socmed = userSocmedDao.getByUserId(principalService.getAuthPrincipal());
+				if (socmed.isPresent()) {
+					final UserSocmed socmedRes = userSocmedDao.getByIdAndDetach(UserSocmed.class, socmed.get().getId());
+					final Optional<UserSocmed> socmedOpt = Optional.ofNullable(socmedRes);
+					UserSocmed updateSocmed = socmedOpt.get();
+					if(data.getSocmed().getFacebook() != null) {
+						updateSocmed.setFacebook(data.getSocmed().getFacebook());						
+					}
+					if(data.getSocmed().getInstagram() != null) {
+						updateSocmed.setInstagram(data.getSocmed().getInstagram());						
+					}
+					if(data.getSocmed().getLinkedin() != null) {
+						updateSocmed.setLinkedin(data.getSocmed().getLinkedin());						
+					}
+					updateSocmed.setUser(user);
+					userSocmedDao.saveAndFlush(updateSocmed);
+				} else {
+					final UserSocmed insertSocmed = new UserSocmed();
+					if(data.getSocmed().getFacebook() != null) {
+						insertSocmed.setFacebook(data.getSocmed().getFacebook());						
+					}
+					if(data.getSocmed().getInstagram() != null) {
+						insertSocmed.setInstagram(data.getSocmed().getInstagram());						
+					}
+					if(data.getSocmed().getLinkedin() != null) {
+						insertSocmed.setLinkedin(data.getSocmed().getLinkedin());						
+					}
+					insertSocmed.setUser(user);
+					userSocmedDao.save(insertSocmed);
+				}
+			}
+			
 			commit();
 			responseDto.setMessage(ResponseConst.UPDATED.getResponse());
 		} catch (Exception e) {

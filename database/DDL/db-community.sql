@@ -69,21 +69,21 @@ ALTER TABLE
 ADD
     CONSTRAINT file_pk primary key (id);
 
-CREATE TABLE tb_social_media(
-    id varchar(36) not null,
-    social_media_name varchar(30) not null,
-    created_by varchar(36) not null,
-    created_at timestamp without time zone not null,
-    updated_by varchar(36),
-    updated_at timestamp without time zone,
-    versions int not null default 0,
-    is_active boolean not null default true
-);
-
-ALTER TABLE
-    tb_social_media
-ADD
-    CONSTRAINT socmed_pk primary key (id);
+--CREATE TABLE tb_social_media(
+--    id varchar(36) not null,
+--    social_media_name varchar(30) not null,
+--    created_by varchar(36) not null,
+--    created_at timestamp without time zone not null,
+--    updated_by varchar(36),
+--    updated_at timestamp without time zone,
+--    versions int not null default 0,
+--    is_active boolean not null default true
+--);
+--
+--ALTER TABLE
+--    tb_social_media
+--ADD
+--    CONSTRAINT socmed_pk primary key (id);
 
 CREATE TABLE tb_user_type(
     id varchar(36) not null,
@@ -167,8 +167,10 @@ ADD
 
 CREATE TABLE tb_user_socmed(
     id varchar(36) NOT NULL,
+    facebook TEXT,
+    instagram TEXT,
+    linkedin TEXT,
     user_id varchar(36) NOT NULL,
-    socmed_id varchar(36) NOT NULL,
     created_by VARCHAR(36) NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     updated_by VARCHAR(36),
@@ -187,10 +189,10 @@ ALTER TABLE
 ADD
     CONSTRAINT tb_user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
 
-ALTER TABLE
-    tb_user_socmed
-ADD
-    CONSTRAINT tb_socmed_fk FOREIGN KEY(socmed_id) REFERENCES tb_social_media(id);
+--ALTER TABLE
+--    tb_user_socmed
+--ADD
+--    CONSTRAINT tb_socmed_fk FOREIGN KEY(socmed_id) REFERENCES tb_social_media(id);
 
 CREATE TABLE tb_post_type(
     id varchar(36) NOT NULL,

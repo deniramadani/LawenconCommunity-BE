@@ -1,6 +1,7 @@
 package com.lawencon.community.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -58,6 +59,30 @@ public class PaymentDao extends AbstractJpaDao{
 		final List<Payment> result = ConnHandler.getManager().createNativeQuery(query.toString(), Payment.class)
 				.setParameter("ownerId", ownerId).setParameter("start", start).setParameter("limit", limit).getResultList();
 		return result;
+	}
+	
+	public Optional<Payment> getByTransactionCode(final String code) {
+		final StringBuilder query = new StringBuilder()
+			.append("SELECT id, transaction_code, approval, versions, is_active ")
+			.append("FROM tb_payment tb ")
+			.append("WHERE transaction_code = :code ");
+		Payment row = null;
+		try {
+			final Object objCol = createNativeQuery(query.toString()).setParameter("code", code).getSingleResult();
+			if (objCol != null) {
+				Object[] objArr = (Object[]) objCol;
+				row = new Payment();
+				row.setId(objArr[0].toString());
+				row.setTransactionCode(objArr[1].toString());
+				row.setApproval(Boolean.valueOf(objArr[2].toString()));
+				row.setVersion(Integer.valueOf(objArr[3].toString()));
+				row.setIsActive(Boolean.valueOf(objArr[4].toString()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		final Optional<Payment> optional = Optional.ofNullable(row);
+		return optional;
 	}
 	
 }
