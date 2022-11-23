@@ -11,7 +11,9 @@ import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.constant.ResponseConst;
 import com.lawencon.community.dao.FileDao;
 import com.lawencon.community.dao.ProductDao;
+import com.lawencon.community.dao.ProductTypeDao;
 import com.lawencon.community.dao.ScheduleDao;
+import com.lawencon.community.dao.UserDao;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.File;
 import com.lawencon.community.model.Product;
@@ -31,10 +33,137 @@ public class ProductService extends BaseCoreService {
 	private FileDao fileDao;
 	@Autowired
 	private PrincipalService principalService;
+	@Autowired
+	private ProductTypeDao productTypeDao;
+	@Autowired
+	private UserDao userDao;
+	
+	private void valUpdate(final Schedule data) {
+		valIdNotNull(data);
+		valIdExist(data);
+		valNotBK(data);
+	}
+	
+	private void valIdNotNull(final Schedule data) {
+		if (data.getId() == null) {
+			throw new RuntimeException("Primary Key Id is required!");
+		}
+		if (data.getProduct() == null) {
+			throw new RuntimeException("Product Object is required!");
+		}
+		if (data.getProduct().getId() == null) {
+			throw new RuntimeException("Primary Key Id Product is required!");
+		}
+	}
+	
+	private void valIdExist(final Schedule data) {
+		final Schedule schedule = scheduleDao.getByIdAndDetach(Schedule.class, data.getId());
+		final Optional<Schedule> optional = Optional.ofNullable(schedule);
+		if (optional.isEmpty()) {
+			throw new RuntimeException("Primay Key Id Is Not Exist!");
+		}
+	}
+	
+	private void valNotBK(final Schedule data) {
+		final User owner = userDao.getByIdAndDetach(User.class, data.getProduct().getOwnerId().getId());
+		final Optional<User> ownerOptional = Optional.ofNullable(owner);
+		if (!ownerOptional.isPresent()) {
+			throw new RuntimeException("Owner Not Found.");
+		}
+		final ProductType productType = productTypeDao.getByIdAndDetach(ProductType.class, data.getProduct().getProductType().getId());
+		final Optional<ProductType> productTypeOptional = Optional.ofNullable(productType);
+		if (!productTypeOptional.isPresent()) {
+			throw new RuntimeException("Product Type Not Found.");
+		}
+		if(data.getDateTimeStart() == null) {
+			throw new RuntimeException("Date Time Start Required!");
+		}
+		if(data.getDateTimeEnd() == null) {
+			throw new RuntimeException("Date Time End Required!");
+		}
+		if(data.getProduct() == null) {
+			throw new RuntimeException("Product Object is Required!");
+		}
+		if(data.getProduct().getTitle() == null) {
+			throw new RuntimeException("Product Title is Required!");
+		}
+		if(data.getProduct().getContent() == null) {
+			throw new RuntimeException("Product Content is Required!");
+		}
+		if(data.getProduct().getProvider() == null) {
+			throw new RuntimeException("Product Provider is Required!");
+		}
+		if(data.getProduct().getLocation() == null) {
+			throw new RuntimeException("Product Location is Required!");
+		}
+		if(data.getProduct().getPrice() == null) {
+			throw new RuntimeException("Product Price is Required!");
+		}
+	}
+	
+	private void valInsert(final Schedule data) {
+		valNotNull(data);
+		valIdNull(data);
+		valFkFound(data);
+	}
+	
+	private void valFkFound (final Schedule data) {
+		final ProductType productType = productTypeDao.getByIdAndDetach(ProductType.class, data.getProduct().getProductType().getId());
+		final Optional<ProductType> productTypeOptional = Optional.ofNullable(productType);
+		if (!productTypeOptional.isPresent()) {
+			throw new RuntimeException("Product Type Not Found.");
+		}
+	}
+	
+	private void valIdNull(final Schedule data) {
+		if(data.getId() != null) { 
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
+		if(data.getProduct().getId() != null) {
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
+	}
+	
+	private void valNotNull(final Schedule data) {
+		if(data.getDateTimeStart() == null) {
+			throw new RuntimeException("Date Time Start Required!");
+		}
+		if(data.getDateTimeEnd() == null) {
+			throw new RuntimeException("Date Time End Required!");
+		}
+		if(data.getProduct() == null) {
+			throw new RuntimeException("Product Object is Required!");
+		}
+		if(data.getProduct().getTitle() == null) {
+			throw new RuntimeException("Product Title is Required!");
+		}
+		if(data.getProduct().getContent() == null) {
+			throw new RuntimeException("Product Content is Required!");
+		}
+		if(data.getProduct().getProvider() == null) {
+			throw new RuntimeException("Product Provider is Required!");
+		}
+		if(data.getProduct().getLocation() == null) {
+			throw new RuntimeException("Product Location is Required!");
+		}
+		if(data.getProduct().getPrice() == null) {
+			throw new RuntimeException("Product Price is Required!");
+		}
+		if(data.getProduct().getPhoto() == null) {
+			throw new RuntimeException("File Object is Required!");
+		}
+		if(data.getProduct().getPhoto().getFileEncode() == null) {
+			throw new RuntimeException("File Encode is Required!");
+		}
+		if(data.getProduct().getPhoto().getFileExtensions() == null) {
+			throw new RuntimeException("File Extentions is Required!");
+		}
+	}
 	
 	public ResponseDto insert(final Schedule data)  {
 		final ResponseDto response = new ResponseDto();
 		Schedule insertOne = new Schedule();
+		valInsert(data);
 		try {
 			begin();
 			insertOne.setDateTimeStart(data.getDateTimeStart());
@@ -46,7 +175,7 @@ public class ProductService extends BaseCoreService {
 			product.setLocation(data.getProduct().getLocation());
 			product.setPrice(data.getProduct().getPrice());
 			final User owner = new User();
-			owner.setId(data.getProduct().getOwnerId().getId());
+			owner.setId(principalService.getAuthPrincipal());
 			product.setOwnerId(owner);
 			final ProductType productType = new ProductType();
 			productType.setId(data.getProduct().getProductType().getId());
@@ -63,6 +192,7 @@ public class ProductService extends BaseCoreService {
 			commit();
 			response.setMessage(ResponseConst.CREATED.getResponse());
 		} catch (Exception e) {
+			response.setMessage(e.getMessage());
 			e.printStackTrace();
 			rollback();
 			response.setMessage(ResponseConst.FAILED.getResponse());
@@ -76,6 +206,7 @@ public class ProductService extends BaseCoreService {
 		final Optional<Schedule> optional = Optional.ofNullable(result);
 		if(optional.isPresent()) {
 			Schedule updateOne = optional.get();
+			valUpdate(data);
 			try {
 				begin();
 				updateOne.setDateTimeStart(data.getDateTimeStart());
@@ -104,6 +235,7 @@ public class ProductService extends BaseCoreService {
 				commit();
 				response.setMessage(ResponseConst.UPDATED.getResponse());
 			} catch (Exception e) {
+				response.setMessage(e.getMessage());
 				e.printStackTrace();
 				rollback();
 				response.setMessage(ResponseConst.FAILED.getResponse());
@@ -155,6 +287,7 @@ public class ProductService extends BaseCoreService {
 				commit();
 				response.setMessage(ResponseConst.DELETED.getResponse());
 			} catch (Exception e) {
+				response.setMessage(e.getMessage());
 				e.printStackTrace();
 				rollback();
 				response.setMessage(ResponseConst.FAILED.getResponse());

@@ -22,12 +22,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("comments")
-@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 public class CommentController {
 
 	@Autowired
 	private CommentService commentService;
 
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("/post/{id}")
 	public ResponseEntity<List<Comment>> getByAll(@PathVariable String id) {
 		final List<Comment> result = commentService.getAllByPost(id);

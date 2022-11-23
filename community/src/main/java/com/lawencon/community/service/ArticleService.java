@@ -25,8 +25,61 @@ public class ArticleService extends BaseCoreService {
 	@Autowired
 	private PrincipalService principalService;
 	
+	private void valInsert(final Article data){
+		valNotNull(data);
+		valIdNull(data);
+	}
+	
+	private void valNotNull(final Article data) {
+		if (data.getTitle() == null) {
+			throw new RuntimeException("Title is required!");
+		}
+		if (data.getContent() == null) {
+			throw new RuntimeException("Content is required!");
+		}
+		if (data.getFile() == null) {
+			throw new RuntimeException("File is required");
+		}
+	}
+	
+	private void valIdNull(final Article data) {
+		if (data.getId() != null) { 
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
+	}
+	
+	private void valUpdate(final Article data) {
+		valIdNotNull(data);
+		valIdExist(data);
+		valNotBK(data);
+	}
+	
+	private void valIdNotNull(final Article data) {
+		if (data.getId() == null) {
+			throw new RuntimeException("Primary Key Id is required!");
+		}
+	}
+	
+	private void valIdExist(final Article data) {
+		final Article result = articleDao.getByIdAndDetach(Article.class, data.getId());
+		final Optional<Article> optional = Optional.ofNullable(result);
+		if (optional.isEmpty()) {
+			throw new RuntimeException("Primay Key Id Is Not Exist!");
+		}
+	}
+	
+	private void valNotBK(final Article data) {
+		if (data.getTitle() == null) {
+			throw new RuntimeException("Title is required!");
+		}
+		if (data.getContent() == null) {
+			throw new RuntimeException("Content is required!");
+		}
+	}
+	
 	public ResponseDto insert(final Article data)  {
 		final ResponseDto response = new ResponseDto();
+		valInsert(data);
 		try {
 			begin();
 			final Article insertOne = new Article();
@@ -43,6 +96,7 @@ public class ArticleService extends BaseCoreService {
 			commit();
 			response.setMessage(ResponseConst.CREATED.getResponse());
 		} catch (Exception e) {
+			response.setMessage(e.getMessage());
 			e.printStackTrace();
 			rollback();
 			response.setMessage(ResponseConst.FAILED.getResponse());
@@ -56,6 +110,7 @@ public class ArticleService extends BaseCoreService {
 		final Optional<Article> optional = Optional.ofNullable(result);
 		if(optional.isPresent()) {
 			Article updateOne = optional.get();
+			valUpdate(data);
 			try {
 				begin();
 				updateOne.setTitle(data.getTitle());
@@ -72,6 +127,7 @@ public class ArticleService extends BaseCoreService {
 				commit();
 				response.setMessage(ResponseConst.UPDATED.getResponse());
 			} catch (Exception e) {
+				response.setMessage(e.getMessage());
 				e.printStackTrace();
 				rollback();
 				response.setMessage(ResponseConst.FAILED.getResponse());
@@ -112,6 +168,7 @@ public class ArticleService extends BaseCoreService {
 				commit();
 				response.setMessage(ResponseConst.DELETED.getResponse());
 			} catch (Exception e) {
+				response.setMessage(e.getMessage());
 				e.printStackTrace();
 				rollback();
 				response.setMessage(ResponseConst.FAILED.getResponse());
