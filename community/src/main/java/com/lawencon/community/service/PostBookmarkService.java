@@ -65,7 +65,7 @@ public class PostBookmarkService extends BaseCoreService {
 			commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			responseDto.setMessage("Your Action For Cancel Bookmark is Failed");
+			responseDto.setMessage(e.getMessage());
 			rollback();
 		}
 		return responseDto;

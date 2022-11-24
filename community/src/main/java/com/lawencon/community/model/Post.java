@@ -43,10 +43,13 @@ public class Post extends BaseEntity {
 	private Integer totalLike;
 
 	@Transient
-	private String like_id;
+	private String likeId;
 
 	@Transient
-	private String bookmark_id;
+	private String bookmarkId;
+
+	@Transient
+	private String optionId;
 
 	@Transient
 	private Integer totalComment;

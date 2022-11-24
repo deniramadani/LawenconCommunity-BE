@@ -55,6 +55,7 @@ public class CommentService extends BaseCoreService {
 			commit();			
 		} catch (Exception e) {
 			e.printStackTrace();
+			responseDto.setMessage(e.getMessage());
 			rollback();
 		}
 		return responseDto;

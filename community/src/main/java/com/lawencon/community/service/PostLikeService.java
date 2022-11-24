@@ -70,9 +70,9 @@ public class PostLikeService extends BaseCoreService {
 
 			final Post post = postDao.getById(Post.class, data.getPost().getId());
 			postLike.setPost(post);
-			if (!(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum())
-					&& UserTypeConst.PREMIUM.getUserTypeCodeEnum()
-							.equalsIgnoreCase(user.getUserType().getUserTypeCode()))) {
+			if (post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum())
+					&& !UserTypeConst.PREMIUM.getUserTypeCodeEnum()
+							.equalsIgnoreCase(user.getUserType().getUserTypeCode())) {
 				throw new RuntimeException("Premium Access Only!");
 			}
 			postLikeDao.save(postLike);
@@ -93,12 +93,12 @@ public class PostLikeService extends BaseCoreService {
 			if (postLike == null) {
 				throw new RuntimeException("You are not liked this Post yet");
 			}
-
 			postLikeDao.deleteById(PostLike.class, id);
 			responseDto.setMessage("You Success Canceling like This Post");
 			commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			responseDto.setMessage(e.getMessage());
 			rollback();
 		}
 		return responseDto;
