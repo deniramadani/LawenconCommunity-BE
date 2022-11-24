@@ -53,7 +53,7 @@ public class PostDao extends AbstractJpaDao {
 				.append("(SELECT COUNT(tpl.id) FROM tb_comment tpl WHERE tpl.post_id = tp.id AND is_active = true) AS total_comment, ")
 				.append("(SELECT tpl2.id FROM tb_post_like tpl2 WHERE tpl2.post_id =tp.id AND tpl2.user_id = :user_id AND is_active = true) AS like_id, ")
 				.append("(SELECT tpb.id FROM tb_post_bookmark tpb WHERE tpb.post_id =tp.id AND tpb.user_id = :user_id AND is_active = true) AS bookmark_id ")
-				.append("FROM tb_post tp WHERE is_active = true");
+				.append("FROM tb_post tp WHERE is_active = true ORDER BY tp.created_at DESC");
 
 		@SuppressWarnings("unchecked")
 		final List<Object[]> rows = ConnHandler.getManager().createNativeQuery(query.toString())
@@ -69,7 +69,7 @@ public class PostDao extends AbstractJpaDao {
 				.append("(SELECT COUNT(tpl.id) FROM tb_comment tpl WHERE tpl.post_id = tp.id AND is_active = true) AS total_comment, ")
 				.append("(SELECT tpl2.id FROM tb_post_like tpl2 WHERE tpl2.post_id =tp.id AND tpl2.user_id = :user_id AND is_active = true) AS like_id, ")
 				.append("(SELECT tpb.id FROM tb_post_bookmark tpb WHERE tpb.post_id =tp.id AND tpb.user_id = :user_id AND is_active = true) AS bookmark_id ")
-				.append("FROM tb_post tp WHERE tp.is_active = true LIMIT :limit OFFSET :start");
+				.append("FROM tb_post tp WHERE tp.is_active = true ORDER BY tp.created_at DESC LIMIT :limit OFFSET :start");
 
 		@SuppressWarnings("unchecked")
 		final List<Object[]> rows = ConnHandler.getManager().createNativeQuery(query.toString())
@@ -85,7 +85,7 @@ public class PostDao extends AbstractJpaDao {
 				.append("(SELECT COUNT(tpl.id) FROM tb_comment tpl WHERE tpl.post_id = tp.id AND is_active = true) AS total_comment, ")
 				.append("(SELECT tpl2.id FROM tb_post_like tpl2 WHERE tpl2.post_id =tp.id AND tpl2.user_id = :user_id AND is_active = true) AS like_id, ")
 				.append("(SELECT tpb.id FROM tb_post_bookmark tpb WHERE tpb.post_id =tp.id AND tpb.user_id = :user_id AND is_active = true) AS bookmark_id ")
-				.append("FROM tb_post tp WHERE tp.id IN (SELECT tpl3.post_id FROM tb_post_like tpl3 WHERE tpl3.user_id = :user_id AND tpl3.is_active = true) AND is_active = true LIMIT :limit OFFSET :start");
+				.append("FROM tb_post tp WHERE tp.id IN (SELECT tpl3.post_id FROM tb_post_like tpl3 WHERE tpl3.user_id = :user_id AND tpl3.is_active = true) AND is_active = true ORDER BY tp.created_at ASC LIMIT :limit OFFSET :start");
 		
 		@SuppressWarnings("unchecked")
 		final List<Object[]> rows = ConnHandler.getManager().createNativeQuery(query.toString())
@@ -101,7 +101,7 @@ public class PostDao extends AbstractJpaDao {
 				.append("(SELECT COUNT(tpl.id) FROM tb_comment tpl WHERE tpl.post_id = tp.id AND is_active = true) AS total_comment, ")
 				.append("(SELECT tpl2.id FROM tb_post_like tpl2 WHERE tpl2.post_id =tp.id AND tpl2.user_id = :user_id AND is_active = true) AS like_id, ")
 				.append("(SELECT tpb.id FROM tb_post_bookmark tpb WHERE tpb.post_id =tp.id AND tpb.user_id = :user_id AND is_active = true) AS bookmark_id ")
-				.append("FROM tb_post tp WHERE tp.id IN (SELECT tpb2.post_id FROM tb_post_bookmark tpb2  WHERE tpb2.user_id = :user_id AND tpb2.is_active = true) AND is_active = true LIMIT :limit OFFSET :start");
+				.append("FROM tb_post tp WHERE tp.id IN (SELECT tpb2.post_id FROM tb_post_bookmark tpb2  WHERE tpb2.user_id = :user_id AND tpb2.is_active = true) AND is_active = true ORDER BY tp.created_at DESC LIMIT :limit OFFSET :start");
 		
 		@SuppressWarnings("unchecked")
 		final List<Object[]> rows = ConnHandler.getManager().createNativeQuery(query.toString())
