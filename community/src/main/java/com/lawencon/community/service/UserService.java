@@ -30,7 +30,6 @@ import com.lawencon.community.model.User;
 import com.lawencon.community.model.UserSocmed;
 import com.lawencon.community.model.UserType;
 import com.lawencon.config.ApiConfiguration;
-import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class UserService extends BaseCoreService implements UserDetailsService {
@@ -51,8 +50,6 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	private FileDao fileDao;
 	@Autowired
 	private UserSocmedDao userSocmedDao;
-	@Autowired
-	private PrincipalService principalService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -193,36 +190,35 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 			}
 			final User user = userDao.saveAndFlush(result);
 			
-			if(data.getSocmed() != null) {
-				final Optional<UserSocmed> socmed = userSocmedDao.getByUserId(principalService.getAuthPrincipal());
-				if (socmed.isPresent()) {
-					final UserSocmed socmedRes = userSocmedDao.getByIdAndDetach(UserSocmed.class, socmed.get().getId());
+			if(data.getUserSocmed() != null) {
+				if (user.getUserSocmed() != null) {
+					final UserSocmed socmedRes = userSocmedDao.getByIdAndDetach(UserSocmed.class, user.getUserSocmed().getId());
 					final Optional<UserSocmed> socmedOpt = Optional.ofNullable(socmedRes);
 					UserSocmed updateSocmed = socmedOpt.get();
-					if(data.getSocmed().getFacebook() != null) {
-						updateSocmed.setFacebook(data.getSocmed().getFacebook());						
+					if(data.getUserSocmed().getFacebook() != null) {
+						updateSocmed.setFacebook(data.getUserSocmed().getFacebook());						
 					}
-					if(data.getSocmed().getInstagram() != null) {
-						updateSocmed.setInstagram(data.getSocmed().getInstagram());						
+					if(data.getUserSocmed().getInstagram() != null) {
+						updateSocmed.setInstagram(data.getUserSocmed().getInstagram());						
 					}
-					if(data.getSocmed().getLinkedin() != null) {
-						updateSocmed.setLinkedin(data.getSocmed().getLinkedin());						
+					if(data.getUserSocmed().getLinkedin() != null) {
+						updateSocmed.setLinkedin(data.getUserSocmed().getLinkedin());						
 					}
-					updateSocmed.setUser(user);
 					userSocmedDao.saveAndFlush(updateSocmed);
 				} else {
-					final UserSocmed insertSocmed = new UserSocmed();
-					if(data.getSocmed().getFacebook() != null) {
-						insertSocmed.setFacebook(data.getSocmed().getFacebook());						
+					UserSocmed insertSocmed = new UserSocmed();
+					if(data.getUserSocmed().getFacebook() != null) {
+						insertSocmed.setFacebook(data.getUserSocmed().getFacebook());						
 					}
-					if(data.getSocmed().getInstagram() != null) {
-						insertSocmed.setInstagram(data.getSocmed().getInstagram());						
+					if(data.getUserSocmed().getInstagram() != null) {
+						insertSocmed.setInstagram(data.getUserSocmed().getInstagram());						
 					}
-					if(data.getSocmed().getLinkedin() != null) {
-						insertSocmed.setLinkedin(data.getSocmed().getLinkedin());						
+					if(data.getUserSocmed().getLinkedin() != null) {
+						insertSocmed.setLinkedin(data.getUserSocmed().getLinkedin());						
 					}
-					insertSocmed.setUser(user);
-					userSocmedDao.save(insertSocmed);
+					insertSocmed = userSocmedDao.save(insertSocmed);
+					user.setUserSocmed(insertSocmed);
+					userDao.saveAndFlush(user);
 				}
 			}
 			
@@ -344,6 +340,89 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 				throw new RuntimeException("Position Not Found.");
 			}
 		}
+	}
+	
+	public ResponseDto create(final User data) {
+		final String code = data.getRole().getRoleCode();
+		final ResponseDto response = new ResponseDto();
+		final Optional<Role> roleCode = roleDao.getByCode(code);
+		if(roleCode.isEmpty()) {
+			throw new RuntimeException("Role Constant not found!");	
+		}
+		Optional<UserType> userTypeCode = null;
+		if (code.equalsIgnoreCase(RoleConst.MEMBER.getRoleCodeEnum())) {
+			userTypeCode = userTypeDao.getByCode(UserTypeConst.BASIC.getUserTypeCodeEnum());			
+		} else {
+			userTypeCode = userTypeDao.getByCode(UserTypeConst.PREMIUM.getUserTypeCodeEnum());	
+		}
+		if(userTypeCode.isEmpty()) {
+			throw new RuntimeException("User Type Constant found!");	
+		}
+		data.setRole(roleCode.get());
+		data.setUserType(userTypeCode.get());
+		valInsert(data);
+		try {
+			begin();
+			final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
+			data.setPassword(password);
+			final Role role = roleDao.getByIdAndDetach(Role.class, roleCode.get().getId());
+			data.setRole(role);
+			final UserType userType = userTypeDao.getByIdAndDetach(UserType.class, userTypeCode.get().getId());
+			data.setUserType(userType);
+			if(data.getPhoto() != null) {
+				if(data.getPhoto().getFileEncode() != null && data.getPhoto().getFileExtensions() != null) {
+					File file = new File();
+					file.setFileEncode(data.getPhoto().getFileEncode());
+					file.setFileExtensions(data.getPhoto().getFileExtensions());
+					file = fileDao.save(data.getPhoto());
+					data.setPhoto(file);
+				}
+			}
+			if(data.getUserSocmed() != null) {
+				UserSocmed insertSocmed = new UserSocmed();
+				if(data.getUserSocmed().getFacebook() != null) {
+					insertSocmed.setFacebook(data.getUserSocmed().getFacebook());						
+				}
+				if(data.getUserSocmed().getInstagram() != null) {
+					insertSocmed.setInstagram(data.getUserSocmed().getInstagram());						
+				}
+				if(data.getUserSocmed().getLinkedin() != null) {
+					insertSocmed.setLinkedin(data.getUserSocmed().getLinkedin());						
+				}
+				insertSocmed = userSocmedDao.save(insertSocmed);
+				data.setUserSocmed(insertSocmed);
+			}
+			userDao.save(data);
+			commit();
+			response.setMessage("User Creation Success");
+		} catch (Exception e) {
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+			rollback();
+			response.setMessage("User Creation Failed");
+		}
+		return response;
+	}
+	
+	public ResponseDto delete(final String id) {
+		final ResponseDto responseDto = new ResponseDto();
+		final User result = userDao.getByIdAndDetach(User.class, id);
+		final Optional<User> optional = Optional.ofNullable(result);
+		try {
+			if(optional.isEmpty()) {
+				throw new RuntimeException("User not found!");				
+			} 
+			begin();
+			result.setIsActive(false);
+			userDao.saveAndFlush(result);
+			commit();
+			responseDto.setMessage(ResponseConst.DELETED.getResponse());
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			responseDto.setMessage(ResponseConst.FAILED.getResponse());
+		}
+		return responseDto;
 	}
 	
 }
