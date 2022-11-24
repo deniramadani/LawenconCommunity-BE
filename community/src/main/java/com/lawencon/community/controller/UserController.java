@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +25,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("users")
-@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
 	public ResponseEntity<List<User>> getByAll(@RequestParam(required = false) Integer start,@RequestParam(required = false) Integer limit){
 		List<User> result = new ArrayList<>(); 
@@ -43,15 +44,32 @@ public class UserController {
 		}
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("{id}")
 	public ResponseEntity<User> getById(@PathVariable("id") String id){
 		final User result = userService.getById(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@PutMapping
 	public ResponseEntity<ResponseDto> update(@RequestBody User data){
 		final ResponseDto result = userService.update(data);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@PostMapping
+	public ResponseEntity<ResponseDto> create(@RequestBody final User data){
+		final ResponseDto result = userService.create(data);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@PutMapping("delete/{id}")
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id){
+		final ResponseDto result = userService.delete(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }

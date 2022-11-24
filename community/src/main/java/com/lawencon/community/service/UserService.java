@@ -342,4 +342,87 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 		}
 	}
 	
+	public ResponseDto create(final User data) {
+		final String code = data.getRole().getRoleCode();
+		final ResponseDto response = new ResponseDto();
+		final Optional<Role> roleCode = roleDao.getByCode(code);
+		if(roleCode.isEmpty()) {
+			throw new RuntimeException("Role Constant not found!");	
+		}
+		Optional<UserType> userTypeCode = null;
+		if (code.equalsIgnoreCase(RoleConst.MEMBER.getRoleCodeEnum())) {
+			userTypeCode = userTypeDao.getByCode(UserTypeConst.BASIC.getUserTypeCodeEnum());			
+		} else {
+			userTypeCode = userTypeDao.getByCode(UserTypeConst.PREMIUM.getUserTypeCodeEnum());	
+		}
+		if(userTypeCode.isEmpty()) {
+			throw new RuntimeException("User Type Constant found!");	
+		}
+		data.setRole(roleCode.get());
+		data.setUserType(userTypeCode.get());
+		valInsert(data);
+		try {
+			begin();
+			final String password = apiConfiguration.passwordEncoder().encode(data.getPassword());
+			data.setPassword(password);
+			final Role role = roleDao.getByIdAndDetach(Role.class, roleCode.get().getId());
+			data.setRole(role);
+			final UserType userType = userTypeDao.getByIdAndDetach(UserType.class, userTypeCode.get().getId());
+			data.setUserType(userType);
+			if(data.getPhoto() != null) {
+				if(data.getPhoto().getFileEncode() != null && data.getPhoto().getFileExtensions() != null) {
+					File file = new File();
+					file.setFileEncode(data.getPhoto().getFileEncode());
+					file.setFileExtensions(data.getPhoto().getFileExtensions());
+					file = fileDao.save(data.getPhoto());
+					data.setPhoto(file);
+				}
+			}
+			if(data.getUserSocmed() != null) {
+				UserSocmed insertSocmed = new UserSocmed();
+				if(data.getUserSocmed().getFacebook() != null) {
+					insertSocmed.setFacebook(data.getUserSocmed().getFacebook());						
+				}
+				if(data.getUserSocmed().getInstagram() != null) {
+					insertSocmed.setInstagram(data.getUserSocmed().getInstagram());						
+				}
+				if(data.getUserSocmed().getLinkedin() != null) {
+					insertSocmed.setLinkedin(data.getUserSocmed().getLinkedin());						
+				}
+				insertSocmed = userSocmedDao.save(insertSocmed);
+				data.setUserSocmed(insertSocmed);
+			}
+			userDao.save(data);
+			commit();
+			response.setMessage("User Creation Success");
+		} catch (Exception e) {
+			response.setMessage(e.getMessage());
+			e.printStackTrace();
+			rollback();
+			response.setMessage("User Creation Failed");
+		}
+		return response;
+	}
+	
+	public ResponseDto delete(final String id) {
+		final ResponseDto responseDto = new ResponseDto();
+		final User result = userDao.getByIdAndDetach(User.class, id);
+		final Optional<User> optional = Optional.ofNullable(result);
+		try {
+			if(optional.isEmpty()) {
+				throw new RuntimeException("User not found!");				
+			} 
+			begin();
+			result.setIsActive(false);
+			userDao.saveAndFlush(result);
+			commit();
+			responseDto.setMessage(ResponseConst.DELETED.getResponse());
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			responseDto.setMessage(ResponseConst.FAILED.getResponse());
+		}
+		return responseDto;
+	}
+	
 }
