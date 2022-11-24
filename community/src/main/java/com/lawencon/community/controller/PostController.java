@@ -71,7 +71,9 @@ public class PostController {
 		if(start != null) {
 			result = postService.getAll(start, limit);
 		}
-		result = postService.getAll();
+		else {
+			result = postService.getAll();			
+		}
 		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
 	}
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
