@@ -22,7 +22,6 @@ public class PostPollingOptionDao extends AbstractJpaDao{
 				.append("(SELECT count(*) FROM tb_user_polling_response tupr WHERE polling_option_id = tppo.id) AS total_response ")
 				.append("FROM tb_post_polling_option AS tppo ")
 				.append("WHERE tppo.post_polling_id = :id");
-		System.out.println(query.toString());
 		final List<?> rows = ConnHandler.getManager().createNativeQuery(query.toString())
 				.setParameter("id", id).getResultList();
 		rows.forEach(row ->{

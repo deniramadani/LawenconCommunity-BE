@@ -47,7 +47,7 @@ public class ErrorHandler {
 	public ResponseEntity<ExceptionDto<String>> badCredentialsException(final BadCredentialsException be) {
 
 		final ExceptionDto<String> exceptionDto = new ExceptionDto<>();
-		exceptionDto.setMessage("Email or Password is not Valid!");
+		exceptionDto.setMessage(be.getMessage());
 
 		return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
 

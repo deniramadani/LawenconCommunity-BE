@@ -27,11 +27,6 @@ public class DashboardService extends BaseCoreService {
 	private PositionDao positionDao;
 
 	public DashboardAdminDto getAll() {
-//		dashboard super admin : 
-//			-. User All
-//			-. total Members Premium
-//			-. total admin
-//			-. total member biasa
 		final DashboardAdminDto dashboardDto = new DashboardAdminDto();
 		final Long userTotal = userDao.countAll(User.class);
 		final String wherePremium = "WHERE userType.userTypeCode = :userType AND role.roleCode = :roleCode";

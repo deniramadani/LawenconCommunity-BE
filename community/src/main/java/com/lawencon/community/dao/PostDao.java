@@ -14,6 +14,7 @@ import com.lawencon.community.model.Post;
 import com.lawencon.community.model.PostAttachment;
 import com.lawencon.community.model.PostPolling;
 import com.lawencon.community.model.PostPollingOption;
+import com.lawencon.community.model.PostPollingResponse;
 import com.lawencon.community.model.PostType;
 import com.lawencon.community.model.User;
 import com.lawencon.community.service.UserService;
@@ -35,6 +36,9 @@ public class PostDao extends AbstractJpaDao {
 
 	@Autowired
 	private PostPollingDao postPollingDao;
+	
+	@Autowired
+	private PostPollingResponseDao postPollingResponseDao;
 	
 	@Autowired
 	private PostPollingOptionDao postPollingOptionDao;
@@ -148,10 +152,10 @@ public class PostDao extends AbstractJpaDao {
 		post.setTotalLike(totalLike);
 		post.setTotalComment(Integer.valueOf(row[12].toString()));
 		if (row[13] != null) {
-			post.setLike_id(row[13].toString());
+			post.setLikeId(row[13].toString());
 		}
 		if (row[14] != null) {
-			post.setBookmark_id(row[14].toString());
+			post.setBookmarkId(row[14].toString());
 		}
 		final List<PostAttachment> attachments = postAttachmentDao.getAllByPost(row[0].toString());
 		post.setFile(attachments);
@@ -160,6 +164,18 @@ public class PostDao extends AbstractJpaDao {
 			final List<PostPollingOption> postPollingOptions = postPollingOptionDao
 					.getAllByPostPolling(postPolling.getId());
 			postPolling.setPostPollingOptions(postPollingOptions);
+			for(int i= 0; i<postPollingOptions.size();i++ ) {
+				
+				final String whereClause = "WHERE postPollingOption.id = :ppid";
+				final String[] paramName =  {"ppid"};
+				final String[] paramValue =  { postPollingOptions.get(i).getPostPolling().getId()};
+				
+				final Long totalVoted = postPollingResponseDao.countAll(PostPollingResponse.class, whereClause, paramName, paramValue);
+				
+				if(totalVoted>0) {
+					post.setOptionId(postPollingOptions.get(i).getId());
+				}
+			}
 			post.setPostPollingOption(postPollingOptions);
 			post.setQuestion(postPolling.getQuestion());
 
@@ -196,10 +212,10 @@ public class PostDao extends AbstractJpaDao {
 			post.setTotalLike(totalLike);
 			post.setTotalComment(Integer.valueOf(row[12].toString()));
 			if (row[13] != null) {
-				post.setLike_id(row[13].toString());
+				post.setLikeId(row[13].toString());
 			}
 			if (row[14] != null) {
-				post.setBookmark_id(row[14].toString());
+				post.setBookmarkId(row[14].toString());
 			}
 			final List<PostAttachment> attachments = postAttachmentDao.getAllByPost(row[0].toString());
 			post.setFile(attachments);
@@ -207,6 +223,18 @@ public class PostDao extends AbstractJpaDao {
 			if (postPolling.getId() != null) {
 				final List<PostPollingOption> postPollingOptions = postPollingOptionDao
 						.getAllByPostPolling(postPolling.getId());
+				for(int i= 0; i<postPollingOptions.size();i++ ) {
+					
+					final String whereClause = "WHERE postPollingOption.id = :ppid AND user.id = :userId";
+					final String[] paramName =  {"ppid", "userId"};
+					final String[] paramValue =  { postPollingOptions.get(i).getId(), principalService.getAuthPrincipal()};
+					
+					final Long totalVoted = postPollingResponseDao.countAll(PostPollingResponse.class, whereClause, paramName, paramValue);
+					
+					if(totalVoted>0) {
+						post.setOptionId(postPollingOptions.get(i).getId());
+					}
+				}
 				postPolling.setPostPollingOptions(postPollingOptions);
 				post.setPostPollingOption(postPollingOptions);
 				post.setQuestion(postPolling.getQuestion());
