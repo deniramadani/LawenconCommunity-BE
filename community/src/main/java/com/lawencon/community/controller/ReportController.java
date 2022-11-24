@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lawencon.community.constant.ReportConst;
 import com.lawencon.community.dao.PaymentDao;
+import com.lawencon.community.model.User;
 import com.lawencon.community.pojo.ReportPojo;
 import com.lawencon.community.service.ReportService;
+import com.lawencon.community.service.UserService;
 import com.lawencon.security.principal.PrincipalService;
 import com.lawencon.util.JasperUtil;
 
@@ -32,15 +35,21 @@ public class ReportController {
 	@Autowired
 	private JasperUtil jasperUtil;
 	@Autowired
-	private PaymentDao paymentDao;
-	@Autowired
 	private PrincipalService principalService;
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PaymentDao paymentDao;
 
 	@GetMapping("productivity-member")
-	public ResponseEntity<?> reportSample() throws Exception {
+	public ResponseEntity<?> productivityMember() throws Exception {
+		final User user = userService.getById(principalService.getAuthPrincipal());
 		List<ReportPojo> data = reportService.getProductivityMember();
 		Map<String, Object> map = new HashMap<>();
-		map.put("company", "PT. Company Internasional");
+		map.put("reportTitle", ReportConst.PRODUCTIVITY_MEMBER.getReportTitleEnum());
+		map.put("reportType", ReportConst.PRODUCTIVITY_MEMBER.getReportTypeEnum());
+		map.put("company", user.getCompany());
 		byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.member.report");
 		String fileName = "report.pdf";
 		return ResponseEntity.ok()
