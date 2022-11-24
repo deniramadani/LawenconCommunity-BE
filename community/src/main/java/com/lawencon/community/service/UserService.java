@@ -316,11 +316,6 @@ public class UserService extends BaseCoreService implements UserDetailsService {
 	}
 	
 	private void valNotBK(final User data) {
-		final Role role = roleDao.getByIdAndDetach(Role.class, data.getRole().getId());
-		final Optional<Role> roleOptional = Optional.ofNullable(role);
-		if (!roleOptional.isPresent()) {
-			throw new RuntimeException("Role Not Found.");
-		}
 		final UserType userType = userTypeDao.getByIdAndDetach(UserType.class, data.getUserType().getId());
 		final Optional<UserType> userTypeOptional = Optional.ofNullable(userType);
 		if (!userTypeOptional.isPresent()) {

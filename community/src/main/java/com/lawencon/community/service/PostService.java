@@ -72,7 +72,7 @@ public class PostService extends BaseCoreService {
 
 	private void valFkFound(Post data, final String postTypeCode) {
 		final Optional<PostType> postType = postTypeDao.getByCode(postTypeCode);
-		if (postType.isPresent()) {
+		if (!postType.isPresent()) {
 			throw new RuntimeException("Post Type Not Found.");
 		}
 
@@ -153,7 +153,8 @@ public class PostService extends BaseCoreService {
 			row.setTitle(data.getTitle());
 			row.setBody(data.getBody());
 			// Foreign Key
-			row.setUser(data.getUser());
+			final User user = userDao.getByIdAndDetach(User.class, principalService.getAuthPrincipal());
+			row.setUser(user);
 			final Optional<PostType> postType = postTypeDao.getByCode(postTypeCode);
 			row.setPostType(postType.get());
 			// Foreign Key
