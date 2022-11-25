@@ -19,4 +19,8 @@ public class ReportService extends BaseCoreService {
 		return paymentDao.getProductivityMember(userId, startDate, endDate);
 	}
 	
+	public List<ReportPojo> getRevenueMember(final String userId, final String startDate, final String endDate){
+		return paymentDao.getRevenueMember(userId, startDate, endDate);
+	}
+	
 }

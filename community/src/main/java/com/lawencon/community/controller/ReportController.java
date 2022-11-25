@@ -75,4 +75,28 @@ public class ReportController {
 				.body(out);
 	}
 	
+	@GetMapping("revenue-member")
+	public ResponseEntity<?> revenueMember(@RequestParam(required = true) final String startDate,
+			@RequestParam(required = true) final String endDate) throws Exception {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportPojo> data = reportService.getRevenueMember(user.getId(), startDate, endDate);
+		final Map<String, Object> map = new HashMap<>();
+		map.put("reportTitle", ReportConst.REVENUE_MEMBER.getReportTitleEnum());
+		map.put("reportType", ReportConst.REVENUE_MEMBER.getReportTypeEnum()+user.getEmail());
+		map.put("company", user.getCompany());
+		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+		final SimpleDateFormat display = new SimpleDateFormat("dd MMM yyyy");
+		final StringBuilder dateRange = new StringBuilder()
+				.append(display.format(formatter.parse(startDate)))
+				.append(" - ")
+				.append(display.format(formatter.parse(endDate)));
+		map.put("dateRange", dateRange.toString());
+		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.member.report");
+		final String fileName = "report.pdf";
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_PDF)
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
+				.body(out);
+	}
+	
 }
