@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.lawencon.base.AbstractJpaDao;
 import com.lawencon.base.ConnHandler;
+import com.lawencon.community.dto.report.ReportResDto;
 import com.lawencon.community.model.Payment;
-import com.lawencon.community.pojo.ReportPojo;
 
 @Repository
 public class PaymentDao extends AbstractJpaDao{
@@ -89,7 +89,7 @@ public class PaymentDao extends AbstractJpaDao{
 		return optional;
 	}
 	
-	public List<ReportPojo> getProductivityMember(final String userId, final String startDate, final String endDate) {
+	public List<ReportResDto> getProductivityMember(final String userId, final String startDate, final String endDate) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ROW_NUMBER() OVER(), tpt.product_type_name, p.title, ts.date_time_start, COUNT(user_id) ")
 				.append("FROM tb_payment tp ")
@@ -104,11 +104,11 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ");
 		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
 				.setParameter("startDate", startDate).setParameter("endDate", endDate).setParameter("userId", userId).getResultList();
-		final List<ReportPojo> data =  new ArrayList<>();
+		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
 				Object[] objArr = (Object[]) objCol;
-				final ReportPojo row = new ReportPojo();
+				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
 				row.setType(objArr[1].toString());
 				row.setTitle(objArr[2].toString());
@@ -120,7 +120,7 @@ public class PaymentDao extends AbstractJpaDao{
 		return data;
 	}
 	
-	public List<ReportPojo> getRevenueMember(final String userId, final String startDate, final String endDate) {
+	public List<ReportResDto> getRevenueMember(final String userId, final String startDate, final String endDate) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ROW_NUMBER() OVER(), tpt.product_type_name, p.title, ts.date_time_start, (0.9*COUNT(user_id)*p.price) ")
 				.append("FROM tb_payment tp ")
@@ -135,11 +135,11 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ");
 		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
 				.setParameter("startDate", startDate).setParameter("endDate", endDate).setParameter("userId", userId).getResultList();
-		final List<ReportPojo> data =  new ArrayList<>();
+		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
 				Object[] objArr = (Object[]) objCol;
-				final ReportPojo row = new ReportPojo();
+				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
 				row.setType(objArr[1].toString());
 				row.setTitle(objArr[2].toString());

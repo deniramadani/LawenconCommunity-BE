@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.lawencon.base.BaseCoreService;
 import com.lawencon.community.dao.PaymentDao;
-import com.lawencon.community.pojo.ReportPojo;
+import com.lawencon.community.dto.report.ReportResDto;
 
 @Service
 public class ReportService extends BaseCoreService {
@@ -15,11 +15,11 @@ public class ReportService extends BaseCoreService {
 	@Autowired
 	private PaymentDao paymentDao;
 	
-	public List<ReportPojo> getProductivityMember(final String userId, final String startDate, final String endDate){
+	public List<ReportResDto> getProductivityMember(final String userId, final String startDate, final String endDate){
 		return paymentDao.getProductivityMember(userId, startDate, endDate);
 	}
 	
-	public List<ReportPojo> getRevenueMember(final String userId, final String startDate, final String endDate){
+	public List<ReportResDto> getRevenueMember(final String userId, final String startDate, final String endDate){
 		return paymentDao.getRevenueMember(userId, startDate, endDate);
 	}
 	

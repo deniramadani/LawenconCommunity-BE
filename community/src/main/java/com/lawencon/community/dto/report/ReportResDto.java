@@ -1,4 +1,4 @@
-package com.lawencon.community.pojo;
+package com.lawencon.community.dto.report;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class ReportPojo {
+public class ReportResDto {
 	private Long no;
 	private String type;
 	private String title;

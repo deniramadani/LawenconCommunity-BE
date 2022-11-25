@@ -11,15 +11,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.constant.ReportConst;
 import com.lawencon.community.dao.PaymentDao;
+import com.lawencon.community.dto.report.ReportReqDto;
+import com.lawencon.community.dto.report.ReportResDto;
 import com.lawencon.community.model.User;
-import com.lawencon.community.pojo.ReportPojo;
 import com.lawencon.community.service.ReportService;
 import com.lawencon.community.service.UserService;
 import com.lawencon.security.principal.PrincipalService;
@@ -45,17 +47,17 @@ public class ReportController {
 	private PaymentDao paymentDao;
 	
 	@GetMapping
-	public ResponseEntity<List<ReportPojo>> getAll(){
-		List<ReportPojo> result = new ArrayList<>(); 
+	public ResponseEntity<List<ReportResDto>> getAll(){
+		List<ReportResDto> result = new ArrayList<>(); 
 		result = paymentDao.getRevenueMember(principalService.getAuthPrincipal(), "2022-10-01", "2022-11-30");						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
 	@GetMapping("productivity-member")
-	public ResponseEntity<?> productivityMember(@RequestParam(required = true) final String startDate,
-			@RequestParam(required = true) final String endDate) throws Exception {
+	public ResponseEntity<?> productivityMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
-		final List<ReportPojo> data = reportService.getProductivityMember(user.getId(), startDate, endDate);
+		final List<ReportResDto> data = reportService.getProductivityMember(user.getId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.PRODUCTIVITY_MEMBER.getReportTitleEnum());
 		map.put("reportType", ReportConst.PRODUCTIVITY_MEMBER.getReportTypeEnum()+user.getEmail());
@@ -63,9 +65,9 @@ public class ReportController {
 		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 		final SimpleDateFormat display = new SimpleDateFormat("dd MMM yyyy");
 		final StringBuilder dateRange = new StringBuilder()
-				.append(display.format(formatter.parse(startDate)))
+				.append(display.format(formatter.parse(request.getStartDate())))
 				.append(" - ")
-				.append(display.format(formatter.parse(endDate)));
+				.append(display.format(formatter.parse(request.getEndDate())));
 		map.put("dateRange", dateRange.toString());
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.member.report");
 		final String fileName = "report.pdf";
@@ -75,11 +77,11 @@ public class ReportController {
 				.body(out);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
 	@GetMapping("revenue-member")
-	public ResponseEntity<?> revenueMember(@RequestParam(required = true) final String startDate,
-			@RequestParam(required = true) final String endDate) throws Exception {
+	public ResponseEntity<?> revenueMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
-		final List<ReportPojo> data = reportService.getRevenueMember(user.getId(), startDate, endDate);
+		final List<ReportResDto> data = reportService.getRevenueMember(user.getId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.REVENUE_MEMBER.getReportTitleEnum());
 		map.put("reportType", ReportConst.REVENUE_MEMBER.getReportTypeEnum()+user.getEmail());
@@ -87,9 +89,9 @@ public class ReportController {
 		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 		final SimpleDateFormat display = new SimpleDateFormat("dd MMM yyyy");
 		final StringBuilder dateRange = new StringBuilder()
-				.append(display.format(formatter.parse(startDate)))
+				.append(display.format(formatter.parse(request.getStartDate())))
 				.append(" - ")
-				.append(display.format(formatter.parse(endDate)));
+				.append(display.format(formatter.parse(request.getEndDate())));
 		map.put("dateRange", dateRange.toString());
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.member.report");
 		final String fileName = "report.pdf";
