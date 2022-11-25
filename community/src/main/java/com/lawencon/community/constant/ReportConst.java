@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ReportConst {
-	PRODUCTIVITY_MEMBER("Productivity", "Member Report"), REVENUE_MEMNNER("Revenue", "Member Report"),
-	PRODUCTIVITY_SUPERADMIN("Productivity", "Super Admin Report");
+	PRODUCTIVITY_MEMBER("Productivity", "Member Report : "), REVENUE_MEMBER("Revenue", "Member Report : "),
+	PRODUCTIVITY_SUPERADMIN("Productivity", "Super Admin Report : ");
 
 	private final String reportTitleEnum;
 	private final String reportTypeEnum;
