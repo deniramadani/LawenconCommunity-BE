@@ -27,19 +27,23 @@
 					<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="f45f7684-d674-416a-849b-a6d5345973d7"/>
+					<reportElement x="262" y="54" width="180" height="20" forecolor="#FFFFFF" uuid="f45f7684-d674-416a-849b-a6d5345973d7"/>
 					<textElement textAlignment="Center">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{reportType}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="395" y="10" width="180" height="20" forecolor="#FFFFFF" uuid="53ffafc6-117b-458d-bfd1-fe6a132d7bbf"/>
+					<reportElement x="262" y="21" width="180" height="20" forecolor="#FFFFFF" uuid="53ffafc6-117b-458d-bfd1-fe6a132d7bbf"/>
 					<textElement textAlignment="Center">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{company}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="449" y="21" width="125" height="53" uuid="d94d3ec1-e570-43ce-a2a6-48b167c86913"/>
+					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
@@ -137,7 +141,7 @@
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{startDate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{startDate}.format(java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy"))]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement x="444" y="0" width="111" height="20" uuid="6a95bf8f-9249-4666-acf5-ef019bfb945e">
