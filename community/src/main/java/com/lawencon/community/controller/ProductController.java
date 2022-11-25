@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.dto.response.ResponseDto;
+import com.lawencon.community.model.Product;
 import com.lawencon.community.model.Schedule;
 import com.lawencon.community.service.ProductService;
 
@@ -92,6 +93,13 @@ public class ProductController {
 	@PutMapping("delete/{id}")
 	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id){
 		final ResponseDto result = productService.delete(id);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("subscribe")
+	public ResponseEntity<Product> getSubscribeId(){
+		final Product result = productService.getSubscribeId();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

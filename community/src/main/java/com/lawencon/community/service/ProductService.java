@@ -296,4 +296,17 @@ public class ProductService extends BaseCoreService {
 		return response;
 	}
 	
+	public Product getSubscribeId() {
+		final Optional<Product> product = productDao.getSubscribeId(ProductTypeConst.SUBSCRIBE.getProductTypeCodeEnum());
+		
+		final Product result = productDao.getByIdAndDetach(Product.class, product.get().getId());
+		final Optional<Product> optional = Optional.ofNullable(result);
+		if(optional.isPresent()) {
+			final Product response = optional.get();
+			return response;			
+		} else {
+			throw new RuntimeException("Product not found!");	
+		}
+	}
+	
 }
