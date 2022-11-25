@@ -7,5 +7,6 @@ public class LoginResDto {
 	private String id;
 	private String fullname;
 	private String roleCode;
+	private String userTypeCode;
 	private String token;
 }
