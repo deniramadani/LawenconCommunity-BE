@@ -4,16 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lawencon.base.BaseCoreService;
-import com.lawencon.community.constant.PostTypeConst;
-import com.lawencon.community.constant.UserTypeConst;
-import com.lawencon.community.dao.PostDao;
-import com.lawencon.community.dao.PostLikeDao;
 import com.lawencon.community.dao.PostPollingOptionDao;
 import com.lawencon.community.dao.PostPollingResponseDao;
 import com.lawencon.community.dao.UserDao;
 import com.lawencon.community.dto.response.ResponseDto;
-import com.lawencon.community.model.Post;
-import com.lawencon.community.model.PostLike;
 import com.lawencon.community.model.PostPollingOption;
 import com.lawencon.community.model.PostPollingResponse;
 import com.lawencon.community.model.User;

@@ -46,10 +46,17 @@ public class ReportController {
 	@Autowired
 	private PaymentDao paymentDao;
 	
+//	@GetMapping
+//	public ResponseEntity<List<ReportResDto>> getAll(){
+//		List<ReportResDto> result = new ArrayList<>(); 
+//		result = paymentDao.getRevenueMember(principalService.getAuthPrincipal(), "2022-10-01", "2022-11-30");						
+//		return new ResponseEntity<>(result, HttpStatus.OK);
+//	}
+	
 	@GetMapping
-	public ResponseEntity<List<ReportResDto>> getAll(){
+	public ResponseEntity<List<ReportResDto>> getAll(@RequestBody final ReportReqDto request){
 		List<ReportResDto> result = new ArrayList<>(); 
-		result = paymentDao.getRevenueMember(principalService.getAuthPrincipal(), "2022-10-01", "2022-11-30");						
+		result = paymentDao.getProductivitySuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -70,7 +77,7 @@ public class ReportController {
 				.append(display.format(formatter.parse(request.getEndDate())));
 		map.put("dateRange", dateRange.toString());
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.member.report");
-		final String fileName = "report.pdf";
+		final String fileName = "productivity.member.report.pdf";
 		return ResponseEntity.ok()
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
@@ -94,7 +101,31 @@ public class ReportController {
 				.append(display.format(formatter.parse(request.getEndDate())));
 		map.put("dateRange", dateRange.toString());
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.member.report");
-		final String fileName = "report.pdf";
+		final String fileName = "revenue.member.report.pdf";
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_PDF)
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
+				.body(out);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("productivity-super_admin")
+	public ResponseEntity<?> productivitySuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> data = reportService.getProductivitySuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
+		final Map<String, Object> map = new HashMap<>();
+		map.put("reportTitle", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTitleEnum());
+		map.put("reportType", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTypeEnum()+user.getEmail());
+		map.put("company", user.getCompany());
+		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+		final SimpleDateFormat display = new SimpleDateFormat("dd MMM yyyy");
+		final StringBuilder dateRange = new StringBuilder()
+				.append(display.format(formatter.parse(request.getStartDate())))
+				.append(" - ")
+				.append(display.format(formatter.parse(request.getEndDate())));
+		map.put("dateRange", dateRange.toString());
+		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.super-admin.report");
+		final String fileName = "productivity.super-admin.report.pdf";
 		return ResponseEntity.ok()
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
