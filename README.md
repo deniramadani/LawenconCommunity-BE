@@ -68,7 +68,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 The following is a brief description of the problem and system flow
 * Requirements :
@@ -142,9 +142,9 @@ This is an example of how to list things you need to use the software and how to
 ### Installation
 
 1. Clone the repo
-   ```sh
-   git clone https://github.com/deniramadani/LawenconCommunity-BE.git
-   ```
+  ```sh
+  git clone https://github.com/deniramadani/LawenconCommunity-BE.git
+  ```
 2. Execute syntax below in your PostgreSQL Editor
   ```sh
   CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -161,13 +161,13 @@ This is an example of how to list things you need to use the software and how to
   ```
 4. Using IDE run App.java in app module as java application
 5. Or build it instead using maven on root project
-   ```sh
-   mvn clean install
-   ```
+  ```sh
+  mvn clean install
+  ```
 6. Run jar using java 11 /community/target/
-   ```sh
-   java -jar filename.jar
-   ```
+  ```sh
+  java -jar filename.jar
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -178,9 +178,9 @@ This is an example of how to list things you need to use the software and how to
 
 Still working useful examples of how this project can be used. Additional screenshots, code examples and demos will be provided in this space. 
 
-_Please refer here for the [Documentation](https://github.com/deniramadani/LawenconCommunity-BE/tree/master/assets/documentation)_
-_Please refer here for the [Postman API](https://github.com/deniramadani/LawenconCommunity-BE/tree/master/assets/documentation/api)_
-_Please refer here for the [Sample Report](https://github.com/deniramadani/LawenconCommunity-BE/tree/master/assets/documentation/report-sample)_
+_Please refer here for the [Documentation](https://github.com/deniramadani/LawenconCommunity-BE/tree/master/assets/documentation)_<br>
+_Please refer here for the [Postman API](https://github.com/deniramadani/LawenconCommunity-BE/tree/master/assets/documentation/api)_<br>
+_Please refer here for the [Sample Report](https://github.com/deniramadani/LawenconCommunity-BE/tree/master/assets/documentation/report-sample)_<br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
