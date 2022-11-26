@@ -1,5 +1,6 @@
 package com.lawencon.community.service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,20 @@ public class ReportService extends BaseCoreService {
 	
 	public List<ReportResDto> getProductivitySuperAdmin(final List<String> userIdList, final String startDate, final String endDate){
 		return paymentDao.getProductivitySuperAdmin(userIdList, startDate, endDate);
+	}
+	
+	public List<ReportResDto> getRevenueSuperAdmin(final List<String> userIdList, final String startDate, final String endDate){
+		return paymentDao.getRevenueSuperAdmin(userIdList, startDate, endDate);
+	}
+	
+	public String formatDateRange(final String startDate, final String endDate) throws Exception{
+		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+		final SimpleDateFormat display = new SimpleDateFormat("dd MMM yyyy");
+		final StringBuilder dateRange = new StringBuilder()
+				.append(display.format(formatter.parse(startDate)))
+				.append(" - ")
+				.append(display.format(formatter.parse(endDate)));
+		return dateRange.toString();
 	}
 	
 }

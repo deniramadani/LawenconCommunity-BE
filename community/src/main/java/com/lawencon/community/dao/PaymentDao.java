@@ -198,4 +198,38 @@ public class PaymentDao extends AbstractJpaDao{
 		return data;
 	}
 	
+	public List<ReportResDto> getRevenueSuperAdmin(final List<String> userIdList, final String startDate, final String endDate) {
+		final String userIdQuery = loopUserIdList(userIdList);
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT ROW_NUMBER() OVER(), town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, (0.9*COUNT(user_id)*p.price) ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
+				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
+				.append("INNER JOIN tb_schedule ts ON p.id = ts.product_id ")
+				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
+				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
+				.append("WHERE tp.created_at >= DATE(:startDate) AND tp.created_at <= DATE(:endDate) AND tp.approval = TRUE ")
+				.append("AND p.owner_id IN ").append(" (").append(userIdQuery).append(") ")
+				.append("GROUP BY town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, p.price ")
+				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ");
+		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
+				.setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
+		final List<ReportResDto> data =  new ArrayList<>();
+		if(result != null && result.size() > 0) {
+			result.forEach(objCol -> {
+				Object[] objArr = (Object[]) objCol;
+				final ReportResDto row = new ReportResDto();
+				row.setNo(Long.valueOf(objArr[0].toString()));
+				row.setMemberName(objArr[1].toString());
+				row.setProvider(objArr[2].toString());
+				row.setType(objArr[3].toString());
+				row.setTitle(objArr[4].toString());
+				row.setStartDate(Timestamp.valueOf(objArr[5].toString()).toLocalDateTime().toLocalDate());
+				row.setTotalIncome(BigDecimal.valueOf(Double.valueOf(objArr[6].toString())));
+				data.add(row);
+			});
+		}
+		return data;
+	}
+	
 }

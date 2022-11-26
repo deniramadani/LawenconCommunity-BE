@@ -4,6 +4,7 @@ encoding//src/main/resources=UTF-8
 encoding//src/main/resources/template/report/productivity.member.report.jrxml=UTF-8
 encoding//src/main/resources/template/report/productivity.super-admin.report.jrxml=UTF-8
 encoding//src/main/resources/template/report/revenue.member.report.jrxml=UTF-8
+encoding//src/main/resources/template/report/revenue.super-admin.report.jrxml=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8
