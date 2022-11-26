@@ -230,7 +230,7 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Deni Ramdani - [@twitter_handle](https://twitter.com/twitter_handle) - deni.ramadani05@gmail.com@gmail.com<br>
+Deni Ramdani - [@twitter_handle](https://twitter.com/twitter_handle) - deni.ramadani05@gmail.com<br>
 Fransisko Sihombing - [@twitter_handle](https://twitter.com/twitter_handle) - fransiskosihombing@gmail.com<br>
 Maulana Rezi Rosadi - [@twitter_handle](https://twitter.com/rezimaulana) - rsazrm@gmail.com<br>
 
