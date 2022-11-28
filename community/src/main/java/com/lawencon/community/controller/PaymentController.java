@@ -37,15 +37,15 @@ public class PaymentController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLAM')")
-	@PutMapping("valid/{id}")
-	public ResponseEntity<ResponseDto> paymentAccepted(@PathVariable("id") final String id) {
+	@PutMapping("valid")
+	public ResponseEntity<ResponseDto> paymentAccepted(@RequestParam(required = true) final String id) {
 		final ResponseDto result = paymentService.paymentAccepted(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAuthority('ROLAM')")
-	@PutMapping("invalid/{id}")
-	public ResponseEntity<ResponseDto> paymentRejected(@PathVariable("id") final String id) {
+	@PutMapping("invalid")
+	public ResponseEntity<ResponseDto> paymentRejected(@RequestParam(required = true) final String id) {
 		final ResponseDto result = paymentService.paymentRejected(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
