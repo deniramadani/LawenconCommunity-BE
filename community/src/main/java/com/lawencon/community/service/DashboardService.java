@@ -19,10 +19,8 @@ public class DashboardService extends BaseCoreService {
 
 	@Autowired
 	private UserDao userDao;
-
 	@Autowired
 	private IndustryDao industryDao;
-
 	@Autowired
 	private PositionDao positionDao;
 

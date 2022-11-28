@@ -17,15 +17,13 @@ import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class PostLikeService extends BaseCoreService {
+	
 	@Autowired
 	private UserDao userDao;
-
 	@Autowired
 	private PostDao postDao;
-
 	@Autowired
 	private PrincipalService principalService;
-
 	@Autowired
 	private PostLikeDao postLikeDao;
 
@@ -35,20 +33,19 @@ public class PostLikeService extends BaseCoreService {
 		valFkFound(data);
 	}
 
-	private void valNotNull(PostLike data) {
+	private void valNotNull(final PostLike data) {
 		if (data.getPost().getId() == null) {
 			throw new RuntimeException("Id Post is Required.");
 		}
 	}
 
-	private void valIdNull(PostLike data) {
+	private void valIdNull(final PostLike data) {
 		if (data.getId() != null) {
 			throw new RuntimeException("Id is set, Expected not set.");
 		}
-
 	}
 
-	private void valFkFound(PostLike data) {
+	private void valFkFound(final PostLike data) {
 		final User user = userDao.getById(User.class, principalService.getAuthPrincipal());
 		final Post post = postDao.getById(Post.class, data.getPost().getId());
 		if (user == null) {
@@ -85,7 +82,7 @@ public class PostLikeService extends BaseCoreService {
 		return responseDto;
 	}
 
-	public ResponseDto delete(String id) {
+	public ResponseDto delete(final String id) {
 		final ResponseDto responseDto = new ResponseDto();
 		try {
 			begin();
@@ -103,4 +100,5 @@ public class PostLikeService extends BaseCoreService {
 		}
 		return responseDto;
 	}
+	
 }

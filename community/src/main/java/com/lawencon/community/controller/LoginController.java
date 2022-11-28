@@ -45,12 +45,17 @@ public class LoginController {
 		claims.put(ClaimKey.ID.name(), user.get().getId());
 		claims.put(ClaimKey.ROLE.name(), user.get().getRole().getRoleCode());
 		
-		
 		final LoginResDto res = new LoginResDto();
 		res.setId(user.get().getId());
 		res.setFullname(user.get().getFullname());
+		if(user.get().getPosition() != null) {
+			res.setPosition(user.get().getPosition().getPositionName());
+		}
 		res.setRoleCode(user.get().getRole().getRoleCode());
 		res.setUserTypeCode(user.get().getUserType().getUserTypeCode());
+		if(user.get().getPhoto() != null) {
+			res.setPhoto(user.get().getPhoto().getId());
+		}
 		res.setToken(jwtUtil.generateToken(claims));
 		return new ResponseEntity<LoginResDto>(res, HttpStatus.OK);
 	}

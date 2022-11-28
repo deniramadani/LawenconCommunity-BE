@@ -150,7 +150,6 @@ public class PaymentService extends BaseCoreService {
 		} else {
 			throw new RuntimeException("Failed to generate Trx Code!");
 		}
-	
 		final String trxCode = generateTrx(code);
 		data.setTransactionCode(code);
 //		transaction code
@@ -214,7 +213,7 @@ public class PaymentService extends BaseCoreService {
 						
 					} else {
 						
-						BigDecimal rateOwner = new BigDecimal("0.9");
+						final BigDecimal rateOwner = new BigDecimal("0.9");
 						newBallance = newBallance.add(rateOwner.multiply(updateOne.getProduct().getPrice()));
 						updateUsr.setBallance(newBallance);
 						

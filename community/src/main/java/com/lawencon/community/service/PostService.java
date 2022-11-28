@@ -75,21 +75,18 @@ public class PostService extends BaseCoreService {
 		if (!postType.isPresent()) {
 			throw new RuntimeException("Post Type Not Found.");
 		}
-
 	}
 
 	private void valIdNull(Post data) {
 		if (data.getId() != null) {
 			throw new RuntimeException("Id is Set. Expected Not Set");
 		}
-
 	}
 
 	private void valIdNotNull(Post data) {
 		if (data.getId() == null) {
 			throw new RuntimeException("Id is Not Set. Expected Not Set");
 		}
-
 	}
 
 	private void valNotNull(Post data) {
@@ -99,15 +96,12 @@ public class PostService extends BaseCoreService {
 		if (data.getBody() == null) {
 			throw new RuntimeException("Body is Required");
 		}
-
 	}
 
 	private void valUpdate(final Post data) {
 		valIdNotNull(data);
-		
 	}
 
-	
 	public ResponseDto update(final Post data) {
 		final ResponseDto response = new ResponseDto();
 		valUpdate(data);

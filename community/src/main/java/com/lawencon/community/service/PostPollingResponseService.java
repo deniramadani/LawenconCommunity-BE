@@ -15,15 +15,13 @@ import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class PostPollingResponseService extends BaseCoreService {
+	
 	@Autowired
 	private UserDao userDao;
-
 	@Autowired
 	private PostPollingOptionDao postPollingOptionDao;
-
 	@Autowired
 	private PrincipalService principalService;
-
 	@Autowired
 	private PostPollingResponseDao postPollingResponseDao;
 
@@ -33,20 +31,19 @@ public class PostPollingResponseService extends BaseCoreService {
 		valFkFound(data);
 	}
 
-	private void valNotNull(PostPollingResponse data) {
+	private void valNotNull(final PostPollingResponse data) {
 		if (data.getPostPollingOption().getId() == null) {
 			throw new RuntimeException("Id Post is Required.");
 		}
 	}
 
-	private void valIdNull(PostPollingResponse data) {
+	private void valIdNull(final PostPollingResponse data) {
 		if (data.getId() != null) {
 			throw new RuntimeException("Id is set, Expected not set.");
 		}
-
 	}
 
-	private void valFkFound(PostPollingResponse data) {
+	private void valFkFound(final PostPollingResponse data) {
 		final User user = userDao.getById(User.class, principalService.getAuthPrincipal());
 		final PostPollingOption postPollingOption = postPollingOptionDao.getById(PostPollingOption.class, data.getPostPollingOption().getId());
 		if (user == null) {
@@ -65,10 +62,8 @@ public class PostPollingResponseService extends BaseCoreService {
 			begin();
 			final User user = userDao.getById(User.class, principalService.getAuthPrincipal());
 			postPollingResponse.setUser(user);
-
 			final PostPollingOption postPollingOption = postPollingOptionDao.getById(PostPollingOption.class, data.getPostPollingOption().getId());
 			postPollingResponse.setPostPollingOption(postPollingOption);
-			
 			postPollingResponseDao.save(postPollingResponse);
 			responseDto.setMessage("Your Response Saved");
 			commit();
@@ -78,6 +73,5 @@ public class PostPollingResponseService extends BaseCoreService {
 		}
 		return responseDto;
 	}
-
 	
 }

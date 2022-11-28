@@ -13,6 +13,7 @@ import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.Industry;
 @Service
 public class IndustryService extends BaseCoreService {
+	
 	@Autowired
 	private IndustryDao industryDao;
 	
@@ -137,4 +138,5 @@ public class IndustryService extends BaseCoreService {
 		}
 		return response;
 	}
+	
 }

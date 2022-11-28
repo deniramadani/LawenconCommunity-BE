@@ -17,15 +17,13 @@ import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class PostBookmarkService extends BaseCoreService {
+	
 	@Autowired
 	private UserDao userDao;
-
 	@Autowired
 	private PostDao postDao;
-
 	@Autowired
 	private PrincipalService principalService;
-
 	@Autowired
 	private PostBookmarkDao postBookmarkDao;
 
@@ -56,7 +54,7 @@ public class PostBookmarkService extends BaseCoreService {
 		return responseDto;
 	}
 
-	public ResponseDto delete(String id) {
+	public ResponseDto delete(final String id) {
 		final ResponseDto responseDto = new ResponseDto();
 		try {
 			begin();

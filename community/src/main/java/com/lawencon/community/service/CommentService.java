@@ -19,23 +19,21 @@ import com.lawencon.security.principal.PrincipalService;
 
 @Service
 public class CommentService extends BaseCoreService {
+	
 	@Autowired
 	private CommentDao commentDao;
-
 	@Autowired
 	private UserDao userDao;
-	
 	@Autowired
 	private PrincipalService principalService;
-	
 	@Autowired
 	private PostDao postDao;
 	
-	public List<Comment> getAllByPost(String id) {
+	public List<Comment> getAllByPost(final String id) {
 		return commentDao.getByPost(id);
 	}
 	
-	public ResponseDto insert(Comment data) {
+	public ResponseDto insert(final Comment data) {
 		final ResponseDto responseDto = new ResponseDto();
 		final Comment comment = new Comment();
 		try {
@@ -67,7 +65,7 @@ public class CommentService extends BaseCoreService {
 		valFkFound(data);
 	}
 
-	private void valFkFound(Comment data) {
+	private void valFkFound(final Comment data) {
 		final Post post = postDao.getById(Post.class, data.getPost().getId());
 		if(post == null) {
 			throw new RuntimeException("Entity Post Not Found!");
@@ -76,16 +74,15 @@ public class CommentService extends BaseCoreService {
 		if(user == null) {
 			throw new RuntimeException("Entity User Not Found!");
 		}
-		
 	}
 
-	private void valIdNull(Comment data) {
+	private void valIdNull(final Comment data) {
 		if (data.getId() != null) { 
 			throw new RuntimeException("Id Is Set. Expected Not Set");
 		}
 	}
 
-	private void valNotNull(Comment data) {
+	private void valNotNull(final Comment data) {
 		if(data.getPost() == null) {
 			if(data.getPost().getId() == null) {
 				throw new RuntimeException("Id Post Required.");
@@ -95,6 +92,6 @@ public class CommentService extends BaseCoreService {
 		if(data.getContent() == null) {
 			throw new RuntimeException("Content Required.");
 		}
-		
 	}
+	
 }

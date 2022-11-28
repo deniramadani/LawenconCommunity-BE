@@ -11,7 +11,8 @@ import com.lawencon.community.model.File;
 @Service
 public class FileService {
 	
-	@Autowired private FileDao fileDao;
+	@Autowired
+	private FileDao fileDao;
 	
 	public Optional<File> getById(final String id) {
 		final File file = fileDao.getByIdAndDetach(File.class, id);
@@ -22,4 +23,5 @@ public class FileService {
 			throw new RuntimeException("File not found!");	
 		}
 	}
+	
 }
