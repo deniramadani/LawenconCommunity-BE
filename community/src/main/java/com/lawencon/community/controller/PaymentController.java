@@ -81,4 +81,20 @@ public class PaymentController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLAM')")
+	@GetMapping("event-and-course")
+	public ResponseEntity<List<Payment>> getAllEventCourse(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Payment> result = paymentService.getAllEventCourse(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLAM')")
+	@GetMapping("subscribe")
+	public ResponseEntity<List<Payment>> getAllSubscribe(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Payment> result = paymentService.getAllSubscribe(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 }

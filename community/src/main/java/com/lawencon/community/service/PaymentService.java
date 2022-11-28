@@ -296,4 +296,12 @@ public class PaymentService extends BaseCoreService {
 		return paymentDao.getAllOwnerId(start, limit, ownerId);
 	}
 	
+	public List<Payment> getAllEventCourse(final Integer start, final Integer limit) {
+		return paymentDao.getAllEventCourse(start, limit);
+	}
+	
+	public List<Payment> getAllSubscribe(final Integer start, final Integer limit) {
+		return paymentDao.getAllSubscribe(start, limit);
+	}
+	
 }

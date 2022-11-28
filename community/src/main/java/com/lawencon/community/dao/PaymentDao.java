@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lawencon.base.AbstractJpaDao;
 import com.lawencon.base.ConnHandler;
+import com.lawencon.community.constant.ProductTypeConst;
 import com.lawencon.community.dto.report.ReportResDto;
 import com.lawencon.community.model.Payment;
 
@@ -26,6 +27,7 @@ public class PaymentDao extends AbstractJpaDao{
 		final Long result = Long.valueOf(ConnHandler.getManager().createNativeQuery(query.toString()).setParameter("code", code).getSingleResult().toString());
 		return result;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Payment> getAllUserId(final Integer start, final Integer limit, final String userId)  {
 		final StringBuilder query = new StringBuilder()
@@ -229,6 +231,46 @@ public class PaymentDao extends AbstractJpaDao{
 			});
 		}
 		return data;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Payment> getAllEventCourse(final Integer start, final Integer limit) {
+		final String productTypeCode = ProductTypeConst.SUBSCRIBE.getProductTypeCodeEnum();
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT * ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_user tu ON tu.id = tp.user_id ")
+				.append("INNER JOIN tb_file tf ON tf.id = tp.transfer_photo_id ")
+				.append("INNER JOIN tb_product p ON p.id = tp.product_id ")
+				.append("INNER JOIN tb_user town ON town.id = p.owner_id ")
+				.append("INNER JOIN tb_product_type tpt ON tpt.id = p.type_product_id ")
+				.append("INNER JOIN tb_file tfoto ON tfoto.id = p.photo_id ")
+				.append("WHERE tpt.product_type_code != :productTypeCode ")
+				.append("ORDER BY tp.created_at DESC ")
+				.append("OFFSET :start LIMIT :limit ");
+		final List<Payment> result = ConnHandler.getManager().createNativeQuery(query.toString(), Payment.class)
+				.setParameter("productTypeCode", productTypeCode).setParameter("start", start).setParameter("limit", limit).getResultList();
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Payment> getAllSubscribe(final Integer start, final Integer limit) {
+		final String productTypeCode = ProductTypeConst.SUBSCRIBE.getProductTypeCodeEnum();
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT * ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_user tu ON tu.id = tp.user_id ")
+				.append("INNER JOIN tb_file tf ON tf.id = tp.transfer_photo_id ")
+				.append("INNER JOIN tb_product p ON p.id = tp.product_id ")
+				.append("INNER JOIN tb_user town ON town.id = p.owner_id ")
+				.append("INNER JOIN tb_product_type tpt ON tpt.id = p.type_product_id ")
+				.append("INNER JOIN tb_file tfoto ON tfoto.id = p.photo_id ")
+				.append("WHERE tpt.product_type_code = :productTypeCode ")
+				.append("ORDER BY tp.created_at DESC ")
+				.append("OFFSET :start LIMIT :limit ");
+		final List<Payment> result = ConnHandler.getManager().createNativeQuery(query.toString(), Payment.class)
+				.setParameter("productTypeCode", productTypeCode).setParameter("start", start).setParameter("limit", limit).getResultList();
+		return result;
 	}
 	
 }
