@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,7 +41,7 @@ public class ReportController {
 	private UserService userService;
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("productivity-member")
+	@GetMapping("productivity/member")
 	public ResponseEntity<?> getProductivityMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		final List<ReportResDto> data = reportService.getProductivityMember(user.getId(), request.getStartDate(), request.getEndDate());
@@ -59,7 +60,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("revenue-member")
+	@GetMapping("revenue/member")
 	public ResponseEntity<?> getRevenueMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		final List<ReportResDto> data = reportService.getRevenueMember(user.getId(), request.getStartDate(), request.getEndDate());
@@ -78,7 +79,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("productivity-super_admin")
+	@GetMapping("productivity/super-admin")
 	public ResponseEntity<?> getProductivitySuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		final List<ReportResDto> data = reportService.getProductivitySuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
@@ -97,8 +98,8 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("revenue-super_admin")
-	public ResponseEntity<?> revenueSuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
+	@GetMapping("revenue/super-admin")
+	public ResponseEntity<?> getRevenueSuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		final List<ReportResDto> data = reportService.getRevenueSuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
@@ -113,6 +114,21 @@ public class ReportController {
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
 				.body(out);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("productivity/super-admin/no-user")
+	public ResponseEntity<List<ReportResDto>> getProductivitySuperAdminNoUser(@RequestBody final ReportReqDto request) {
+		final List<ReportResDto> result = reportService.getProductivitySuperAdminNoUser(request.getStartDate(), request.getEndDate());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+		
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("revenue/super-admin/no-user")
+	public ResponseEntity<?> getRevenueSuperAdminNoUser(@RequestBody final ReportReqDto request) throws Exception {
+		final List<ReportResDto> result = reportService.getRevenueSuperAdminNoUser(request.getStartDate(), request.getEndDate());
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 }

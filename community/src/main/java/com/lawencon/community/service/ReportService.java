@@ -42,4 +42,12 @@ public class ReportService extends BaseCoreService {
 		return dateRange.toString();
 	}
 	
+	public List<ReportResDto> getProductivitySuperAdminNoUser(final String startDate, final String endDate){
+		return paymentDao.getProductivitySuperAdminNoUser(startDate, endDate);
+	}
+	
+	public List<ReportResDto> getRevenueSuperAdminNoUser(final String startDate, final String endDate){
+		return paymentDao.getRevenueSuperAdminNoUser(startDate, endDate);
+	}
+	
 }
