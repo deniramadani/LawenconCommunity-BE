@@ -22,7 +22,6 @@ public class PostBookmark extends BaseEntity{
 	@JoinColumn(name="post_id", nullable = false)
 	private Post post;
 	
-	
 	@OneToOne
 	@JoinColumn(name="user_id", nullable = false)
 	private User user;

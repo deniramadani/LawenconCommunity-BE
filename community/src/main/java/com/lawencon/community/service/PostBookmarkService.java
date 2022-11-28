@@ -70,4 +70,5 @@ public class PostBookmarkService extends BaseCoreService {
 		}
 		return responseDto;
 	}
+
 }

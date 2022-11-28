@@ -32,41 +32,42 @@ public class PostController {
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("basic")
-	public ResponseEntity<ResponseDto> insertBasic(@RequestBody Post data) {
-		ResponseDto res = postService.insertBasic(data);
+	public ResponseEntity<ResponseDto> insertBasic(@RequestBody final Post data) {
+		final ResponseDto res = postService.insertBasic(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("premium")
-	public ResponseEntity<ResponseDto> insertPremium(@RequestBody Post data) {
-		ResponseDto res = postService.insertPremium(data);
+	public ResponseEntity<ResponseDto> insertPremium(@RequestBody final Post data) {
+		final ResponseDto res = postService.insertPremium(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PutMapping("delete/{id}")
-	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
-		ResponseDto res = postService.delete(id);
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id) {
+		final ResponseDto res = postService.delete(id);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PutMapping
-	public ResponseEntity<ResponseDto> update(@RequestBody Post data) {
-		ResponseDto res = postService.update(data);
+	public ResponseEntity<ResponseDto> update(@RequestBody final Post data) {
+		final ResponseDto res = postService.update(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("polling")
-	public ResponseEntity<ResponseDto> insertPolling(@RequestBody Post data) {
-		ResponseDto res = postService.insertPolling(data);
+	public ResponseEntity<ResponseDto> insertPolling(@RequestBody final Post data) {
+		final ResponseDto res = postService.insertPolling(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
-	public ResponseEntity<List<Post>> getAll(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
+	public ResponseEntity<List<Post>> getAll(@RequestParam(required = false) final Integer start,
+			@RequestParam(required = false) final Integer limit){
 		List<Post> result = new ArrayList<>();
 		if(start != null) {
 			result = postService.getAll(start, limit);
@@ -76,25 +77,28 @@ public class PostController {
 		}
 		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
 	}
+	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("like")
-	public ResponseEntity<List<Post>> getAllByLike(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
+	public ResponseEntity<List<Post>> getAllByLike(@RequestParam(required = false) final Integer start,
+			@RequestParam(required = false) final Integer limit){
 		final List<Post> result = postService.getAllByLike(start, limit);
 		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
 	}
+	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("bookmark")
-	public ResponseEntity<List<Post>> getAllByBookmark(@RequestParam(required = false) Integer start, @RequestParam(required = false) Integer limit){
+	public ResponseEntity<List<Post>> getAllByBookmark(@RequestParam(required = false) final Integer start,
+			@RequestParam(required = false) final Integer limit){
 		final List<Post> result = postService.getAllByBookmark(start, limit);
 		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLMM')")
 	@GetMapping("{id}")
-	public ResponseEntity<Post> getById(@PathVariable("id") String id){
+	public ResponseEntity<Post> getById(@PathVariable("id") final String id){
 		final Post result = postService.getById(id);
 		return new ResponseEntity<Post>(result, HttpStatus.OK);
 	}
-	
 	
 }

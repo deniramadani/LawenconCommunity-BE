@@ -1,6 +1,5 @@
 package com.lawencon.community.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +55,7 @@ public class ArticleController {
 	@GetMapping
 	public ResponseEntity<List<Article>> getAll(@RequestParam(required = false) final Integer start,
 			@RequestParam(required = false) final Integer limit){
-		List<Article> result = new ArrayList<>(); 
-		result = articleService.getAll(start, limit);						
+		final List<Article> result = articleService.getAll(start, limit);						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -65,8 +63,7 @@ public class ArticleController {
 	@GetMapping("users")
 	public ResponseEntity<List<Article>> getAllByUserId(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
-		List<Article> result = new ArrayList<>(); 
-		result = articleService.getAllByUserId(start, limit);						
+		final List<Article> result = articleService.getAllByUserId(start, limit);						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

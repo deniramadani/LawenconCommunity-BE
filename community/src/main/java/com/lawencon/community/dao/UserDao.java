@@ -25,7 +25,7 @@ public class UserDao extends AbstractJpaDao {
 		try {
 			final Object userObj = createNativeQuery(query.toString()).setParameter("email", email).getSingleResult();
 			if (userObj != null) {
-				Object[] objArr = (Object[]) userObj;
+				final Object[] objArr = (Object[]) userObj;
 				row = new User();
 				final Role role = new Role();
 				final UserType userType = new UserType();

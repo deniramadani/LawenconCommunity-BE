@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ReportConst {
+	
 	PRODUCTIVITY_MEMBER("Productivity", "Member Report : "), REVENUE_MEMBER("Revenue", "Member Report : "),
 	PRODUCTIVITY_SUPERADMIN("Productivity", "Super Admin Report : "), REVENUE_SUPERADMIN("Revenue", "Super Admin Report : ");
 
@@ -14,4 +15,5 @@ public enum ReportConst {
 		this.reportTitleEnum = reportTitleEnum;
 		this.reportTypeEnum = reportTypeEnum;
 	}
+	
 }

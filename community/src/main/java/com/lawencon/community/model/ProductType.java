@@ -20,9 +20,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class ProductType extends BaseEntity{
+	
 	private static final long serialVersionUID = 4692780059942588299L;
+	
 	@Column(name = "product_type_code", nullable=false, length=6)
 	private String productTypeCode;
+	
 	@Column(name = "product_type_name", nullable=false)
 	private String productTypeName;
 	

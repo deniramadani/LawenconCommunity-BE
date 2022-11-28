@@ -27,4 +27,5 @@ public class DashboardController {
 		final DashboardAdminDto result = dashboardService.getAll();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
 }

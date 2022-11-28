@@ -29,4 +29,5 @@ public class UserTypeController {
 		final List<UserType> result = userTypeService.getAll();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
 }

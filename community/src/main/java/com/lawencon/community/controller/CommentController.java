@@ -40,4 +40,5 @@ public class CommentController {
 		final ResponseDto res = commentService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
+	
 }

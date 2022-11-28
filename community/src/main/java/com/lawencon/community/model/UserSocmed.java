@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserSocmed extends BaseEntity{
+	
 	private static final long serialVersionUID = 8681486594160677008L;
 
 	@Column(name="facebook")

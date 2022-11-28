@@ -14,8 +14,7 @@ import com.lawencon.community.model.PostPollingOption;
 @Repository
 public class PostPollingOptionDao extends AbstractJpaDao{
 
-
-	public List<PostPollingOption> getAllByPostPolling(String id) {
+	public List<PostPollingOption> getAllByPostPolling(final String id) {
 		final List<PostPollingOption> postPollingOptions = new ArrayList<>();
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT tppo.id, tppo.post_polling_id, tppo.content, tppo.created_by, tppo.created_at, tppo.updated_by, tppo.updated_at, versions, is_active, ")
@@ -37,11 +36,9 @@ public class PostPollingOptionDao extends AbstractJpaDao{
 			if (rowArr[5] != null) {
 				postPollingOption.setUpdatedBy(rowArr[5].toString());
 			}
-
 			if (rowArr[6] != null) {
 				postPollingOption.setUpdatedAt(Timestamp.valueOf(rowArr[6].toString()).toLocalDateTime());
 			}
-
 			postPollingOption.setVersion(Integer.valueOf(rowArr[7].toString()));
 			postPollingOption.setIsActive(Boolean.valueOf(rowArr[8].toString()));
 			postPollingOption.setTotalResponse(Integer.valueOf(rowArr[9].toString()));

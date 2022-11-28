@@ -61,7 +61,7 @@ public class PositionController {
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@DeleteMapping("{id}")
-	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id) {
 		final ResponseDto res = positionService.deleteById(id);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}

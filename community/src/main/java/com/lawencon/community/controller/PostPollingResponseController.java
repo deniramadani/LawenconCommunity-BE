@@ -23,12 +23,11 @@ public class PostPollingResponseController {
 	@Autowired
 	private PostPollingResponseService pollingResponseService;
 
-	
-
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping
-	public ResponseEntity<ResponseDto> insert(@RequestBody PostPollingResponse data) {
-		ResponseDto res = pollingResponseService.insert(data);
+	public ResponseEntity<ResponseDto> insert(@RequestBody final PostPollingResponse data) {
+		final ResponseDto res = pollingResponseService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
+	
 }

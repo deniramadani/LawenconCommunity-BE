@@ -13,7 +13,8 @@ import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.Position;
 
 @Service
-public class PositionService extends BaseCoreService{
+public class PositionService extends BaseCoreService {
+	
 	@Autowired
 	private PositionDao positionDao;
 	
@@ -138,4 +139,5 @@ public class PositionService extends BaseCoreService{
 		}
 		return response;
 	}
+	
 }

@@ -1,6 +1,5 @@
 package com.lawencon.community.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +49,7 @@ public class ProductController {
 	@GetMapping("events")
 	public ResponseEntity<List<Schedule>> getAllScheduleEvent(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
-		List<Schedule> result = new ArrayList<>(); 
-		result = productService.getAllSchedule(start, limit, ProductTypeConst.EVENT.getProductTypeCodeEnum());						
+		final List<Schedule> result = productService.getAllSchedule(start, limit, ProductTypeConst.EVENT.getProductTypeCodeEnum());						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -59,8 +57,7 @@ public class ProductController {
 	@GetMapping("courses")
 	public ResponseEntity<List<Schedule>> getAllScheduleCourse(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
-		List<Schedule> result = new ArrayList<>(); 
-		result = productService.getAllSchedule(start, limit, ProductTypeConst.COURSE.getProductTypeCodeEnum());						
+		final List<Schedule> result = productService.getAllSchedule(start, limit, ProductTypeConst.COURSE.getProductTypeCodeEnum());						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -75,8 +72,7 @@ public class ProductController {
 	@GetMapping("events/users")
 	public ResponseEntity<List<Schedule>> getAllEventByUserId(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
-		List<Schedule> result = new ArrayList<>(); 
-		result = productService.getAllByUserId(start, limit, ProductTypeConst.EVENT.getProductTypeCodeEnum());						
+		final List<Schedule> result = productService.getAllByUserId(start, limit, ProductTypeConst.EVENT.getProductTypeCodeEnum());						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -84,8 +80,7 @@ public class ProductController {
 	@GetMapping("courses/users")
 	public ResponseEntity<List<Schedule>> getAllCourseByUserId(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
-		List<Schedule> result = new ArrayList<>(); 
-		result = productService.getAllByUserId(start, limit, ProductTypeConst.COURSE.getProductTypeCodeEnum());						
+		final List<Schedule> result = productService.getAllByUserId(start, limit, ProductTypeConst.COURSE.getProductTypeCodeEnum());						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

@@ -6,7 +6,9 @@ import lombok.Data;
 
 @Data
 public class ReportReqDto {
+	
 	private String startDate;
 	private String endDate;
 	private List<String> userId;
+	
 }

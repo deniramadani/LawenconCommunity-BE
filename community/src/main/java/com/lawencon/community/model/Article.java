@@ -17,9 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Article extends BaseEntity{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -911668334984227385L;
 
 	@Column(name="title", nullable=false)
@@ -34,4 +32,5 @@ public class Article extends BaseEntity{
 	
 	@Transient
 	private User user;
+	
 }

@@ -27,15 +27,16 @@ public class PostBookmarkController {
 
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@DeleteMapping("{id}")
-	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
-		ResponseDto res = postBookmarkService.delete(id);
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id) {
+		final ResponseDto res = postBookmarkService.delete(id);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping
-	public ResponseEntity<ResponseDto> insert(@RequestBody PostLike data) {
-		ResponseDto res = postBookmarkService.insert(data);
+	public ResponseEntity<ResponseDto> insert(@RequestBody final PostLike data) {
+		final ResponseDto res = postBookmarkService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
+
 }

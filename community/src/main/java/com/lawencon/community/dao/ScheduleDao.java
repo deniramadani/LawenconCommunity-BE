@@ -36,7 +36,7 @@ public class ScheduleDao extends AbstractJpaDao{
 		try {
 			final Object userObj = createNativeQuery(query.toString()).setParameter("productId", productId).getSingleResult();
 			if (userObj != null) {
-				Object[] objArr = (Object[]) userObj;
+				final Object[] objArr = (Object[]) userObj;
 				row = new Schedule();
 				row.setId(objArr[0].toString());
 				row.setDateTimeStart(Timestamp.valueOf(objArr[1].toString()).toLocalDateTime());

@@ -15,13 +15,13 @@ import com.lawencon.util.VerificationCodeUtil;
 
 @Service
 public class VerificationCodeService extends BaseCoreService {
+	
 	@Autowired
 	private MailUtil mailUtil;
-
 	@Autowired
 	private VerificationCodeUtil verificationCodeUtil;
 
-	public ResponseDto generateVerificationCode(String email) {
+	public ResponseDto generateVerificationCode(final String email) {
 		final Map<String, Object> template = new HashMap<>();
 		final String code = GenerateCodeUtil.generateCode();
 		final ResponseDto responseDto = new ResponseDto();
@@ -39,11 +39,11 @@ public class VerificationCodeService extends BaseCoreService {
 		return responseDto;
 	}
 	
-	public ResponseDto validateCode(VerificationCodeDto data) {
+	public ResponseDto validateCode(final VerificationCodeDto data) {
 		final ResponseDto responseDto = new ResponseDto();
 			verificationCodeUtil.validateVerificationCode(data.getEmail(), data.getCode());
 			responseDto.setMessage("Verification Success");
 		return responseDto;
-		
 	}
+	
 }

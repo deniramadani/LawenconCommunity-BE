@@ -9,7 +9,8 @@ import com.lawencon.community.model.Product;
 import com.lawencon.community.model.ProductType;
 
 @Repository
-public class ProductDao extends AbstractJpaDao{
+public class ProductDao extends AbstractJpaDao {
+	
 	public Optional<Product> getSubscribeId(final String productTypeCode) {
 		final StringBuilder query = new StringBuilder()
 			.append("SELECT tp.id, tpt.product_type_code ")
@@ -20,7 +21,7 @@ public class ProductDao extends AbstractJpaDao{
 		try {
 			final Object userObj = createNativeQuery(query.toString()).setParameter("productTypeCode", productTypeCode).getSingleResult();
 			if (userObj != null) {
-				Object[] objArr = (Object[]) userObj;
+				final Object[] objArr = (Object[]) userObj;
 				row = new Product();
 				final ProductType productType = new ProductType();
 				row.setId(objArr[0].toString());
@@ -33,4 +34,5 @@ public class ProductDao extends AbstractJpaDao{
 		final Optional<Product> optional = Optional.ofNullable(row);
 		return optional;
 	}
+	
 }

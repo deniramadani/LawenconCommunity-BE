@@ -20,8 +20,10 @@ import lombok.EqualsAndHashCode;
 public class Schedule extends BaseEntity{
 
 	private static final long serialVersionUID = -147122213635167724L;
+	
 	@Column(name = "date_time_start", nullable = false)
 	private LocalDateTime dateTimeStart;
+	
 	@Column(name = "date_time_end", nullable = false)
 	private LocalDateTime dateTimeEnd;
 	

@@ -21,7 +21,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RequestMapping("files")
 public class FileController {
 	
-	@Autowired private FileService fileService;
+	@Autowired
+	private FileService fileService;
 	
 	@GetMapping("download/{id}")
     public ResponseEntity<?> download(@PathVariable("id") final String id) {

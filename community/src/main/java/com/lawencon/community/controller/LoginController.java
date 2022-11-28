@@ -28,24 +28,25 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RequestMapping("login")
 public class LoginController {
 	
-	@Autowired private AuthenticationManager authManager;
-	
-	@Autowired private JwtUtil jwtUtil;
-	
-	@Autowired private UserService userService;
+	@Autowired
+	private AuthenticationManager authManager;
+	@Autowired
+	private JwtUtil jwtUtil;
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<LoginResDto> login(@RequestBody User data) {
-		Authentication auth = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
+	public ResponseEntity<LoginResDto> login(@RequestBody final User data) {
+		final Authentication auth = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
 		authManager.authenticate(auth);
 		final Optional<User> user = userService.getByEmail(data.getEmail());
 		
-		Map<String, Object> claims = new HashMap<>();
+		final Map<String, Object> claims = new HashMap<>();
 		claims.put(ClaimKey.ID.name(), user.get().getId());
 		claims.put(ClaimKey.ROLE.name(), user.get().getRole().getRoleCode());
 		
 		
-		LoginResDto res = new LoginResDto();
+		final LoginResDto res = new LoginResDto();
 		res.setId(user.get().getId());
 		res.setFullname(user.get().getFullname());
 		res.setRoleCode(user.get().getRole().getRoleCode());

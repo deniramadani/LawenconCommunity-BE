@@ -10,10 +10,13 @@ import com.lawencon.community.dao.UserTypeDao;
 import com.lawencon.community.model.UserType;
 
 @Service
-public class UserTypeService extends BaseCoreService{
+public class UserTypeService extends BaseCoreService {
+	
 	@Autowired
 	private UserTypeDao userTypeDao;
+	
 	public List<UserType> getAll(){
 		return userTypeDao.getAll(UserType.class);
 	}
+	
 }

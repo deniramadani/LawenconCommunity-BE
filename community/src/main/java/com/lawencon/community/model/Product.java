@@ -18,24 +18,34 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Product extends BaseEntity {
+	
 	private static final long serialVersionUID = -2660267870645727094L;
+	
 	@Column(nullable = false)
 	private String title;
+	
 	@Column(nullable = false)
 	private String content;
+	
 	@Column(nullable = false)
 	private String provider;
+	
 	@Column(nullable = false)
 	private String location;
+	
 	@Column(nullable = false)
 	private BigDecimal price;
+	
 	@OneToOne
 	@JoinColumn(name = "type_product_id", nullable = false)
 	private ProductType productType;
+	
 	@OneToOne
 	@JoinColumn(name = "owner_id", nullable = false)
 	private User ownerId;
+	
 	@OneToOne
 	@JoinColumn(name = "photo_id", nullable = false)
 	private File photo;
+	
 }

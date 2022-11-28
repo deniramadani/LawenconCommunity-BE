@@ -15,13 +15,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PostLike extends BaseEntity{
+	
 	private static final long serialVersionUID = -6887509147358092438L;
-
 
 	@OneToOne
 	@JoinColumn(name="post_id", nullable = false)
 	private Post post;
-	
 	
 	@OneToOne
 	@JoinColumn(name="user_id", nullable = false)

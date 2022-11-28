@@ -1,6 +1,5 @@
 package com.lawencon.community.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,7 @@ public class ProductTypeController {
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
 	public ResponseEntity<List<ProductType>> getAllEC(){
-		List<ProductType> result = new ArrayList<>(); 
-		result = productTypeService.getAllEC();						
+		final List<ProductType> result = productTypeService.getAllEC();						
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

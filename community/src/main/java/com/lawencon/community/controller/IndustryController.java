@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RestController
 @RequestMapping("industries")
 public class IndustryController {
+	
 	@Autowired
 	private IndustryService industryService;
 
@@ -60,8 +61,9 @@ public class IndustryController {
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@DeleteMapping("{id}")
-	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id) {
 		final ResponseDto res = industryService.deleteById(id);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
+	
 }

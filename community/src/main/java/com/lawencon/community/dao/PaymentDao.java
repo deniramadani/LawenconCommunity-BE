@@ -23,10 +23,9 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("INNER JOIN tb_product p ON p.id = tp.product_id ")
 				.append("INNER JOIN tb_product_type tpt ON tpt.id = p.type_product_id ")
 				.append("WHERE tpt.product_type_code = :code ");
-		Long result = Long.valueOf(ConnHandler.getManager().createNativeQuery(query.toString()).setParameter("code", code).getSingleResult().toString());
+		final Long result = Long.valueOf(ConnHandler.getManager().createNativeQuery(query.toString()).setParameter("code", code).getSingleResult().toString());
 		return result;
 	}
-	
 	@SuppressWarnings("unchecked")
 	public List<Payment> getAllUserId(final Integer start, final Integer limit, final String userId)  {
 		final StringBuilder query = new StringBuilder()
@@ -74,7 +73,7 @@ public class PaymentDao extends AbstractJpaDao{
 		try {
 			final Object objCol = createNativeQuery(query.toString()).setParameter("code", code).getSingleResult();
 			if (objCol != null) {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				row = new Payment();
 				row.setId(objArr[0].toString());
 				row.setTransactionCode(objArr[1].toString());
@@ -107,7 +106,7 @@ public class PaymentDao extends AbstractJpaDao{
 		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
 				row.setType(objArr[1].toString());
@@ -138,7 +137,7 @@ public class PaymentDao extends AbstractJpaDao{
 		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
 				row.setType(objArr[1].toString());
@@ -183,7 +182,7 @@ public class PaymentDao extends AbstractJpaDao{
 		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
 				row.setMemberName(objArr[1].toString());
@@ -217,7 +216,7 @@ public class PaymentDao extends AbstractJpaDao{
 		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
 				row.setMemberName(objArr[1].toString());

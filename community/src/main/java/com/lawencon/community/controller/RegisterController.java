@@ -25,21 +25,22 @@ public class RegisterController {
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@PostMapping("/super-admin")
-	public ResponseEntity<ResponseDto> registerSuperAdmin(@RequestBody User data) {
-		ResponseDto res = userService.insertSuperAdmin(data);
+	public ResponseEntity<ResponseDto> registerSuperAdmin(@RequestBody final User data) {
+		final ResponseDto res = userService.insertSuperAdmin(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@PostMapping("/admin")
-	public ResponseEntity<ResponseDto> registerAdmin(@RequestBody User data) {
-		ResponseDto res = userService.insertAdmin(data);
+	public ResponseEntity<ResponseDto> registerAdmin(@RequestBody final User data) {
+		final ResponseDto res = userService.insertAdmin(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 	
 	@PostMapping("/member")
-	public ResponseEntity<ResponseDto> registerMember(@RequestBody User data) {
-		ResponseDto res = userService.insertMember(data);
+	public ResponseEntity<ResponseDto> registerMember(@RequestBody final User data) {
+		final ResponseDto res = userService.insertMember(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
+	
 }

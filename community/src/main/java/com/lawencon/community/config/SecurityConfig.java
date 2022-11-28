@@ -17,6 +17,7 @@ public class SecurityConfig {
 		final String[] allowedOrigins = new String[] {"http://localhost:4200"};
 		return allowedOrigins;
 	}
+	
 	@Bean(name = "webIgnoring")
 	public List<RequestMatcher> matchers() {
 		final List<RequestMatcher> matchers = new ArrayList<>();

@@ -27,15 +27,16 @@ public class PostLikeController {
 
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@DeleteMapping("{id}")
-	public ResponseEntity<ResponseDto> delete(@PathVariable("id") String id) {
-		ResponseDto res = postLikeService.delete(id);
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id) {
+		final ResponseDto res = postLikeService.delete(id);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping
-	public ResponseEntity<ResponseDto> insert(@RequestBody PostLike data) {
-		ResponseDto res = postLikeService.insert(data);
+	public ResponseEntity<ResponseDto> insert(@RequestBody final PostLike data) {
+		final ResponseDto res = postLikeService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}
+	
 }

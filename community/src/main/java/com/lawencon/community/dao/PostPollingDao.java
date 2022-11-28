@@ -11,11 +11,10 @@ import com.lawencon.community.model.PostPolling;
 @Repository
 public class PostPollingDao extends AbstractJpaDao {
 
-	public PostPolling getByPost(String id) {
+	public PostPolling getByPost(final String id) {
 		final StringBuilder query = new StringBuilder().append(
 				"SELECT tpo.id, tpo.post_id, tpo.question, tpo.created_by, tpo.created_at, tpo.updated_by, tpo.updated_at, tpo.versions, tpo.is_active")
 				.append(" FROM tb_post_polling AS tpo ").append("WHERE tpo.post_id = :id AND tpo.is_active = true");
-		System.out.println(query.toString());
 		final PostPolling postPolling = new PostPolling();
 		try {
 			final Object obj = createNativeQuery(query.toString()).setParameter("id", id).getSingleResult();
@@ -31,14 +30,12 @@ public class PostPollingDao extends AbstractJpaDao {
 			if (objArr[5] != null) {
 				postPolling.setUpdatedBy(objArr[7].toString());
 			}
-
 			if (objArr[6] != null) {
 				postPolling.setUpdatedAt(Timestamp.valueOf(objArr[6].toString()).toLocalDateTime());
 			}
-
 			postPolling.setVersion(Integer.valueOf(objArr[7].toString()));
 			postPolling.setIsActive(Boolean.valueOf(objArr[8].toString()));
-		}}catch(Exception e) {
+		}} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return postPolling;

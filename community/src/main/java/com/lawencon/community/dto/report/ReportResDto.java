@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class ReportResDto {
+	
 	private Long no;
 	private String type;
 	private String title;
@@ -15,4 +16,5 @@ public class ReportResDto {
 	private String memberName;
 	private String provider;
 	private BigDecimal totalIncome;
+	
 }

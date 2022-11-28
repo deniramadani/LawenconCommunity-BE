@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum UserTypeConst {
+	
 	PREMIUM("UTCPM", "Premium"), BASIC("UTCBS", "Basic");
 
 	private final String userTypeCodeEnum;
@@ -13,4 +14,5 @@ public enum UserTypeConst {
 		this.userTypeCodeEnum = userTypeCodeEnum;
 		this.userTypeNameEnum = userTypeNameEnum;
 	}
+	
 }

@@ -9,6 +9,7 @@ import com.lawencon.community.model.PostType;
 
 @Repository
 public class PostTypeDao extends AbstractJpaDao{
+	
 	public Optional<PostType> getByCode(final String postCode) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT id, post_type_code, post_type_name, is_active, versions ")
@@ -18,7 +19,7 @@ public class PostTypeDao extends AbstractJpaDao{
 		try {
 			final Object obj = createNativeQuery(query.toString()).setParameter("postCode", postCode).getSingleResult();
 			if (obj != null) {
-				Object[] objArr = (Object[]) obj;
+				final Object[] objArr = (Object[]) obj;
 				row = new PostType();
 				row.setId(objArr[0].toString());
 				row.setPostTypeCode(objArr[1].toString());
@@ -32,4 +33,5 @@ public class PostTypeDao extends AbstractJpaDao{
 		final Optional<PostType> optional = Optional.ofNullable(row);
 		return optional;
 	}
+	
 }

@@ -4,6 +4,4 @@ import org.springframework.stereotype.Repository;
 
 import com.lawencon.base.AbstractJpaDao;
 @Repository
-public class PositionDao extends AbstractJpaDao {
-
-}
+public class PositionDao extends AbstractJpaDao {}

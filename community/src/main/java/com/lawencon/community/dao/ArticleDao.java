@@ -12,7 +12,7 @@ import com.lawencon.community.model.File;
 import com.lawencon.community.model.User;
 
 @Repository
-public class ArticleDao extends AbstractJpaDao{
+public class ArticleDao extends AbstractJpaDao {
 	
 	public List<Article> getAllArticle(final Integer start, final Integer limit) {
 		final StringBuilder query = new StringBuilder()
@@ -27,7 +27,7 @@ public class ArticleDao extends AbstractJpaDao{
 		final List<Article> rows =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				final Article row = new Article();
 				row.setId(objArr[0].toString());
 				row.setTitle(objArr[1].toString());
@@ -61,7 +61,7 @@ public class ArticleDao extends AbstractJpaDao{
 		final List<Article> rows =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
-				Object[] objArr = (Object[]) objCol;
+				final Object[] objArr = (Object[]) objCol;
 				final Article row = new Article();
 				row.setId(objArr[0].toString());
 				row.setTitle(objArr[1].toString());

@@ -32,7 +32,8 @@ public class UserController {
 	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping
-	public ResponseEntity<List<User>> getByAll(@RequestParam(required = false) Integer start,@RequestParam(required = false) Integer limit){
+	public ResponseEntity<List<User>> getByAll(@RequestParam(required = false) final Integer start,
+			@RequestParam(required = false) Integer limit){
 		List<User> result = new ArrayList<>(); 
 		if(start != null) {
 			if (limit==null) {
@@ -47,14 +48,14 @@ public class UserController {
 	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@GetMapping("{id}")
-	public ResponseEntity<User> getById(@PathVariable("id") String id){
+	public ResponseEntity<User> getById(@PathVariable("id") final String id){
 		final User result = userService.getById(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 	@PutMapping
-	public ResponseEntity<ResponseDto> update(@RequestBody User data){
+	public ResponseEntity<ResponseDto> update(@RequestBody final User data){
 		final ResponseDto result = userService.update(data);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
@@ -72,4 +73,5 @@ public class UserController {
 		final ResponseDto result = userService.delete(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
 }
