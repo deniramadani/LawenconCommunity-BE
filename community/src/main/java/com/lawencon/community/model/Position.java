@@ -16,6 +16,8 @@ import lombok.EqualsAndHashCode;
 public class Position extends BaseEntity {
 	
 	private static final long serialVersionUID = -8552107889906860067L;
+	
 	@Column(name = "position_name", nullable=false, length=30)
 	private String positionName;
+	
 }

@@ -9,6 +9,7 @@ import com.lawencon.community.model.UserType;
 
 @Repository
 public class UserTypeDao extends AbstractJpaDao {
+	
 	public Optional<UserType> getByCode(final String userTypeCode) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT id, user_type_code, user_type_name, is_active, versions ")
@@ -18,7 +19,7 @@ public class UserTypeDao extends AbstractJpaDao {
 		try {
 			final Object obj = createNativeQuery(query.toString()).setParameter("userTypeCode", userTypeCode).getSingleResult();
 			if (obj != null) {
-				Object[] objArr = (Object[]) obj;
+				final Object[] objArr = (Object[]) obj;
 				row = new UserType();
 				row.setId(objArr[0].toString());
 				row.setUserTypeCode(objArr[1].toString());
@@ -32,4 +33,5 @@ public class UserTypeDao extends AbstractJpaDao {
 		final Optional<UserType> optional = Optional.ofNullable(row);
 		return optional;
 	}
+	
 }

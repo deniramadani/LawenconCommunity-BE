@@ -16,15 +16,15 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Comment extends BaseEntity{
-	private static final long serialVersionUID = 1910807044953030553L;
+	
+	private static final long serialVersionUID = -6951535414837311039L;
 
-	@Column(nullable = false)
+	@Column(name="content", nullable = false)
 	private String content;
 
 	@OneToOne
 	@JoinColumn(name="post_id", nullable = false)
 	private Post post;
-	
 	
 	@OneToOne
 	@JoinColumn(name="user_id", nullable = false)

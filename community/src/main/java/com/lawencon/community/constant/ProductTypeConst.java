@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ProductTypeConst {
 	
-	EVENT("PRODE", "Event"), COURSE("PRODC", "Course");
+	SUBSCRIBE("PRODS", "Subscribe"), EVENT("PRODE", "Event"), COURSE("PRODC", "Course");
 
 	private final String productTypeCodeEnum;
 	private final String productTypeNameEnum;

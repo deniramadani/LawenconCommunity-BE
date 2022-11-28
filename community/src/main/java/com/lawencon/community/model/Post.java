@@ -18,27 +18,52 @@ import lombok.EqualsAndHashCode;
 @Table(name = "tb_post")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Post extends BaseEntity{
-	private static final long serialVersionUID = -4604426450351303697L;
-	@Column(length=100, nullable=false)
+public class Post extends BaseEntity {
+	
+	private static final long serialVersionUID = -3991998266586527586L;
+	
+	@Column(length = 100, nullable = false)
 	private String title;
-	@Column(nullable=false)
+	
+	@Column(nullable = false)
 	private String body;
-	
+
 	@OneToOne
-	@JoinColumn(name="user_id", nullable=false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	
+
 	@OneToOne
-	@JoinColumn(name="type_post_id", nullable = false)
+	@JoinColumn(name = "type_post_id", nullable = false)
 	private PostType postType;
-	
+
 	@Transient
-	private List<File> file;
-	
+	private List<PostAttachment> file;
+
 	@Transient
 	private String question;
+
+	@Transient
+	private Integer totalLike;
+
+	@Transient
+	private String likeId;
+
+	@Transient
+	private String bookmarkId;
+
+	@Transient
+	private String optionId;
+
+	@Transient
+	private Integer totalComment;
 	
 	@Transient
 	private List<PostPollingOption> postPollingOption;
+	
+	@Transient
+	private List<File> pfile;
+	
+	@Transient
+	private List<Comment> comments;
+	
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum RoleConst {
+	
 	SYSTEM("ROLSY", "System"), SUPERADMIN("ROLSA", "Super Admin"),
 	ADMIN("ROLAM", "Admin"), MEMBER("ROLMM", "Member");
 

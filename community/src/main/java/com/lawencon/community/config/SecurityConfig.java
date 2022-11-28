@@ -17,6 +17,7 @@ public class SecurityConfig {
 		final String[] allowedOrigins = new String[] {"http://localhost:4200"};
 		return allowedOrigins;
 	}
+	
 	@Bean(name = "webIgnoring")
 	public List<RequestMatcher> matchers() {
 		final List<RequestMatcher> matchers = new ArrayList<>();
@@ -26,6 +27,7 @@ public class SecurityConfig {
 		matchers.add(new AntPathRequestMatcher("/login/**", HttpMethod.POST.name()));
 		matchers.add(new AntPathRequestMatcher("/register/member/**", HttpMethod.POST.name()));
 		matchers.add(new AntPathRequestMatcher("/verification-code/**", HttpMethod.POST.name()));
+		
 		return matchers;
 	}
 

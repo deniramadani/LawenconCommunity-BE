@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.lawencon.base.BaseEntity;
 
@@ -16,16 +17,20 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Article extends BaseEntity{
-	private static final long serialVersionUID = -2063027490898073985L;
-	@Column(nullable=false)
+	
+	private static final long serialVersionUID = -911668334984227385L;
+
+	@Column(name="title", nullable=false)
 	private String title;
-	@OneToOne
-	@JoinColumn(name="post_id", nullable = false)
-	private Post post;
 	
+	@Column(name="content", nullable=false)
+	private String content;
 	
 	@OneToOne
-	@JoinColumn(name="user_id", nullable = false)
+	@JoinColumn(name="photo_id", nullable = false)
+	private File file;
+	
+	@Transient
 	private User user;
 	
 }

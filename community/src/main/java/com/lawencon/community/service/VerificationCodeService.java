@@ -15,34 +15,35 @@ import com.lawencon.util.VerificationCodeUtil;
 
 @Service
 public class VerificationCodeService extends BaseCoreService {
+	
 	@Autowired
 	private MailUtil mailUtil;
-
 	@Autowired
 	private VerificationCodeUtil verificationCodeUtil;
 
-	public ResponseDto generateVerificationCode(String email) {
+	public ResponseDto generateVerificationCode(final String email) {
 		final Map<String, Object> template = new HashMap<>();
 		final String code = GenerateCodeUtil.generateCode();
+		final ResponseDto responseDto = new ResponseDto();
 		template.put("email", email);
 		template.put("code", code);
 		final String subject = "Verification Code for Activating Account";
 		try {
 			mailUtil.sendMessageFreeMarker(email, subject, template, "verification-code-template.ftl");
 		} catch (Exception e) {
+			responseDto.setMessage("Verification Code Failed to Send.");
 			e.printStackTrace();
 		}
 		verificationCodeUtil.addVerificationCode(email, code);
-		ResponseDto responseDto = new ResponseDto();
 		responseDto.setMessage("Verification Code Sent to your email. Please Check your Email.");
 		return responseDto;
 	}
 	
-	public ResponseDto validateCode(VerificationCodeDto data) {
+	public ResponseDto validateCode(final VerificationCodeDto data) {
 		final ResponseDto responseDto = new ResponseDto();
 			verificationCodeUtil.validateVerificationCode(data.getEmail(), data.getCode());
 			responseDto.setMessage("Verification Success");
 		return responseDto;
-		
 	}
+	
 }

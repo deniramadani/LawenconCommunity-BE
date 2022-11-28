@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PostAttachment extends BaseEntity{
+	
 	private static final long serialVersionUID = -8180068832637928067L;
 
 	@OneToOne
@@ -24,4 +25,5 @@ public class PostAttachment extends BaseEntity{
 	@OneToOne
 	@JoinColumn(name="file_id", nullable = false)
 	private File file;
+	
 }

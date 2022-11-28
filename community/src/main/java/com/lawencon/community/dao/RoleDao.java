@@ -8,6 +8,7 @@ import com.lawencon.base.AbstractJpaDao;
 import com.lawencon.community.model.Role;
 @Repository
 public class RoleDao extends AbstractJpaDao{
+	
 	public Optional<Role> getByCode(final String roleCode) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT id, role_code, role_name, is_active, versions ")
@@ -17,7 +18,7 @@ public class RoleDao extends AbstractJpaDao{
 		try {
 			final Object obj = createNativeQuery(query.toString()).setParameter("roleCode", roleCode).getSingleResult();
 			if (obj != null) {
-				Object[] objArr = (Object[]) obj;
+				final Object[] objArr = (Object[]) obj;
 				row = new Role();
 				row.setId(objArr[0].toString());
 				row.setRoleCode(objArr[1].toString());
@@ -31,4 +32,5 @@ public class RoleDao extends AbstractJpaDao{
 		final Optional<Role> optional = Optional.ofNullable(row);
 		return optional;
 	}
+	
 }

@@ -19,17 +19,19 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RestController
 @RequestMapping("verification-code")
 public class VerificationCodeController {
+	
 	@Autowired
 	private VerificationCodeService verificationCodeService;
 
 	@PostMapping("/generate")
-	public ResponseEntity<ResponseDto> generateCode(@RequestBody User data) {
-		final ResponseDto responseDto =verificationCodeService.generateVerificationCode(data.getEmail());
+	public ResponseEntity<ResponseDto> generateCode(@RequestBody final User data) {
+		final ResponseDto responseDto = verificationCodeService.generateVerificationCode(data.getEmail());
 		return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
 	}
 	@PostMapping("/validate")
-	public ResponseEntity<ResponseDto> validateCode(@RequestBody VerificationCodeDto data) {
+	public ResponseEntity<ResponseDto> validateCode(@RequestBody final VerificationCodeDto data) {
 		final ResponseDto responseDto = verificationCodeService.validateCode(data);
 		return new ResponseEntity<ResponseDto>(responseDto, HttpStatus.OK);
 	}
+	
 }

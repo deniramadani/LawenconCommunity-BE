@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.lawencon.base.BaseEntity;
@@ -19,28 +18,34 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Product extends BaseEntity {
-
-	private static final long serialVersionUID = -6480793251581081618L;
+	
+	private static final long serialVersionUID = -2660267870645727094L;
+	
 	@Column(nullable = false)
 	private String title;
+	
 	@Column(nullable = false)
 	private String content;
+	
 	@Column(nullable = false)
 	private String provider;
+	
 	@Column(nullable = false)
 	private String location;
+	
 	@Column(nullable = false)
 	private BigDecimal price;
+	
 	@OneToOne
 	@JoinColumn(name = "type_product_id", nullable = false)
 	private ProductType productType;
+	
 	@OneToOne
 	@JoinColumn(name = "owner_id", nullable = false)
 	private User ownerId;
-
-	@PrePersist
-	public void preInsert() {
-		this.price = BigDecimal.ZERO;
-	}
-
+	
+	@OneToOne
+	@JoinColumn(name = "photo_id", nullable = false)
+	private File photo;
+	
 }

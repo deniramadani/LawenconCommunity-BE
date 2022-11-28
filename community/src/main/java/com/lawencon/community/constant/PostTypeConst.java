@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum PostTypeConst {
+	
 	PREMIUM("PSTPM", "Premium"), BASIC("PSTBS", "Basic"), POLLING("PSTPL", "Basic");
 
 	private final String postTypeCodeEnum;
@@ -13,4 +14,5 @@ public enum PostTypeConst {
 		this.postTypeCodeEnum = postTypeCodeEnum;
 		this.postTypeNameEnum = postTypeNameEnum;
 	}
+	
 }

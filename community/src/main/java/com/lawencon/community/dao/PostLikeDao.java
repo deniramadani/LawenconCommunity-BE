@@ -5,6 +5,4 @@ import org.springframework.stereotype.Repository;
 import com.lawencon.base.AbstractJpaDao;
 
 @Repository
-public class PostLikeDao extends AbstractJpaDao{
-
-}
+public class PostLikeDao extends AbstractJpaDao {}

@@ -28,27 +28,34 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RequestMapping("login")
 public class LoginController {
 	
-	@Autowired private AuthenticationManager authManager;
-	
-	@Autowired private JwtUtil jwtUtil;
-	
-	@Autowired private UserService userService;
+	@Autowired
+	private AuthenticationManager authManager;
+	@Autowired
+	private JwtUtil jwtUtil;
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<LoginResDto> login(@RequestBody User data) {
-		Authentication auth = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
+	public ResponseEntity<LoginResDto> login(@RequestBody final User data) {
+		final Authentication auth = new UsernamePasswordAuthenticationToken(data.getEmail(), data.getPassword());
 		authManager.authenticate(auth);
 		final Optional<User> user = userService.getByEmail(data.getEmail());
 		
-		Map<String, Object> claims = new HashMap<>();
+		final Map<String, Object> claims = new HashMap<>();
 		claims.put(ClaimKey.ID.name(), user.get().getId());
 		claims.put(ClaimKey.ROLE.name(), user.get().getRole().getRoleCode());
 		
-		
-		LoginResDto res = new LoginResDto();
+		final LoginResDto res = new LoginResDto();
 		res.setId(user.get().getId());
 		res.setFullname(user.get().getFullname());
+		if(user.get().getPosition() != null) {
+			res.setPosition(user.get().getPosition().getPositionName());
+		}
 		res.setRoleCode(user.get().getRole().getRoleCode());
+		res.setUserTypeCode(user.get().getUserType().getUserTypeCode());
+		if(user.get().getPhoto() != null) {
+			res.setPhoto(user.get().getPhoto().getId());
+		}
 		res.setToken(jwtUtil.generateToken(claims));
 		return new ResponseEntity<LoginResDto>(res, HttpStatus.OK);
 	}
