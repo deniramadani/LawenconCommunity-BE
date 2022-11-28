@@ -11,6 +11,7 @@ import com.lawencon.community.dao.PostDao;
 import com.lawencon.community.dao.UserDao;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.Post;
+import com.lawencon.community.model.PostBookmark;
 import com.lawencon.community.model.PostLike;
 import com.lawencon.community.model.User;
 import com.lawencon.security.principal.PrincipalService;
@@ -26,24 +27,41 @@ public class PostBookmarkService extends BaseCoreService {
 	private PrincipalService principalService;
 	@Autowired
 	private PostBookmarkDao postBookmarkDao;
+	
+	private void valInsert(final PostBookmark data){
+		valNotNull(data);
+		valIdNull(data);
+	}
 
-	public ResponseDto insert(final PostLike data) {
+	private void valNotNull(final PostBookmark data) {
+		if (data.getPost().getId() == null) {
+			throw new RuntimeException("Post Id Required.");
+		}
+	}
+	
+	private void valIdNull(final PostBookmark data) {
+		if (data.getId() != null) { 
+			throw new RuntimeException("Id Is Set. Expected Not Set");
+		}
+	}
+	
+	public ResponseDto insert(final PostBookmark data) {
 		final ResponseDto responseDto = new ResponseDto();
-		final PostLike postLike = new PostLike();
+		final PostBookmark postBookmark = new PostBookmark();
 		try {
-//			valInsert(data);
+			valInsert(data);
 			begin();
 			final User user = userDao.getById(User.class, principalService.getAuthPrincipal());
-			postLike.setUser(user);
+			postBookmark.setUser(user);
 
 			final Post post = postDao.getById(Post.class, data.getPost().getId());
-			postLike.setPost(post);
+			postBookmark.setPost(post);
 			if (!(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum())
 					&& UserTypeConst.PREMIUM.getUserTypeCodeEnum()
 							.equalsIgnoreCase(user.getUserType().getUserTypeCode()))) {
 				throw new RuntimeException("Premium Access Only!");
 			}
-			postBookmarkDao.save(postLike);
+			postBookmarkDao.save(postBookmark);
 			responseDto.setMessage("You Bookmarked This Post");
 			commit();
 		} catch (Exception e) {
