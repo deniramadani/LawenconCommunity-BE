@@ -32,12 +32,12 @@ public class VerificationCodeController {
 	public ResponseEntity<ResponseDto> generateCode(@RequestBody final User data) {
 		ResponseDto response = new ResponseDto();
 		final Optional<User> result = userService.getByEmail(data.getEmail());
-		if(result.isEmpty()) {
-			response = verificationCodeService.generateVerificationCode(data.getEmail());
-			return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);			
-		} else {
+		if(result.isPresent()) {
 			response.setMessage("Email Already Exist!");
 			return new ResponseEntity<ResponseDto>(response, HttpStatus.CONFLICT);	
+		} else {
+			response = verificationCodeService.generateVerificationCode(data.getEmail());
+			return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 		}
 	}
 	

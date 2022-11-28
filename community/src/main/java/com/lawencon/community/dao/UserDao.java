@@ -59,7 +59,7 @@ public class UserDao extends AbstractJpaDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		final Optional<User> optional = Optional.ofNullable(row);
+		Optional<User> optional = Optional.ofNullable(row);
 		return optional;
 	}
 
