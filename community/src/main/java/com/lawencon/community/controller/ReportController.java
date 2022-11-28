@@ -126,7 +126,7 @@ public class ReportController {
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@GetMapping("revenue/super-admin/no-user")
-	public ResponseEntity<?> getRevenueSuperAdminNoUser(@RequestBody final ReportReqDto request) throws Exception {
+	public ResponseEntity<?> getRevenueSuperAdminNoUser(@RequestBody final ReportReqDto request) {
 		final List<ReportResDto> result = reportService.getRevenueSuperAdminNoUser(request.getStartDate(), request.getEndDate());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
