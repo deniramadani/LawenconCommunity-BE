@@ -214,5 +214,10 @@ public class PostService extends BaseCoreService {
 		final Post post = postDao.getById(id);
 		return post;
 	}
+	
+	public List<Post> getAllByUserId(final Integer start, final Integer limit) {
+		final List<Post> posts = postDao.getAllByUserId(start, limit);
+		return posts;
+	}
 
 }

@@ -101,4 +101,12 @@ public class PostController {
 		return new ResponseEntity<Post>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("user")
+	public ResponseEntity<List<Post>> getAllByUserId(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Post> result = postService.getAllByUserId(start, limit);
+		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
+	}
+	
 }

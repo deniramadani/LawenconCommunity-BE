@@ -227,5 +227,21 @@ public class PostDao extends AbstractJpaDao {
 		}
 		return posts;
 	}
-
+	
+	public List<Post> getAllByUserId(final Integer start, final Integer limit) {
+		final StringBuilder query = new StringBuilder().append(
+				"SELECT tp.id, tp.title, tp.body ,tp.user_id , tp.type_post_id , tp.created_by , tp.created_at , tp.updated_by , tp.updated_at , tp.versions , tp.is_active , ")
+				.append("(SELECT COUNT(tc.id) FROM tb_post_like tc WHERE tc.post_id = tp.id AND is_active = true) AS total_like, ")
+				.append("(SELECT COUNT(tpl.id) FROM tb_comment tpl WHERE tpl.post_id = tp.id AND is_active = true) AS total_comment, ")
+				.append("(SELECT tpl2.id FROM tb_post_like tpl2 WHERE tpl2.post_id =tp.id AND tpl2.user_id = :user_id AND is_active = true) AS like_id, ")
+				.append("(SELECT tpb.id FROM tb_post_bookmark tpb WHERE tpb.post_id =tp.id AND tpb.user_id = :user_id AND is_active = true) AS bookmark_id ")
+				.append("FROM tb_post tp WHERE tp.user_id = :user_id AND tp.is_active = true ORDER BY tp.created_at DESC LIMIT :limit OFFSET :start");
+		@SuppressWarnings("unchecked")
+		final List<Object[]> rows = ConnHandler.getManager().createNativeQuery(query.toString())
+				.setParameter("user_id", principalService.getAuthPrincipal()).setParameter("limit", limit)
+				.setParameter("start", start).getResultList();
+		final List<Post> posts = setObjToPost(rows);
+		return posts;
+	}
+	
 }
