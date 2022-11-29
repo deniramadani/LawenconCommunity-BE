@@ -109,4 +109,13 @@ public class PostController {
 		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
+	@GetMapping("user/{id}")
+	public ResponseEntity<List<Post>> getAllByOwnerId(@PathVariable("id") final String userId,
+			@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Post> result = postService.getAllByOwnerId(userId, start, limit);
+		return new ResponseEntity<List<Post>>(result, HttpStatus.OK);
+	}
+	
 }
