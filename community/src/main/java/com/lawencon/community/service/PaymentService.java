@@ -140,6 +140,14 @@ public class PaymentService extends BaseCoreService {
 		return transactionCode.toString();
 	}
 	
+	private void valCheckPayment(final Payment data){
+		final String userId = principalService.getAuthPrincipal();
+		final List<Payment> checkPaidStatus = paymentDao.getValByProductId(userId, data.getProduct().getId());
+		if(checkPaidStatus.size() > 0) {
+			throw new RuntimeException("You have paid for this activity!");		
+		}
+	}
+	
 	public ResponseDto insert(final Payment data)  {
 //		transaction code
 		String code = null;
@@ -153,6 +161,7 @@ public class PaymentService extends BaseCoreService {
 		final String trxCode = generateTrx(code);
 		data.setTransactionCode(code);
 //		transaction code
+		valCheckPayment(data);
 		valInsert(data);
 		final ResponseDto response = new ResponseDto();
 		try {

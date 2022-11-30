@@ -355,4 +355,23 @@ public class PaymentDao extends AbstractJpaDao{
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Payment> getValByProductId(final String userId, final String productId)  {
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT * ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_user tu ON tu.id = tp.user_id ")
+				.append("INNER JOIN tb_file tf ON tf.id = tp.transfer_photo_id ")
+				.append("INNER JOIN tb_product p ON p.id = tp.product_id ")
+				.append("INNER JOIN tb_user town ON town.id = p.owner_id ")
+				.append("INNER JOIN tb_product_type tpt ON tpt.id = p.type_product_id ")
+				.append("INNER JOIN tb_file tfoto ON tfoto.id = p.photo_id ")
+				.append("WHERE tp.user_id = :userId AND tp.product_id = :productId ")
+				.append("AND tp.approval = true AND tp.is_active = true ")
+				.append("ORDER BY tp.created_at DESC ");
+		final List<Payment> result = ConnHandler.getManager().createNativeQuery(query.toString(), Payment.class)
+				.setParameter("userId", userId).setParameter("productId", productId).getResultList();
+		return result;
+	}
+	
 }
