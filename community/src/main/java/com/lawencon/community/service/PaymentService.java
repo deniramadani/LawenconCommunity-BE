@@ -304,4 +304,9 @@ public class PaymentService extends BaseCoreService {
 		return paymentDao.getAllSubscribe(start, limit);
 	}
 	
+	public List<Payment> getAllByProductId(final String productId) {
+		final String userId = principalService.getAuthPrincipal();
+		return paymentDao.getAllByProductId(userId, productId);
+	}
+	
 }

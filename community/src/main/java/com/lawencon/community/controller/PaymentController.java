@@ -97,4 +97,11 @@ public class PaymentController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("users/products")
+	public ResponseEntity<List<Payment>> getAllByProductId(@RequestParam(required = true) final String productId){
+		final List<Payment> result = paymentService.getAllByProductId(productId);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 }
