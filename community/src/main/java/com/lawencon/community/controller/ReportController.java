@@ -116,18 +116,34 @@ public class ReportController {
 				.body(out);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("productivity/member/data")
+	public ResponseEntity<List<ReportResDto>> getProductivityMemberData(@RequestBody final ReportReqDto request) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> result = reportService.getProductivityMember(user.getId(), request.getStartDate(), request.getEndDate());					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("revenue/member/data")
+	public ResponseEntity<List<ReportResDto>> getRevenueMemberData(@RequestBody final ReportReqDto request) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> result = reportService.getRevenueMember(user.getId(), request.getStartDate(), request.getEndDate());					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("productivity/super-admin/no-user")
-	public ResponseEntity<List<ReportResDto>> getProductivitySuperAdminNoUser(@RequestBody final ReportReqDto request) {
-		final List<ReportResDto> result = reportService.getProductivitySuperAdminNoUser(request.getStartDate(), request.getEndDate());
+	@GetMapping("productivity/super-admin/data")
+	public ResponseEntity<List<ReportResDto>> getProductivitySuperAdminData(@RequestBody final ReportReqDto request) {
+		final List<ReportResDto> result = reportService.getProductivitySuperAdminData(request.getStartDate(), request.getEndDate());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 		
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("revenue/super-admin/no-user")
-	public ResponseEntity<?> getRevenueSuperAdminNoUser(@RequestBody final ReportReqDto request) {
-		final List<ReportResDto> result = reportService.getRevenueSuperAdminNoUser(request.getStartDate(), request.getEndDate());
+	@GetMapping("revenue/super-admin/data")
+	public ResponseEntity<?> getRevenueSuperAdminData(@RequestBody final ReportReqDto request) {
+		final List<ReportResDto> result = reportService.getRevenueSuperAdminData(request.getStartDate(), request.getEndDate());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

@@ -273,7 +273,7 @@ public class PaymentDao extends AbstractJpaDao{
 		return result;
 	}
 	
-	public List<ReportResDto> getProductivitySuperAdminNoUser(final String startDate, final String endDate) {
+	public List<ReportResDto> getProductivitySuperAdminData(final String startDate, final String endDate) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ROW_NUMBER() OVER(), town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, COUNT(user_id) ")
 				.append("FROM tb_payment tp ")
@@ -305,7 +305,7 @@ public class PaymentDao extends AbstractJpaDao{
 		return data;
 	}
 	
-	public List<ReportResDto> getRevenueSuperAdminNoUser(final String startDate, final String endDate) {
+	public List<ReportResDto> getRevenueSuperAdminData(final String startDate, final String endDate) {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ROW_NUMBER() OVER(), town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, (0.9*COUNT(user_id)*p.price) ")
 				.append("FROM tb_payment tp ")
