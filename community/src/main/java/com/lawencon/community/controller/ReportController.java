@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +41,7 @@ public class ReportController {
 	private UserService userService;
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("productivity/member")
+	@PostMapping("productivity/member")
 	public ResponseEntity<?> getProductivityMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
@@ -61,7 +61,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("revenue/member")
+	@PostMapping("revenue/member")
 	public ResponseEntity<?> getRevenueMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
@@ -81,7 +81,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("productivity/super-admin")
+	@PostMapping("productivity/super-admin")
 	public ResponseEntity<?> getProductivitySuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
@@ -101,7 +101,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("revenue/super-admin")
+	@PostMapping("revenue/super-admin")
 	public ResponseEntity<?> getRevenueSuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
@@ -121,7 +121,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("productivity/member/data")
+	@PostMapping("productivity/member/data")
 	public ResponseEntity<List<ReportResDto>> getProductivityMemberData(@RequestBody final ReportReqDto request) {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
@@ -130,7 +130,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("revenue/member/data")
+	@PostMapping("revenue/member/data")
 	public ResponseEntity<List<ReportResDto>> getRevenueMemberData(@RequestBody final ReportReqDto request) {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
@@ -139,7 +139,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("productivity/super-admin/data")
+	@PostMapping("productivity/super-admin/data")
 	public ResponseEntity<List<ReportResDto>> getProductivitySuperAdminData(@RequestBody final ReportReqDto request) {
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> result = reportService.getProductivitySuperAdminData(request.getStartDate(), request.getEndDate());
@@ -148,7 +148,7 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("revenue/super-admin/data")
+	@PostMapping("revenue/super-admin/data")
 	public ResponseEntity<?> getRevenueSuperAdminData(@RequestBody final ReportReqDto request) {
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> result = reportService.getRevenueSuperAdminData(request.getStartDate(), request.getEndDate());
