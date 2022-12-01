@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.constant.ReportConst;
@@ -138,6 +140,7 @@ public class ReportController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	//DISTINCT
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@PostMapping("productivity/super-admin/data")
 	public ResponseEntity<List<ReportResDto>> getProductivitySuperAdminData(@RequestBody final ReportReqDto request) {
@@ -147,11 +150,30 @@ public class ReportController {
 		
 	}
 	
+	//DISTINCT
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@PostMapping("revenue/super-admin/data")
 	public ResponseEntity<?> getRevenueSuperAdminData(@RequestBody final ReportReqDto request) {
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> result = reportService.getRevenueSuperAdminData(request.getStartDate(), request.getEndDate());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("productivity/member/data-all")
+	public ResponseEntity<List<ReportResDto>> getAllProductivityMemberData(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> result = reportService.getAllProductivityMember(user.getId(), start, limit);					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("revenue/member/data-all")
+	public ResponseEntity<List<ReportResDto>> getAllRevenueMemberData(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> result = reportService.getAllRevenueMember(user.getId(), start, limit);					
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

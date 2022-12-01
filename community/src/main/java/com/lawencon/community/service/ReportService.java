@@ -24,6 +24,14 @@ public class ReportService extends BaseCoreService {
 		return paymentDao.getRevenueMember(userId, startDate, endDate);
 	}
 	
+	public List<ReportResDto> getAllProductivityMember(final String userId, final Integer start, final Integer limit){
+		return paymentDao.getAllProductivityMember(userId, start, limit);
+	}
+	
+	public List<ReportResDto> getAllRevenueMember(final String userId, final Integer start, final Integer limit){
+		return paymentDao.getAllRevenueMember(userId, start, limit);
+	}
+	
 	public List<ReportResDto> getProductivitySuperAdmin(final List<String> userIdList, final String startDate, final String endDate){
 		return paymentDao.getProductivitySuperAdmin(userIdList, startDate, endDate);
 	}
