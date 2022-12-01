@@ -142,9 +142,13 @@ public class PaymentService extends BaseCoreService {
 	
 	private void valCheckPayment(final Payment data){
 		final String userId = principalService.getAuthPrincipal();
-		final List<Payment> checkPaidStatus = paymentDao.getValByProductId(userId, data.getProduct().getId());
+		final List<Payment> checkPaidStatus = paymentDao.getValAccepted(userId, data.getProduct().getId());
 		if(checkPaidStatus.size() > 0) {
 			throw new RuntimeException("You have paid for this activity!");		
+		}
+		final List<Payment> checkAprrovedStatus = paymentDao.getValApproval(userId, data.getProduct().getId());
+		if(checkAprrovedStatus.size() > 0) {
+			throw new RuntimeException("Your payment is waiting for approval!");		
 		}
 	}
 	
