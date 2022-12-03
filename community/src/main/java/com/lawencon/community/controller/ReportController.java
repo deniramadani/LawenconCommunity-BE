@@ -147,7 +147,14 @@ public class ReportController {
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> result = reportService.getProductivitySuperAdminData(request.getStartDate(), request.getEndDate());
 		return new ResponseEntity<>(result, HttpStatus.OK);
-		
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("productivity/super-admin/data-all")
+	public ResponseEntity<List<ReportResDto>> getAllProductivitySuperAdmin(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final List<ReportResDto> result = reportService.getAllProductivitySuperAdmin(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	//DISTINCT
@@ -156,6 +163,14 @@ public class ReportController {
 	public ResponseEntity<?> getRevenueSuperAdminData(@RequestBody final ReportReqDto request) {
 		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> result = reportService.getRevenueSuperAdminData(request.getStartDate(), request.getEndDate());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("revenue/super-admin/data-all")
+	public ResponseEntity<?> getRevenueSuperAdminData(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final List<ReportResDto> result = reportService.getAllRevenueSuperAdmin(start, limit);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

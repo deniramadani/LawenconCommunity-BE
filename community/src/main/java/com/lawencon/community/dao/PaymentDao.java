@@ -275,7 +275,7 @@ public class PaymentDao extends AbstractJpaDao{
 	
 	public List<ReportResDto> getProductivitySuperAdminData(final String startDate, final String endDate) {
 		final StringBuilder query = new StringBuilder()
-				.append("SELECT ROW_NUMBER() OVER(), town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, COUNT(user_id) ")
+				.append("SELECT ROW_NUMBER() OVER(), town.id, town.fullname, COUNT(user_id) ")
 				.append("FROM tb_payment tp ")
 				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
 				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
@@ -283,8 +283,8 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
 				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
 				.append("WHERE tp.created_at >= DATE(:startDate) AND tp.created_at <= DATE(:endDate) AND tp.approval = TRUE ")
-				.append("GROUP BY town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start ")
-				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ");
+				.append("GROUP BY town.id, town.fullname ")
+				.append("ORDER BY town.fullname ASC ");
 		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
 				.setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
 		final List<ReportResDto> data =  new ArrayList<>();
@@ -293,12 +293,9 @@ public class PaymentDao extends AbstractJpaDao{
 				final Object[] objArr = (Object[]) objCol;
 				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
-				row.setMemberName(objArr[1].toString());
-				row.setProvider(objArr[2].toString());
-				row.setType(objArr[3].toString());
-				row.setTitle(objArr[4].toString());
-				row.setStartDate(Timestamp.valueOf(objArr[5].toString()).toLocalDateTime().toLocalDate());
-				row.setTotalParticipants(Integer.valueOf(objArr[6].toString()));
+				row.setMemberId(objArr[1].toString());
+				row.setMemberName(objArr[2].toString());
+				row.setTotalParticipants(Integer.valueOf(objArr[3].toString()));
 				data.add(row);
 			});
 		}
@@ -307,7 +304,7 @@ public class PaymentDao extends AbstractJpaDao{
 	
 	public List<ReportResDto> getRevenueSuperAdminData(final String startDate, final String endDate) {
 		final StringBuilder query = new StringBuilder()
-				.append("SELECT ROW_NUMBER() OVER(), town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, (0.9*COUNT(user_id)*p.price) ")
+				.append("SELECT ROW_NUMBER() OVER(), town.id, town.fullname, SUM(0.9*p.price) ")
 				.append("FROM tb_payment tp ")
 				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
 				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
@@ -315,8 +312,8 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
 				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
 				.append("WHERE tp.created_at >= DATE(:startDate) AND tp.created_at <= DATE(:endDate) AND tp.approval = TRUE ")
-				.append("GROUP BY town.fullname, p.provider, tpt.product_type_name, p.title, ts.date_time_start, p.price ")
-				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ");
+				.append("GROUP BY town.id, town.fullname ")
+				.append("ORDER BY town.fullname ASC ");
 		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
 				.setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
 		final List<ReportResDto> data =  new ArrayList<>();
@@ -325,12 +322,9 @@ public class PaymentDao extends AbstractJpaDao{
 				final Object[] objArr = (Object[]) objCol;
 				final ReportResDto row = new ReportResDto();
 				row.setNo(Long.valueOf(objArr[0].toString()));
-				row.setMemberName(objArr[1].toString());
-				row.setProvider(objArr[2].toString());
-				row.setType(objArr[3].toString());
-				row.setTitle(objArr[4].toString());
-				row.setStartDate(Timestamp.valueOf(objArr[5].toString()).toLocalDateTime().toLocalDate());
-				row.setTotalIncome(BigDecimal.valueOf(Double.valueOf(objArr[6].toString())));
+				row.setMemberId(objArr[1].toString());
+				row.setMemberName(objArr[2].toString());
+				row.setTotalIncome(BigDecimal.valueOf(Double.valueOf(objArr[3].toString())));
 				data.add(row);
 			});
 		}
@@ -449,6 +443,66 @@ public class PaymentDao extends AbstractJpaDao{
 				row.setTitle(objArr[2].toString());
 				row.setStartDate(Timestamp.valueOf(objArr[3].toString()).toLocalDateTime().toLocalDate());
 				row.setTotalIncome(BigDecimal.valueOf(Double.valueOf(objArr[4].toString())));
+				data.add(row);
+			});
+		}
+		return data;
+	}
+	
+	public List<ReportResDto> getAllProductivitySuperAdmin(final Integer start, final Integer limit) {
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT ROW_NUMBER() OVER(), town.id, town.fullname, COUNT(user_id) ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
+				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
+				.append("INNER JOIN tb_schedule ts ON p.id = ts.product_id ")
+				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
+				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
+				.append("WHERE tp.approval = TRUE ")
+				.append("GROUP BY town.id, town.fullname ")
+				.append("ORDER BY town.fullname ASC ")
+				.append("OFFSET :start LIMIT :limit ");
+		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
+				.setParameter("start", start).setParameter("limit", limit).getResultList();
+		final List<ReportResDto> data =  new ArrayList<>();
+		if(result != null && result.size() > 0) {
+			result.forEach(objCol -> {
+				final Object[] objArr = (Object[]) objCol;
+				final ReportResDto row = new ReportResDto();
+				row.setNo(Long.valueOf(objArr[0].toString()));
+				row.setMemberId(objArr[1].toString());
+				row.setMemberName(objArr[2].toString());
+				row.setTotalParticipants(Integer.valueOf(objArr[3].toString()));
+				data.add(row);
+			});
+		}
+		return data;
+	}
+	
+	public List<ReportResDto> getAllRevenueSuperAdmin(final Integer start, final Integer limit) {
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT ROW_NUMBER() OVER(), town.id, town.fullname, SUM(0.9*p.price) ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
+				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
+				.append("INNER JOIN tb_schedule ts ON p.id = ts.product_id ")
+				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
+				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
+				.append("WHERE tp.approval = TRUE ")
+				.append("GROUP BY town.id, town.fullname ")
+				.append("ORDER BY town.fullname ASC ")
+				.append("OFFSET :start LIMIT :limit ");
+		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
+				.setParameter("start", start).setParameter("limit", limit).getResultList();
+		final List<ReportResDto> data =  new ArrayList<>();
+		if(result != null && result.size() > 0) {
+			result.forEach(objCol -> {
+				final Object[] objArr = (Object[]) objCol;
+				final ReportResDto row = new ReportResDto();
+				row.setNo(Long.valueOf(objArr[0].toString()));
+				row.setMemberId(objArr[1].toString());
+				row.setMemberName(objArr[2].toString());
+				row.setTotalIncome(BigDecimal.valueOf(Double.valueOf(objArr[3].toString())));
 				data.add(row);
 			});
 		}

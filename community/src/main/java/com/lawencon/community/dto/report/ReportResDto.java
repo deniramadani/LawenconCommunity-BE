@@ -13,6 +13,7 @@ public class ReportResDto {
 	private String title;
 	private LocalDate startDate;
 	private Integer totalParticipants;
+	private String memberId;
 	private String memberName;
 	private String provider;
 	private BigDecimal totalIncome;
