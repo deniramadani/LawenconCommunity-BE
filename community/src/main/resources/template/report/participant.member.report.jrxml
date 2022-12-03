@@ -15,9 +15,9 @@
 	<field name="type" class="java.lang.String"/>
 	<field name="title" class="java.lang.String"/>
 	<field name="startDate" class="java.time.LocalDate"/>
-	<field name="totalIncome" class="java.math.BigDecimal"/>
-	<variable name="totalIncome" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{totalIncome}]]></variableExpression>
+	<field name="totalParticipants" class="java.lang.Integer"/>
+	<variable name="totalParticipants" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalParticipants}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -123,7 +123,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Total Revenue]]></text>
+					<text><![CDATA[Total Participants]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="332" y="0" width="112" height="40" forecolor="#000000" backcolor="#FFFFFF" uuid="7e71d00b-c4cb-4b3e-94a1-632db0ae7a89">
@@ -199,7 +199,7 @@
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textField textAdjust="StretchHeight" pattern="Rp #,##0.###;¤(#,##0.###-)">
+				<textField textAdjust="StretchHeight">
 					<reportElement x="444" y="0" width="111" height="20" uuid="1b75c457-62f8-4ad1-9283-6bc6c186befa">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="10f84506-bd64-4beb-9b10-e91da6b2c16e"/>
 					</reportElement>
@@ -212,7 +212,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{totalIncome}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{totalParticipants}]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement x="332" y="0" width="112" height="20" uuid="b30bbf5d-1d38-4469-9d4d-ab3b1e2094df">
@@ -310,9 +310,9 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Grand Total Revenue]]></text>
+				<text><![CDATA[Grand Total Participants]]></text>
 			</staticText>
-			<textField pattern="Rp #,##0.###;¤(#,##0.###-)">
+			<textField>
 				<reportElement x="164" y="0" width="390" height="30" uuid="d06a30af-ee4c-4fbf-922d-37340ba37400"/>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -323,7 +323,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="20" isBold="true" isUnderline="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{totalIncome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{totalParticipants}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
