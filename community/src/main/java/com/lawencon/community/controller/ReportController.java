@@ -42,6 +42,9 @@ public class ReportController {
 	@Autowired
 	private UserService userService;
 	
+	private final String companyName = "PT Lawencon Internasional";
+	private final String companyAddress = "Pakuwon Tower, Jl. Casablanca No.Kav 88, RT.6/RW.14, Kb. Baru, Kec. Tebet, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12870";
+	
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping("productivity/member")
 	public ResponseEntity<?> getProductivityMember(@RequestBody final ReportReqDto request) throws Exception {
@@ -50,12 +53,14 @@ public class ReportController {
 		final List<ReportResDto> data = reportService.getProductivityMember(user.getId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.PRODUCTIVITY_MEMBER.getReportTitleEnum());
-		map.put("reportType", ReportConst.PRODUCTIVITY_MEMBER.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.PRODUCTIVITY_MEMBER.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
-		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.member.report");
-		final String fileName = "productivity.member.report.pdf";
+		final byte[] out = jasperUtil.responseToByteArray(data, map, "participant.member.report");
+		final String fileName = "participant.member.report.pdf";
 		return ResponseEntity.ok()
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
@@ -70,8 +75,10 @@ public class ReportController {
 		final List<ReportResDto> data = reportService.getRevenueMember(user.getId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.REVENUE_MEMBER.getReportTitleEnum());
-		map.put("reportType", ReportConst.REVENUE_MEMBER.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.REVENUE_MEMBER.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.member.report");
@@ -90,12 +97,14 @@ public class ReportController {
 		final List<ReportResDto> data = reportService.getProductivitySuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTitleEnum());
-		map.put("reportType", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
-		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.super-admin.report");
-		final String fileName = "productivity.super-admin.report.pdf";
+		final byte[] out = jasperUtil.responseToByteArray(data, map, "participant.super-admin.report");
+		final String fileName = "participant.super-admin.report.pdf";
 		return ResponseEntity.ok()
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
@@ -110,8 +119,10 @@ public class ReportController {
 		final List<ReportResDto> data = reportService.getRevenueSuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.REVENUE_SUPERADMIN.getReportTitleEnum());
-		map.put("reportType", ReportConst.REVENUE_SUPERADMIN.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.REVENUE_SUPERADMIN.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.super-admin.report");
