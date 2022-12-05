@@ -305,9 +305,12 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="30" splitType="Stretch">
+		<band height="60" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="0" y="0" width="164" height="30" forecolor="#000000" uuid="a45d0e35-01dc-42de-af89-abe3c2d2d0af"/>
+				<reportElement x="0" y="0" width="444" height="60" forecolor="#000000" uuid="a45d0e35-01dc-42de-af89-abe3c2d2d0af">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -319,8 +322,10 @@
 				</textElement>
 				<text><![CDATA[Grand Total Participants]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="164" y="0" width="391" height="30" uuid="d06a30af-ee4c-4fbf-922d-37340ba37400"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="444" y="0" width="111" height="60" uuid="d06a30af-ee4c-4fbf-922d-37340ba37400">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box leftPadding="4">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>

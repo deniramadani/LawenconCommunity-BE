@@ -56,9 +56,9 @@ public class PostBookmarkService extends BaseCoreService {
 
 			final Post post = postDao.getById(Post.class, data.getPost().getId());
 			postBookmark.setPost(post);
-			if (!(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum())
-					&& UserTypeConst.PREMIUM.getUserTypeCodeEnum()
-							.equalsIgnoreCase(user.getUserType().getUserTypeCode()))) {
+			if (post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum())
+					&& !UserTypeConst.PREMIUM.getUserTypeCodeEnum()
+							.equalsIgnoreCase(user.getUserType().getUserTypeCode())) {
 				throw new RuntimeException("Premium Access Only!");
 			}
 			postBookmarkDao.save(postBookmark);
