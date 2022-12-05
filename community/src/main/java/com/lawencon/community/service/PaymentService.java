@@ -140,6 +140,18 @@ public class PaymentService extends BaseCoreService {
 		return transactionCode.toString();
 	}
 	
+	private void valCheckPayment(final Payment data){
+		final String userId = principalService.getAuthPrincipal();
+		final List<Payment> checkPaidStatus = paymentDao.getValAccepted(userId, data.getProduct().getId());
+		if(checkPaidStatus.size() > 0) {
+			throw new RuntimeException("You have paid for this activity!");		
+		}
+		final List<Payment> checkAprrovedStatus = paymentDao.getValApproval(userId, data.getProduct().getId());
+		if(checkAprrovedStatus.size() > 0) {
+			throw new RuntimeException("Your payment is waiting for approval!");		
+		}
+	}
+	
 	public ResponseDto insert(final Payment data)  {
 //		transaction code
 		String code = null;
@@ -153,6 +165,7 @@ public class PaymentService extends BaseCoreService {
 		final String trxCode = generateTrx(code);
 		data.setTransactionCode(code);
 //		transaction code
+		valCheckPayment(data);
 		valInsert(data);
 		final ResponseDto response = new ResponseDto();
 		try {
@@ -294,6 +307,19 @@ public class PaymentService extends BaseCoreService {
 	public List<Payment> getAllOwnerId(final Integer start, final Integer limit) {
 		final String ownerId = principalService.getAuthPrincipal();
 		return paymentDao.getAllOwnerId(start, limit, ownerId);
+	}
+	
+	public List<Payment> getAllEventCourse(final Integer start, final Integer limit) {
+		return paymentDao.getAllEventCourse(start, limit);
+	}
+	
+	public List<Payment> getAllSubscribe(final Integer start, final Integer limit) {
+		return paymentDao.getAllSubscribe(start, limit);
+	}
+	
+	public List<Payment> getAllByProductId(final String productId) {
+		final String userId = principalService.getAuthPrincipal();
+		return paymentDao.getAllByProductId(userId, productId);
 	}
 	
 }

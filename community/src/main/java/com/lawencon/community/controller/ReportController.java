@@ -6,12 +6,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.constant.ReportConst;
@@ -39,19 +42,25 @@ public class ReportController {
 	@Autowired
 	private UserService userService;
 	
+	private final String companyName = "PT Lawencon Internasional";
+	private final String companyAddress = "Pakuwon Tower, Jl. Casablanca No.Kav 88, RT.6/RW.14, Kb. Baru, Kec. Tebet, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12870";
+	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("productivity-member")
+	@PostMapping("productivity/member")
 	public ResponseEntity<?> getProductivityMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> data = reportService.getProductivityMember(user.getId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.PRODUCTIVITY_MEMBER.getReportTitleEnum());
-		map.put("reportType", ReportConst.PRODUCTIVITY_MEMBER.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.PRODUCTIVITY_MEMBER.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
-		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.member.report");
-		final String fileName = "productivity.member.report.pdf";
+		final byte[] out = jasperUtil.responseToByteArray(data, map, "participant.member.report");
+		final String fileName = "participant.member.report.pdf";
 		return ResponseEntity.ok()
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
@@ -59,14 +68,17 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLMM')")
-	@GetMapping("revenue-member")
+	@PostMapping("revenue/member")
 	public ResponseEntity<?> getRevenueMember(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> data = reportService.getRevenueMember(user.getId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.REVENUE_MEMBER.getReportTitleEnum());
-		map.put("reportType", ReportConst.REVENUE_MEMBER.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.REVENUE_MEMBER.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.member.report");
@@ -78,18 +90,21 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("productivity-super_admin")
+	@PostMapping("productivity/super-admin")
 	public ResponseEntity<?> getProductivitySuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> data = reportService.getProductivitySuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTitleEnum());
-		map.put("reportType", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.PRODUCTIVITY_SUPERADMIN.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
-		final byte[] out = jasperUtil.responseToByteArray(data, map, "productivity.super-admin.report");
-		final String fileName = "productivity.super-admin.report.pdf";
+		final byte[] out = jasperUtil.responseToByteArray(data, map, "participant.super-admin.report");
+		final String fileName = "participant.super-admin.report.pdf";
 		return ResponseEntity.ok()
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
@@ -97,14 +112,17 @@ public class ReportController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
-	@GetMapping("revenue-super_admin")
-	public ResponseEntity<?> revenueSuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
+	@PostMapping("revenue/super-admin")
+	public ResponseEntity<?> getRevenueSuperAdmin(@RequestBody final ReportReqDto request) throws Exception {
 		final User user = userService.getById(principalService.getAuthPrincipal());
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
 		final List<ReportResDto> data = reportService.getRevenueSuperAdmin(request.getUserId(), request.getStartDate(), request.getEndDate());
 		final Map<String, Object> map = new HashMap<>();
 		map.put("reportTitle", ReportConst.REVENUE_SUPERADMIN.getReportTitleEnum());
-		map.put("reportType", ReportConst.REVENUE_SUPERADMIN.getReportTypeEnum()+user.getEmail());
-		map.put("company", user.getCompany());
+		map.put("reportType", ReportConst.REVENUE_SUPERADMIN.getReportTypeEnum());
+		map.put("memberEmail", user.getEmail());
+		map.put("companyName", companyName);
+		map.put("companyAddress", companyAddress);
 		final String dateRange = reportService.formatDateRange(request.getStartDate(), request.getEndDate());
 		map.put("dateRange", dateRange);
 		final byte[] out = jasperUtil.responseToByteArray(data, map, "revenue.super-admin.report");
@@ -113,6 +131,76 @@ public class ReportController {
 				.contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName+ "\"")
 				.body(out);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@PostMapping("productivity/member/data")
+	public ResponseEntity<List<ReportResDto>> getProductivityMemberData(@RequestBody final ReportReqDto request) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
+		final List<ReportResDto> result = reportService.getProductivityMember(user.getId(), request.getStartDate(), request.getEndDate());					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@PostMapping("revenue/member/data")
+	public ResponseEntity<List<ReportResDto>> getRevenueMemberData(@RequestBody final ReportReqDto request) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
+		final List<ReportResDto> result = reportService.getRevenueMember(user.getId(), request.getStartDate(), request.getEndDate());					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	//DISTINCT
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@PostMapping("productivity/super-admin/data")
+	public ResponseEntity<List<ReportResDto>> getProductivitySuperAdminData(@RequestBody final ReportReqDto request) {
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
+		final List<ReportResDto> result = reportService.getProductivitySuperAdminData(request.getStartDate(), request.getEndDate());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("productivity/super-admin/data-all")
+	public ResponseEntity<List<ReportResDto>> getAllProductivitySuperAdmin(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final List<ReportResDto> result = reportService.getAllProductivitySuperAdmin(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	//DISTINCT
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@PostMapping("revenue/super-admin/data")
+	public ResponseEntity<?> getRevenueSuperAdminData(@RequestBody final ReportReqDto request) {
+		if(request.getEndDate() == null) {request.setEndDate(request.getStartDate());}
+		final List<ReportResDto> result = reportService.getRevenueSuperAdminData(request.getStartDate(), request.getEndDate());
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLSA')")
+	@GetMapping("revenue/super-admin/data-all")
+	public ResponseEntity<?> getRevenueSuperAdminData(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final List<ReportResDto> result = reportService.getAllRevenueSuperAdmin(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("productivity/member/data-all")
+	public ResponseEntity<List<ReportResDto>> getAllProductivityMemberData(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> result = reportService.getAllProductivityMember(user.getId(), start, limit);					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("revenue/member/data-all")
+	public ResponseEntity<List<ReportResDto>> getAllRevenueMemberData(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit) {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final List<ReportResDto> result = reportService.getAllRevenueMember(user.getId(), start, limit);					
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 }

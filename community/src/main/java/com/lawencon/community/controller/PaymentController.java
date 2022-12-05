@@ -37,15 +37,15 @@ public class PaymentController {
 	}
 	
 	@PreAuthorize("hasAuthority('ROLAM')")
-	@PutMapping("valid/{id}")
-	public ResponseEntity<ResponseDto> paymentAccepted(@PathVariable("id") final String id) {
+	@PutMapping("valid")
+	public ResponseEntity<ResponseDto> paymentAccepted(@RequestParam(required = true) final String id) {
 		final ResponseDto result = paymentService.paymentAccepted(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasAuthority('ROLAM')")
-	@PutMapping("invalid/{id}")
-	public ResponseEntity<ResponseDto> paymentRejected(@PathVariable("id") final String id) {
+	@PutMapping("invalid")
+	public ResponseEntity<ResponseDto> paymentRejected(@RequestParam(required = true) final String id) {
 		final ResponseDto result = paymentService.paymentRejected(id);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
@@ -78,6 +78,29 @@ public class PaymentController {
 	public ResponseEntity<List<Payment>> getAllOwnerId(@RequestParam(required = true) final Integer start,
 			@RequestParam(required = true) final Integer limit){
 		final List<Payment> result = paymentService.getAllOwnerId(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLAM')")
+	@GetMapping("event-and-course")
+	public ResponseEntity<List<Payment>> getAllEventCourse(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Payment> result = paymentService.getAllEventCourse(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLAM')")
+	@GetMapping("subscribe")
+	public ResponseEntity<List<Payment>> getAllSubscribe(@RequestParam(required = true) final Integer start,
+			@RequestParam(required = true) final Integer limit){
+		final List<Payment> result = paymentService.getAllSubscribe(start, limit);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("users/products")
+	public ResponseEntity<List<Payment>> getAllByProductId(@RequestParam(required = true) final String productId){
+		final List<Payment> result = paymentService.getAllByProductId(productId);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	

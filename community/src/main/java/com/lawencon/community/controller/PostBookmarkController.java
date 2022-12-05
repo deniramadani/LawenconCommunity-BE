@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.dto.response.ResponseDto;
-import com.lawencon.community.model.PostLike;
+import com.lawencon.community.model.PostBookmark;
 import com.lawencon.community.service.PostBookmarkService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -34,7 +34,7 @@ public class PostBookmarkController {
 
 	@PreAuthorize("hasAuthority('ROLMM')")
 	@PostMapping
-	public ResponseEntity<ResponseDto> insert(@RequestBody final PostLike data) {
+	public ResponseEntity<ResponseDto> insert(@RequestBody final PostBookmark data) {
 		final ResponseDto res = postBookmarkService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
 	}

@@ -24,6 +24,14 @@ public class ReportService extends BaseCoreService {
 		return paymentDao.getRevenueMember(userId, startDate, endDate);
 	}
 	
+	public List<ReportResDto> getAllProductivityMember(final String userId, final Integer start, final Integer limit){
+		return paymentDao.getAllProductivityMember(userId, start, limit);
+	}
+	
+	public List<ReportResDto> getAllRevenueMember(final String userId, final Integer start, final Integer limit){
+		return paymentDao.getAllRevenueMember(userId, start, limit);
+	}
+	
 	public List<ReportResDto> getProductivitySuperAdmin(final List<String> userIdList, final String startDate, final String endDate){
 		return paymentDao.getProductivitySuperAdmin(userIdList, startDate, endDate);
 	}
@@ -40,6 +48,22 @@ public class ReportService extends BaseCoreService {
 				.append(" - ")
 				.append(display.format(formatter.parse(endDate)));
 		return dateRange.toString();
+	}
+	
+	public List<ReportResDto> getProductivitySuperAdminData(final String startDate, final String endDate){
+		return paymentDao.getProductivitySuperAdminData(startDate, endDate);
+	}
+	
+	public List<ReportResDto> getRevenueSuperAdminData(final String startDate, final String endDate){
+		return paymentDao.getRevenueSuperAdminData(startDate, endDate);
+	}
+	
+	public List<ReportResDto> getAllProductivitySuperAdmin(final Integer start, final Integer limit){
+		return paymentDao.getAllProductivitySuperAdmin(start, limit);
+	}
+	
+	public List<ReportResDto> getAllRevenueSuperAdmin(final Integer start, final Integer limit){
+		return paymentDao.getAllRevenueSuperAdmin(start, limit);
 	}
 	
 }
