@@ -26,10 +26,6 @@
 		<band height="179" splitType="Stretch">
 			<frame>
 				<reportElement x="0" y="0" width="554" height="101" uuid="2818d454-72ea-4cd9-866e-c00e967e74b1"/>
-				<image>
-					<reportElement x="11" y="11" width="149" height="80" uuid="48ed38cd-a2a0-41c4-bcb0-f57ec112d91d"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
 				<line>
 					<reportElement x="0" y="100" width="554" height="1" uuid="23b67497-f196-4469-96aa-e67f4ff8bdd8"/>
 				</line>
@@ -47,6 +43,10 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="566d6d14-bbf1-4feb-ba9b-81997149a09d"/>
+					<imageExpression><![CDATA["https://raw.githubusercontent.com/deniramadani/LawenconCommunity-BE/master/assets/images/logo.png"]]></imageExpression>
+				</image>
 			</frame>
 			<frame>
 				<reportElement x="0" y="120" width="555" height="59" uuid="0d382566-cd94-4220-b1c9-0ddd1e2a3236"/>
@@ -350,10 +350,6 @@
 			</staticText>
 			<frame>
 				<reportElement x="0" y="0" width="554" height="101" uuid="5bb30cad-5d87-4177-a5bd-7b9327b59c8c"/>
-				<image>
-					<reportElement x="11" y="11" width="149" height="80" uuid="66b7e4a7-5b7d-4a1d-b8c4-2b1933803391"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
 				<line>
 					<reportElement x="0" y="100" width="554" height="1" uuid="6f75abef-4f01-4562-8e5d-7d39097c0943"/>
 				</line>
@@ -371,6 +367,10 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="0c97a3e3-3f8a-4c23-b227-8399f643311a"/>
+					<imageExpression><![CDATA["https://raw.githubusercontent.com/deniramadani/LawenconCommunity-BE/master/assets/images/logo.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</noData>

@@ -71,10 +71,6 @@
 			</frame>
 			<frame>
 				<reportElement x="0" y="0" width="554" height="101" uuid="f2dd43cb-70ea-4b55-adb9-4e65e6672c40"/>
-				<image>
-					<reportElement x="11" y="11" width="149" height="80" uuid="815d7383-5947-4390-bb34-b222f973ad8b"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
 				<line>
 					<reportElement x="0" y="100" width="554" height="1" uuid="ba404777-cf81-4ad9-810c-be676370d7ac"/>
 				</line>
@@ -92,6 +88,10 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="906ecf47-86a1-463f-8b0e-1a71e33f38db"/>
+					<imageExpression><![CDATA["https://raw.githubusercontent.com/deniramadani/LawenconCommunity-BE/master/assets/images/logo.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
@@ -319,10 +319,6 @@
 			</staticText>
 			<frame>
 				<reportElement x="0" y="0" width="554" height="101" uuid="3b009401-89d3-4331-beb4-c6827da50413"/>
-				<image>
-					<reportElement x="11" y="11" width="149" height="80" uuid="aadad777-d7ae-4248-9ba7-bcc78d5583bf"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
 				<line>
 					<reportElement x="0" y="100" width="554" height="1" uuid="f86b5a2b-9cd8-45c8-bdbb-5d8bd058ef4d"/>
 				</line>
@@ -340,6 +336,10 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="a91de99c-12bd-4df4-b71d-6ede5b0ed590"/>
+					<imageExpression><![CDATA["https://raw.githubusercontent.com/deniramadani/LawenconCommunity-BE/master/assets/images/logo.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</noData>
