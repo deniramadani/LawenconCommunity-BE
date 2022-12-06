@@ -8,6 +8,7 @@
 	</parent>
 
 	<artifactId>community</artifactId>
+	<packaging>war</packaging>
 
 	<dependencies>
 		<!-- spring boot -->
