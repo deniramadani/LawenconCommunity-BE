@@ -25,30 +25,6 @@
 	<title>
 		<band height="179" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="554" height="110" uuid="2818d454-72ea-4cd9-866e-c00e967e74b1"/>
-				<image>
-					<reportElement x="11" y="15" width="149" height="80" uuid="48ed38cd-a2a0-41c4-bcb0-f57ec112d91d"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
-				<line>
-					<reportElement x="0" y="109" width="554" height="1" uuid="23b67497-f196-4469-96aa-e67f4ff8bdd8"/>
-				</line>
-				<textField textAdjust="StretchHeight">
-					<reportElement x="171" y="40" width="374" height="66" forecolor="#000000" uuid="8a94ca59-c69e-4333-8998-70cbc8a72044"/>
-					<textElement textAlignment="Center">
-						<font size="16" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="171" y="4" width="374" height="30" uuid="812e6064-8af7-4bf9-bb1b-c32fa3a3525b"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="16" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
-				</textField>
-			</frame>
-			<frame>
 				<reportElement x="0" y="120" width="555" height="59" uuid="0d382566-cd94-4220-b1c9-0ddd1e2a3236"/>
 				<staticText>
 					<reportElement x="0" y="1" width="80" height="19" uuid="66ef7fed-076a-4bc2-97c4-a08cf1e3f9a4"/>
@@ -91,6 +67,30 @@
 						<font size="14" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[": "+$P{memberEmail}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="0" width="554" height="101" uuid="f2dd43cb-70ea-4b55-adb9-4e65e6672c40"/>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="815d7383-5947-4390-bb34-b222f973ad8b"/>
+					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
+				</image>
+				<line>
+					<reportElement x="0" y="100" width="554" height="1" uuid="ba404777-cf81-4ad9-810c-be676370d7ac"/>
+				</line>
+				<textField textAdjust="StretchHeight">
+					<reportElement x="171" y="40" width="374" height="55" forecolor="#000000" uuid="93fe084e-246d-4591-ba5d-8646c3a5a1fd"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="171" y="4" width="374" height="30" uuid="eab0e643-1d1a-4e08-9961-dd1af9e0c22b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial Black" size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
@@ -197,7 +197,7 @@
 						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="14"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{totalIncome}]]></textFieldExpression>
@@ -301,7 +301,7 @@
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="20" isBold="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{totalIncome}]]></textFieldExpression>
@@ -318,25 +318,25 @@
 				<text><![CDATA[There is no data!]]></text>
 			</staticText>
 			<frame>
-				<reportElement x="0" y="0" width="554" height="110" uuid="f9183675-743f-468e-882f-b9b5844cd4f2"/>
+				<reportElement x="0" y="0" width="554" height="101" uuid="3b009401-89d3-4331-beb4-c6827da50413"/>
 				<image>
-					<reportElement x="11" y="15" width="149" height="80" uuid="7721b3c4-9931-4ac7-ac6b-fedf963a3dcc"/>
+					<reportElement x="11" y="11" width="149" height="80" uuid="aadad777-d7ae-4248-9ba7-bcc78d5583bf"/>
 					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
 				</image>
 				<line>
-					<reportElement x="0" y="109" width="554" height="1" uuid="a12108d3-4e63-4a61-b5a4-b44ad0aa3057"/>
+					<reportElement x="0" y="100" width="554" height="1" uuid="f86b5a2b-9cd8-45c8-bdbb-5d8bd058ef4d"/>
 				</line>
 				<textField textAdjust="StretchHeight">
-					<reportElement x="171" y="40" width="374" height="66" forecolor="#000000" uuid="ecd72d0b-19e3-43c6-9fbc-d79f29a86765"/>
+					<reportElement x="171" y="40" width="374" height="55" forecolor="#000000" uuid="e8059ae8-8e00-46a7-8814-9543d2810e77"/>
 					<textElement textAlignment="Center">
-						<font size="16" isBold="false"/>
+						<font fontName="Arial" size="12" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="171" y="4" width="374" height="30" uuid="8785be55-aa02-4c2b-a846-c207fa2ce7ab"/>
+					<reportElement x="171" y="4" width="374" height="30" uuid="62bfb457-6e9e-4e06-9c34-38f859df5bc8"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="16" isBold="true"/>
+						<font fontName="Arial Black" size="18" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
