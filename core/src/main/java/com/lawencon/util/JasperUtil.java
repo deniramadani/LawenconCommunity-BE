@@ -1,13 +1,12 @@
 package com.lawencon.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -32,8 +31,8 @@ public class JasperUtil {
 			throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
-			File files = ResourceUtils.getFile("classpath:" + mailTemplateFolder + "/" + jasperName + ".jasper");
-			JasperReport jasper = (JasperReport) JRLoader.loadObject(files);
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(mailTemplateFolder + "/" + jasperName + ".jasper");
+			JasperReport jasper = (JasperReport) JRLoader.loadObject(inputStream);
 			JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(data);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasper, mapParams, ds);
 			JasperExportManager.exportReportToPdfStream(jasperPrint, out);

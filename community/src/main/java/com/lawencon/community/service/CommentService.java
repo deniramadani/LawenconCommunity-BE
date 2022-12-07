@@ -1,12 +1,14 @@
 package com.lawencon.community.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lawencon.base.BaseCoreService;
 import com.lawencon.community.constant.PostTypeConst;
+import com.lawencon.community.constant.ResponseConst;
 import com.lawencon.community.constant.UserTypeConst;
 import com.lawencon.community.dao.CommentDao;
 import com.lawencon.community.dao.PostDao;
@@ -29,34 +31,30 @@ public class CommentService extends BaseCoreService {
 	@Autowired
 	private PostDao postDao;
 	
-	public List<Comment> getAllByPost(final String id) {
-		return commentDao.getByPost(id);
+	private void valUpdate(final Comment data) {
+		valIdNotNull(data);
+		valIdExist(data);
+		valNotBK(data);
 	}
 	
-	public ResponseDto insert(final Comment data) {
-		final ResponseDto responseDto = new ResponseDto();
-		final Comment comment = new Comment();
-		try {
-			valInsert(data);
-			begin();
-			comment.setContent(data.getContent());
-			final User user = userDao.getById(User.class, principalService.getAuthPrincipal());
-			comment.setUser(user);
-			
-			final Post post = postDao.getById(Post.class, data.getPost().getId());
-			comment.setPost(post);
-			if(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum()) && !UserTypeConst.PREMIUM.getUserTypeCodeEnum().equalsIgnoreCase(user.getUserType().getUserTypeCode())){
-				throw new RuntimeException("Premium Access Only!");
-			}
-			commentDao.save(comment);
-			responseDto.setMessage("Your Comment is Published");
-			commit();			
-		} catch (Exception e) {
-			e.printStackTrace();
-			responseDto.setMessage(e.getMessage());
-			rollback();
+	private void valIdNotNull(final Comment data) {
+		if (data.getId() == null) {
+			throw new RuntimeException("Primary Key Id is required!");
 		}
-		return responseDto;
+	}
+	
+	private void valIdExist(final Comment data) {
+		final Comment result = commentDao.getByIdAndDetach(Comment.class, data.getId());
+		final Optional<Comment> optional = Optional.ofNullable(result);
+		if (optional.isEmpty()) {
+			throw new RuntimeException("Primay Key Id Is Not Exist!");
+		}
+	}
+	
+	private void valNotBK(final Comment data) {
+		if (data.getContent() == null) {
+			throw new RuntimeException("Content is required!");
+		}
 	}
 	
 	private void valInsert(final Comment data) {
@@ -92,6 +90,92 @@ public class CommentService extends BaseCoreService {
 		if(data.getContent() == null) {
 			throw new RuntimeException("Content Required.");
 		}
+	}
+	
+	public List<Comment> getAllByPost(final String id) {
+		return commentDao.getByPost(id);
+	}
+	
+	public ResponseDto insert(final Comment data) {
+		final ResponseDto responseDto = new ResponseDto();
+		final Comment comment = new Comment();
+		try {
+			valInsert(data);
+			begin();
+			comment.setContent(data.getContent());
+			final User user = userDao.getById(User.class, principalService.getAuthPrincipal());
+			comment.setUser(user);
+			
+			final Post post = postDao.getById(Post.class, data.getPost().getId());
+			comment.setPost(post);
+			if(post.getPostType().getPostTypeCode().equalsIgnoreCase(PostTypeConst.PREMIUM.getPostTypeCodeEnum()) && !UserTypeConst.PREMIUM.getUserTypeCodeEnum().equalsIgnoreCase(user.getUserType().getUserTypeCode())){
+				throw new RuntimeException("Premium Access Only!");
+			}
+			commentDao.save(comment);
+			responseDto.setMessage("Your Comment is Published");
+			commit();			
+		} catch (Exception e) {
+			e.printStackTrace();
+			responseDto.setMessage(e.getMessage());
+			rollback();
+		}
+		return responseDto;
+	}
+	
+	public ResponseDto update(final Comment data)  {
+		final ResponseDto response = new ResponseDto();
+		final Comment result = commentDao.getByIdAndDetach(Comment.class, data.getId());
+		final Optional<Comment> optional = Optional.ofNullable(result);
+		if(optional.isPresent()) {
+			Comment updateOne = optional.get();
+			valUpdate(data);
+			try {
+				begin();
+				if(!updateOne.getUser().getId().equals(principalService.getAuthPrincipal())) {
+					throw new RuntimeException("You arent the creator! Update failed!");
+				}
+				updateOne.setContent(data.getContent());
+				updateOne.setIsActive(data.getIsActive());
+				updateOne = commentDao.saveAndFlush(updateOne);		
+				commit();
+				response.setMessage(ResponseConst.UPDATED.getResponse());
+			} catch (Exception e) {
+				response.setMessage(e.getMessage());
+				e.printStackTrace();
+				rollback();
+				response.setMessage(ResponseConst.FAILED.getResponse());
+			}			
+		}
+		return response;
+	}
+	
+	public ResponseDto deleteById(final String id)  {
+		final ResponseDto response = new ResponseDto();
+		final Comment result = commentDao.getByIdAndDetach(Comment.class, id);
+		final Optional<Comment> optional = Optional.ofNullable(result);
+		if(optional.isPresent()) {
+			final Comment deleteOne = optional.get();
+			try {
+				begin();
+				final String userId = principalService.getAuthPrincipal();
+				System.out.println(userId +" "+ deleteOne.getUser().getId()+" " +deleteOne.getPost().getUser().getId());
+				System.out.println(!deleteOne.getUser().getId().equals(userId));
+				System.out.println(!deleteOne.getPost().getUser().getId().equals(userId));
+				if(!deleteOne.getUser().getId().equals(userId) &&
+						!deleteOne.getPost().getUser().getId().equals(userId)) {
+					throw new RuntimeException("You arent the creator! Delete failed!");
+				}
+				commentDao.deleteById(Comment.class, deleteOne.getId());		
+				commit();
+				response.setMessage(ResponseConst.DELETED.getResponse());
+			} catch (Exception e) {
+				response.setMessage(e.getMessage());
+				e.printStackTrace();
+				rollback();
+				response.setMessage(ResponseConst.FAILED.getResponse());
+			}			
+		}
+		return response;
 	}
 	
 }

@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +41,20 @@ public class CommentController {
 	public ResponseEntity<ResponseDto> insert(@RequestBody Comment data) {
 		final ResponseDto res = commentService.insert(data);
 		return new ResponseEntity<ResponseDto>(res, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@PutMapping
+	public ResponseEntity<ResponseDto> update(@RequestBody final Comment data){
+		final ResponseDto result = commentService.update(data);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<ResponseDto> delete(@PathVariable("id") final String id) {
+		final ResponseDto result = commentService.deleteById(id);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 }

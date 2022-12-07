@@ -27,30 +27,6 @@
 	<title>
 		<band height="179" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="554" height="110" uuid="2818d454-72ea-4cd9-866e-c00e967e74b1"/>
-				<image>
-					<reportElement x="11" y="15" width="149" height="80" uuid="48ed38cd-a2a0-41c4-bcb0-f57ec112d91d"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
-				<line>
-					<reportElement x="0" y="109" width="554" height="1" uuid="23b67497-f196-4469-96aa-e67f4ff8bdd8"/>
-				</line>
-				<textField textAdjust="StretchHeight">
-					<reportElement x="171" y="40" width="374" height="66" forecolor="#000000" uuid="8a94ca59-c69e-4333-8998-70cbc8a72044"/>
-					<textElement textAlignment="Center">
-						<font size="16" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="171" y="4" width="374" height="30" uuid="812e6064-8af7-4bf9-bb1b-c32fa3a3525b"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="16" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
-				</textField>
-			</frame>
-			<frame>
 				<reportElement x="0" y="120" width="555" height="59" uuid="0d382566-cd94-4220-b1c9-0ddd1e2a3236"/>
 				<staticText>
 					<reportElement x="0" y="1" width="80" height="19" uuid="66ef7fed-076a-4bc2-97c4-a08cf1e3f9a4"/>
@@ -94,6 +70,30 @@
 					</textElement>
 					<textFieldExpression><![CDATA[": "+$P{memberEmail}]]></textFieldExpression>
 				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="0" width="554" height="101" uuid="52bc1b82-4ac2-43b0-a80c-02a8ee1b8d31"/>
+				<line>
+					<reportElement x="0" y="100" width="554" height="1" uuid="4974c80d-ce68-4d27-8d8e-fb78cb385a78"/>
+				</line>
+				<textField textAdjust="StretchHeight">
+					<reportElement x="171" y="40" width="374" height="55" forecolor="#000000" uuid="b753bbe9-1255-408b-bbac-e1393c724131"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="171" y="4" width="374" height="30" uuid="e949cd1c-192e-4ab0-85d5-889a9036ee0e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial Black" size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="20265fe1-77dd-469d-85d9-7e8ce4488c2c"/>
+					<imageExpression><![CDATA["https://raw.githubusercontent.com/deniramadani/LawenconCommunity-BE/master/assets/images/logo.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
@@ -199,7 +199,7 @@
 						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="14"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{totalIncome}]]></textFieldExpression>
@@ -303,7 +303,7 @@
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="20" isBold="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{totalIncome}]]></textFieldExpression>
@@ -320,28 +320,28 @@
 				<text><![CDATA[There is no data!]]></text>
 			</staticText>
 			<frame>
-				<reportElement x="0" y="0" width="554" height="110" uuid="f9183675-743f-468e-882f-b9b5844cd4f2"/>
-				<image>
-					<reportElement x="11" y="15" width="149" height="80" uuid="7721b3c4-9931-4ac7-ac6b-fedf963a3dcc"/>
-					<imageExpression><![CDATA["src/main/resources/template/report/logo-community.png"]]></imageExpression>
-				</image>
+				<reportElement x="0" y="0" width="554" height="101" uuid="be4c6ab3-ee34-4dec-adfb-4f86c1b9c0be"/>
 				<line>
-					<reportElement x="0" y="109" width="554" height="1" uuid="a12108d3-4e63-4a61-b5a4-b44ad0aa3057"/>
+					<reportElement x="0" y="100" width="554" height="1" uuid="6b1412da-500d-46a6-bc0d-f257ec6b8805"/>
 				</line>
 				<textField textAdjust="StretchHeight">
-					<reportElement x="171" y="40" width="374" height="66" forecolor="#000000" uuid="ecd72d0b-19e3-43c6-9fbc-d79f29a86765"/>
+					<reportElement x="171" y="40" width="374" height="55" forecolor="#000000" uuid="7605e857-25b3-41a6-8cd9-5340fa1f8805"/>
 					<textElement textAlignment="Center">
-						<font size="16" isBold="false"/>
+						<font fontName="Arial" size="12" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyAddress}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="171" y="4" width="374" height="30" uuid="8785be55-aa02-4c2b-a846-c207fa2ce7ab"/>
+					<reportElement x="171" y="4" width="374" height="30" uuid="899e0a04-0bf0-4832-b754-2284af32ac33"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="16" isBold="true"/>
+						<font fontName="Arial Black" size="18" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="11" y="11" width="149" height="80" uuid="ebb852df-4dd9-4ab0-a844-637971523221"/>
+					<imageExpression><![CDATA["https://raw.githubusercontent.com/deniramadani/LawenconCommunity-BE/master/assets/images/logo.png"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</noData>
