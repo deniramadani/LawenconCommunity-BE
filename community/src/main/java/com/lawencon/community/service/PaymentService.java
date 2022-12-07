@@ -205,6 +205,9 @@ public class PaymentService extends BaseCoreService {
 			Payment updateOne = optional.get();
 			try {
 				begin();
+				if (updateOne.getIsActive() && updateOne.getApproval()) {
+					throw new RuntimeException("This payment is approved !!!!");
+				}
 				final User user = userDao.getByIdAndDetach(User.class, updateOne.getProduct().getOwnerId().getId());
 				final Optional<User> userOpt = Optional.ofNullable(user);
 				if(userOpt.isPresent()) {
