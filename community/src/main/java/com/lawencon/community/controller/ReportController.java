@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lawencon.community.constant.ReportConst;
+import com.lawencon.community.dto.report.ReportCountResDto;
 import com.lawencon.community.dto.report.ReportReqDto;
 import com.lawencon.community.dto.report.ReportResDto;
 import com.lawencon.community.model.User;
@@ -162,9 +163,8 @@ public class ReportController {
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@GetMapping("productivity/super-admin/data-all")
-	public ResponseEntity<List<ReportResDto>> getAllProductivitySuperAdmin(@RequestParam(required = true) final Integer start,
-			@RequestParam(required = true) final Integer limit) {
-		final List<ReportResDto> result = reportService.getAllProductivitySuperAdmin(start, limit);
+	public ResponseEntity<List<ReportResDto>> getAllProductivitySuperAdmin() {
+		final List<ReportResDto> result = reportService.getAllProductivitySuperAdmin();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -179,9 +179,8 @@ public class ReportController {
 	
 	@PreAuthorize("hasAuthority('ROLSA')")
 	@GetMapping("revenue/super-admin/data-all")
-	public ResponseEntity<?> getRevenueSuperAdminData(@RequestParam(required = true) final Integer start,
-			@RequestParam(required = true) final Integer limit) {
-		final List<ReportResDto> result = reportService.getAllRevenueSuperAdmin(start, limit);
+	public ResponseEntity<?> getAllRevenueSuperAdminData() {
+		final List<ReportResDto> result = reportService.getAllRevenueSuperAdmin();
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
@@ -200,6 +199,22 @@ public class ReportController {
 			@RequestParam(required = true) final Integer limit) {
 		final User user = userService.getById(principalService.getAuthPrincipal());
 		final List<ReportResDto> result = reportService.getAllRevenueMember(user.getId(), start, limit);					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("productivity/member/count")
+	public ResponseEntity<ReportCountResDto> getCountProductivityMember() {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final ReportCountResDto result = reportService.getCountProductivityMember(user.getId());					
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('ROLMM')")
+	@GetMapping("revenue/member/count")
+	public ResponseEntity<ReportCountResDto> getCountRevenueMember() {
+		final User user = userService.getById(principalService.getAuthPrincipal());
+		final ReportCountResDto result = reportService.getCountRevenueMember(user.getId());					
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
