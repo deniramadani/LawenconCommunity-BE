@@ -45,7 +45,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"superadmin@gmail.com\",\r\n    \"password\" : \"admin\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"superadmin@gmail.com\",\r\n    \"password\" : \"admin\"\r\n}\r\n// {\r\n//     \"email\" : \"deni.ramadani05@gmail.com\",\r\n//     \"password\": \"12345\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,7 +94,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"rsazrm@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"test1@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2547,7 +2547,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}reports/productivity/super-admin/data-all?start=0&limit=10",
+							"raw": "{{url}}reports/productivity/super-admin/data-all",
 							"host": [
 								"{{url}}reports"
 							],
@@ -2555,16 +2555,6 @@
 								"productivity",
 								"super-admin",
 								"data-all"
-							],
-							"query": [
-								{
-									"key": "start",
-									"value": "0"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								}
 							]
 						}
 					},
@@ -2643,7 +2633,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}reports/revenue/super-admin/data-all?start=0&limit=10",
+							"raw": "{{url}}reports/revenue/super-admin/data-all",
 							"host": [
 								"{{url}}reports"
 							],
@@ -2651,16 +2641,6 @@
 								"revenue",
 								"super-admin",
 								"data-all"
-							],
-							"query": [
-								{
-									"key": "start",
-									"value": "0"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								}
 							]
 						}
 					},
@@ -2741,7 +2721,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{url}}payments/valid?id=ad4e3b48-6c9a-4bfe-8546-1b33ffd595de",
+							"raw": "{{url}}payments/valid?id=821f9078-5a38-4e69-8775-45bfeea3e00a",
 							"host": [
 								"{{url}}payments"
 							],
@@ -2751,7 +2731,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "ad4e3b48-6c9a-4bfe-8546-1b33ffd595de"
+									"value": "821f9078-5a38-4e69-8775-45bfeea3e00a"
 								}
 							]
 						}
@@ -3654,7 +3634,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"6f35c77a-c326-4825-be20-6f1391dbdd32\",\r\n  \"dateTimeStart\" : \"2022-11-22T10:22:33.123Z\",\r\n  \"dateTimeEnd\" : \"2022-11-23T10:22:33.123Z\",\r\n  \"isActive\": \"true\",\r\n  \"product\": {\r\n    \"id\": \"d14b7f26-eb96-4ac8-a747-3bdd89ea76fa\",\r\n    \"title\": \"Event 1122\",\r\n    \"content\": \"Evenet 1122\",\r\n    \"provider\": \"HKL Entertaiment1122\",\r\n    \"location\": \"Jakarta ID1122\",\r\n    \"price\": 1522000,\r\n    \"photo\": {\r\n        \"fileEncode\" : \"update11\",\r\n        \"fileExtensions\" : \"jpg\"\r\n    }\r\n  }\r\n}",
+							"raw": "{\r\n \"id\": \"05921421-96ff-4dc9-a346-e96c6195d73d\",\r\n \"dateTimeStart\": \"2022-12-13T09:00:15.000+07:00\",\r\n  \"dateTimeEnd\": \"2022-12-13T12:30:26.000+07:00\",\r\n  \"isActive\": \"true\",\r\n  \"product\": {\r\n    \"id\": \"4957439d-0003-47a9-8320-7c47e92b6cc0\",\r\n    \"title\": \"Event 1122\",\r\n    \"content\": \"Evenet 1122\",\r\n    \"provider\": \"HKL Entertaiment1122\",\r\n    \"location\": \"Jakarta ID1122\",\r\n    \"price\" : 5000,\r\n    \"photo\": {\r\n        \"fileEncode\" : \"update11\",\r\n        \"fileExtensions\" : \"jpg\"\r\n    }, \r\n    \"ownerId\": {\r\n        \"id\": \"68e1d5de-5bea-48cb-89fa-bb071047b14f\"\r\n    },\r\n    \"productType\" : {\r\n        \"id\": \"23ac5402-594f-4983-9abd-da4486a47c7b\"\r\n    }\r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4092,12 +4072,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}posts/e89a6c9f-8f75-4932-b1a0-7f9e3ee56d7d",
+							"raw": "{{url}}posts/9c4f83ed-9b26-47bd-beac-0d5dd403dcee",
 							"host": [
 								"{{url}}posts"
 							],
 							"path": [
-								"e89a6c9f-8f75-4932-b1a0-7f9e3ee56d7d"
+								"9c4f83ed-9b26-47bd-beac-0d5dd403dcee"
 							]
 						}
 					},
@@ -4179,6 +4159,146 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "commentUpdate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"10981fc5-3cf9-4f6d-b4ef-ac22b79695db\",\r\n    \"content\": \"Apakah ada solusinya\",\r\n    \"isActive\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}comments",
+							"host": [
+								"{{url}}comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "commentDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"komentar\",\r\n    \"post\":{\r\n        \"id\": \"34dfc7d0-95d6-43b0-a159-ab29ed6892ee\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}comments/delete/10981fc5-3cf9-4f6d-b4ef-ac22b79695db",
+							"host": [
+								"{{url}}comments"
+							],
+							"path": [
+								"delete",
+								"10981fc5-3cf9-4f6d-b4ef-ac22b79695db"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "commentDelete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"komentar\",\r\n    \"post\":{\r\n        \"id\": \"34dfc7d0-95d6-43b0-a159-ab29ed6892ee\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}comments/delete/2f67d13d-2799-4d68-925a-e6d97aa2c151",
+									"host": [
+										"{{url}}comments"
+									],
+									"path": [
+										"delete",
+										"2f67d13d-2799-4d68-925a-e6d97aa2c151"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 06 Dec 2022 15:06:26 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Deleted\"\n}"
+						}
+					]
 				},
 				{
 					"name": "postLikesInsert",
@@ -4375,6 +4495,37 @@
 					"response": []
 				},
 				{
+					"name": "memberRevenueReportCount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}reports/revenue/member/count",
+							"host": [
+								"{{url}}reports"
+							],
+							"path": [
+								"revenue",
+								"member",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "memberProductivityReport",
 					"request": {
 						"method": "POST",
@@ -4465,6 +4616,37 @@
 									"key": "limit",
 									"value": "10"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "memberProductivityReportCount",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}reports/productivity/member/count",
+							"host": [
+								"{{url}}reports"
+							],
+							"path": [
+								"productivity",
+								"member",
+								"count"
 							]
 						}
 					},
@@ -4923,7 +5105,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\" : \"superadmin@gmail.com\",\r\n    \"password\" : \"admin\"\r\n}",
+					"raw": "{\r\n    \"email\" : \"rsazrm@gmail.com\",\r\n    \"password\" : \"admin\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -4931,9 +5113,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}login",
+					"raw": "{{local}}login",
 					"host": [
-						"{{url}}login"
+						"{{local}}login"
 					]
 				}
 			},
@@ -5044,8 +5226,13 @@
 			"type": "string"
 		},
 		{
-			"key": "local",
+			"key": "lan",
 			"value": "http://192.168.10.168:8080/",
+			"type": "string"
+		},
+		{
+			"key": "tomcat",
+			"value": "http://localhost:8080/community-0.0.1-SNAPSHOT/",
 			"type": "string"
 		}
 	]
