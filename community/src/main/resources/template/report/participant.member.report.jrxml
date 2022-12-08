@@ -289,16 +289,17 @@
 			<frame>
 				<reportElement x="0" y="0" width="555" height="13" uuid="8de3b9f9-119e-4067-a7bb-372306c30e42"/>
 				<textField>
-					<reportElement mode="Opaque" x="450" y="0" width="64" height="13" backcolor="#FFFFFF" uuid="4ba63ebd-d35d-4cf3-abca-d4976c56564c"/>
+					<reportElement mode="Opaque" x="0" y="0" width="515" height="13" forecolor="#FFFFFF" backcolor="#183462" uuid="4ba63ebd-d35d-4cf3-abca-d4976c56564c"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement mode="Opaque" x="515" y="0" width="40" height="13" backcolor="#FFFFFF" uuid="8659c5c3-a316-458d-bfc5-e8c913b074b6"/>
+					<reportElement mode="Opaque" x="515" y="0" width="40" height="13" forecolor="#FFFFFF" backcolor="#183462" uuid="8659c5c3-a316-458d-bfc5-e8c913b074b6"/>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="0" y="0" width="450" height="13" uuid="0e8cfe70-3bb6-436f-9abb-8e2ee45e257f"/>
+					<reportElement x="0" y="0" width="450" height="13" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="0e8cfe70-3bb6-436f-9abb-8e2ee45e257f"/>
+					<box leftPadding="4"/>
 					<textFieldExpression><![CDATA["Report Generation Date : "+new SimpleDateFormat("EEEEE dd MMMMM yyyy HH:mm:ss").format(new Date())]]></textFieldExpression>
 				</textField>
 			</frame>
