@@ -154,18 +154,20 @@ public class PostDao extends AbstractJpaDao {
 			final List<PostPollingOption> postPollingOptions = postPollingOptionDao
 					.getAllByPostPolling(postPolling.getId());
 			postPolling.setPostPollingOptions(postPollingOptions);
+			Long totalPolling = 0L;
 			for(int i= 0; i<postPollingOptions.size();i++ ) {
 				
 				final String whereClause = "WHERE postPollingOption.id = :ppid";
 				final String[] paramName =  {"ppid"};
 				final String[] paramValue =  { postPollingOptions.get(i).getPostPolling().getId()};
-				
+		
 				final Long totalVoted = postPollingResponseDao.countAll(PostPollingResponse.class, whereClause, paramName, paramValue);
-				
+				totalPolling += postPollingOptions.get(i).getTotalResponse();;
 				if(totalVoted>0) {
 					post.setOptionId(postPollingOptions.get(i).getId());
 				}
 			}
+			post.setTotalPolling(totalPolling);
 			post.setPostPollingOption(postPollingOptions);
 			post.setQuestion(postPolling.getQuestion());
 		}
@@ -210,15 +212,18 @@ public class PostDao extends AbstractJpaDao {
 			if (postPolling.getId() != null) {
 				final List<PostPollingOption> postPollingOptions = postPollingOptionDao
 						.getAllByPostPolling(postPolling.getId());
+				Long totalPolling = 0L;
 				for(int i= 0; i<postPollingOptions.size();i++ ) {
 					final String whereClause = "WHERE postPollingOption.id = :ppid AND user.id = :userId";
 					final String[] paramName =  {"ppid", "userId"};
 					final String[] paramValue =  { postPollingOptions.get(i).getId(), principalService.getAuthPrincipal()};
 					final Long totalVoted = postPollingResponseDao.countAll(PostPollingResponse.class, whereClause, paramName, paramValue);
+					totalPolling += postPollingOptions.get(i).getTotalResponse();
 					if(totalVoted>0) {
 						post.setOptionId(postPollingOptions.get(i).getId());
 					}
 				}
+				post.setTotalPolling(totalPolling);
 				postPolling.setPostPollingOptions(postPollingOptions);
 				post.setPostPollingOption(postPollingOptions);
 				post.setQuestion(postPolling.getQuestion());

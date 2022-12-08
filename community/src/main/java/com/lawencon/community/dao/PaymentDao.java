@@ -445,7 +445,7 @@ public class PaymentDao extends AbstractJpaDao{
 		return data;
 	}
 	
-	public List<ReportResDto> getAllProductivitySuperAdmin(final Integer start, final Integer limit) {
+	public List<ReportResDto> getAllProductivitySuperAdmin() {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ROW_NUMBER() OVER(), town.id, town.fullname, COUNT(user_id) ")
 				.append("FROM tb_payment tp ")
@@ -456,10 +456,8 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
 				.append("WHERE tp.approval = TRUE ")
 				.append("GROUP BY town.id, town.fullname ")
-				.append("ORDER BY town.fullname ASC ")
-				.append("OFFSET :start LIMIT :limit ");
-		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
-				.setParameter("start", start).setParameter("limit", limit).getResultList();
+				.append("ORDER BY town.fullname ASC ");
+		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString()).getResultList();
 		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
@@ -475,7 +473,7 @@ public class PaymentDao extends AbstractJpaDao{
 		return data;
 	}
 	
-	public List<ReportResDto> getAllRevenueSuperAdmin(final Integer start, final Integer limit) {
+	public List<ReportResDto> getAllRevenueSuperAdmin() {
 		final StringBuilder query = new StringBuilder()
 				.append("SELECT ROW_NUMBER() OVER(), town.id, town.fullname, SUM(0.9*p.price) ")
 				.append("FROM tb_payment tp ")
@@ -486,10 +484,8 @@ public class PaymentDao extends AbstractJpaDao{
 				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
 				.append("WHERE tp.approval = TRUE ")
 				.append("GROUP BY town.id, town.fullname ")
-				.append("ORDER BY town.fullname ASC ")
-				.append("OFFSET :start LIMIT :limit ");
-		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString())
-				.setParameter("start", start).setParameter("limit", limit).getResultList();
+				.append("ORDER BY town.fullname ASC ");
+		final List<?> result = ConnHandler.getManager().createNativeQuery(query.toString()).getResultList();
 		final List<ReportResDto> data =  new ArrayList<>();
 		if(result != null && result.size() > 0) {
 			result.forEach(objCol -> {
@@ -503,6 +499,42 @@ public class PaymentDao extends AbstractJpaDao{
 			});
 		}
 		return data;
+	}
+	
+	public Long getCountProductivityMember(final String userId) {
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT COUNT(*) FROM ( ")
+				.append("SELECT ROW_NUMBER() OVER(), tpt.product_type_name, p.title, ts.date_time_start, COUNT(user_id) ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
+				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
+				.append("INNER JOIN tb_schedule ts ON p.id = ts.product_id ")
+				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
+				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
+				.append("WHERE tp.approval = TRUE AND p.owner_id = :userId ")
+				.append("GROUP BY tpt.product_type_name, p.title, ts.date_time_start ")
+				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ")
+				.append(" ) AS report ");
+		final Long result = Long.valueOf(ConnHandler.getManager().createNativeQuery(query.toString()).setParameter("userId", userId).getSingleResult().toString());
+		return result;
+	}
+	
+	public Long getCountRevenueMember(final String userId) {
+		final StringBuilder query = new StringBuilder()
+				.append("SELECT COUNT(*) FROM ( ")
+				.append("SELECT ROW_NUMBER() OVER(), tpt.product_type_name, p.title, ts.date_time_start, (0.9*COUNT(user_id)*p.price) ")
+				.append("FROM tb_payment tp ")
+				.append("INNER JOIN tb_product p ON tp.product_id = p.id ")
+				.append("INNER JOIN tb_product_type tpt ON p.type_product_id = tpt.id ")
+				.append("INNER JOIN tb_schedule ts ON p.id = ts.product_id ")
+				.append("INNER JOIN tb_user tu ON tp.user_id = tu.id ")
+				.append("INNER JOIN tb_user town ON p.owner_id = town.id ")
+				.append("WHERE tp.approval = TRUE AND p.owner_id = :userId ")
+				.append("GROUP BY tpt.product_type_name, p.title, ts.date_time_start, p.price ")
+				.append("ORDER BY ts.date_time_start DESC, tpt.product_type_name ASC, p.title ASC ")
+				.append(" ) AS report ");
+		final Long result = Long.valueOf(ConnHandler.getManager().createNativeQuery(query.toString()).setParameter("userId", userId).getSingleResult().toString());
+		return result;
 	}
 	
 }

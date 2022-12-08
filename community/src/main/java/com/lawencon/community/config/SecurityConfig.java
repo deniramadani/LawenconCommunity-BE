@@ -14,7 +14,7 @@ public class SecurityConfig {
 
 	@Bean
 	public String[] getAllowedOrigins() {
-		final String[] allowedOrigins = new String[] {"http://localhost:4200"};
+		final String[] allowedOrigins = new String[] {"http://localhost:4200", "http://localhost"};
 		return allowedOrigins;
 	}
 	
