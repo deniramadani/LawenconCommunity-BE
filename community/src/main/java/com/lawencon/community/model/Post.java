@@ -66,4 +66,7 @@ public class Post extends BaseEntity {
 	@Transient
 	private List<Comment> comments;
 	
+	@Transient
+	private Long totalPolling;
+	
 }
