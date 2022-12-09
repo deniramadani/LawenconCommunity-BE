@@ -1,5 +1,6 @@
 package com.lawencon.community.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -173,6 +174,9 @@ public class ProductService extends BaseCoreService {
 			product.setContent(data.getProduct().getContent());
 			product.setProvider(data.getProduct().getProvider());
 			product.setLocation(data.getProduct().getLocation());
+			if(data.getProduct().getPrice().compareTo(BigDecimal.ZERO) < 0) {
+				throw new RuntimeException("Price cannot be minus!");
+			}
 			product.setPrice(data.getProduct().getPrice());
 			final User owner = new User();
 			owner.setId(principalService.getAuthPrincipal());

@@ -12,7 +12,6 @@ import com.lawencon.community.dao.UserDao;
 import com.lawencon.community.dto.response.ResponseDto;
 import com.lawencon.community.model.Post;
 import com.lawencon.community.model.PostBookmark;
-import com.lawencon.community.model.PostLike;
 import com.lawencon.community.model.User;
 import com.lawencon.security.principal.PrincipalService;
 
@@ -76,7 +75,7 @@ public class PostBookmarkService extends BaseCoreService {
 		final ResponseDto responseDto = new ResponseDto();
 		try {
 			begin();
-			postBookmarkDao.deleteById(PostLike.class, id);
+			postBookmarkDao.deleteById(PostBookmark.class, id);
 			responseDto.setMessage("You Success Canceling Bookmark This Post");
 			commit();
 		} catch (Exception e) {
