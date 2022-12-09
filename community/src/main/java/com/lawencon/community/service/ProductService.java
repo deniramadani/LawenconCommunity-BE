@@ -175,7 +175,7 @@ public class ProductService extends BaseCoreService {
 			product.setProvider(data.getProduct().getProvider());
 			product.setLocation(data.getProduct().getLocation());
 			if(data.getProduct().getPrice().compareTo(BigDecimal.ZERO) < 0) {
-				throw new RuntimeException("Price is not acceptable!");
+				throw new RuntimeException("Price cannot be minus!");
 			}
 			product.setPrice(data.getProduct().getPrice());
 			final User owner = new User();
