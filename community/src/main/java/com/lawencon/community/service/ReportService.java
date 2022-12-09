@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.lawencon.base.BaseCoreService;
 import com.lawencon.community.dao.PaymentDao;
+import com.lawencon.community.dto.report.ReportCountResDto;
 import com.lawencon.community.dto.report.ReportResDto;
 
 @Service
@@ -58,12 +59,26 @@ public class ReportService extends BaseCoreService {
 		return paymentDao.getRevenueSuperAdminData(startDate, endDate);
 	}
 	
-	public List<ReportResDto> getAllProductivitySuperAdmin(final Integer start, final Integer limit){
-		return paymentDao.getAllProductivitySuperAdmin(start, limit);
+	public List<ReportResDto> getAllProductivitySuperAdmin(){
+		return paymentDao.getAllProductivitySuperAdmin();
 	}
 	
-	public List<ReportResDto> getAllRevenueSuperAdmin(final Integer start, final Integer limit){
-		return paymentDao.getAllRevenueSuperAdmin(start, limit);
+	public List<ReportResDto> getAllRevenueSuperAdmin(){
+		return paymentDao.getAllRevenueSuperAdmin();
+	}
+	
+	public ReportCountResDto getCountProductivityMember(final String userId){
+		final Long totalRow = paymentDao.getCountProductivityMember(userId);
+		final ReportCountResDto res = new ReportCountResDto();
+		res.setTotalRow(totalRow);
+		return res;
+	}
+	
+	public ReportCountResDto getCountRevenueMember(final String userId){
+		final Long totalRow = paymentDao.getCountRevenueMember(userId);
+		final ReportCountResDto res = new ReportCountResDto();
+		res.setTotalRow(totalRow);
+		return res;
 	}
 	
 }
