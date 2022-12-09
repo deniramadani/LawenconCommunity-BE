@@ -3,6 +3,8 @@ package com.lawencon.community.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -36,11 +38,18 @@ public class ErrorHandler {
 		exceptionDto.setMessage("Invalid Version!");
 		return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
 	}
-
+	
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<ExceptionDto<String>> badCredentialsException(final BadCredentialsException be) {
 		final ExceptionDto<String> exceptionDto = new ExceptionDto<>();
-		exceptionDto.setMessage(be.getMessage());
+		exceptionDto.setMessage("Wrong email and password or invalid data login!");
+		return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(NoResultException.class)
+	public ResponseEntity<ExceptionDto<String>> noResultException(final NoResultException exp) {
+		final ExceptionDto<String> exceptionDto = new ExceptionDto<>();
+		exceptionDto.setMessage("No Result!");
 		return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
 	}
 

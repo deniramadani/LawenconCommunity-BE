@@ -48,9 +48,6 @@ public class LoginController {
 		final LoginResDto res = new LoginResDto();
 		res.setId(user.get().getId());
 		res.setFullname(user.get().getFullname());
-		if (user.get().getPosition() != null) {
-			res.setPosition(user.get().getPosition().getPositionName());
-		}
 		res.setRoleCode(user.get().getRole().getRoleCode());
 		res.setUserTypeCode(user.get().getUserType().getUserTypeCode());
 		if (user.get().getPhoto() != null) {
