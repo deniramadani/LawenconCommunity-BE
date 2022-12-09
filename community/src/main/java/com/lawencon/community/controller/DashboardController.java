@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("dashboards")
-@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM')")
+@PreAuthorize("hasAnyAuthority('ROLSA', 'ROLAM', 'ROLMM')")
 public class DashboardController {
 
 	@Autowired
