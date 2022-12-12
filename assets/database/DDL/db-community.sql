@@ -277,6 +277,11 @@ ALTER TABLE
     tb_post_like
 ADD
     CONSTRAINT tb_post_like_user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
+   
+ALTER TABLE
+	tb_post_like
+ADD
+	CONSTRAINT tb_post_like_ck UNIQUE(user_id, post_id);
 
 CREATE TABLE tb_post_bookmark(
     id varchar(36) NOT NULL,
@@ -304,6 +309,11 @@ ALTER TABLE
     tb_post_bookmark
 ADD
     CONSTRAINT tb_post_bookmark_user_fk FOREIGN KEY(user_id) REFERENCES tb_user(id);
+
+ALTER TABLE
+    tb_post_bookmark
+ADD
+	CONSTRAINT tb_post_bookmark_ck UNIQUE(user_id, post_id);
 
 CREATE TABLE tb_post_polling(
     id varchar(36) NOT NULL,
